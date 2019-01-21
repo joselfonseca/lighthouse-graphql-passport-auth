@@ -2,10 +2,12 @@
 
 namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
 
+use Illuminate\Support\Facades\Auth;
 use GraphQL\Type\Definition\ResolveInfo;
+use Nuwave\Lighthouse\Exceptions\AuthenticationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class Login extends BaseAuthResolver
+class Logout extends BaseAuthResolver
 {
     /**
      * @param $rootValue
@@ -17,8 +19,15 @@ class Login extends BaseAuthResolver
      */
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
-        $credentials = $this->buildCredentials($args);
-        return $this->makeRequest($credentials);
+        if (!Auth::guard('api')->check()) {
+            throw new AuthenticationException("Not Authenticated");
+        }
+        // revoke user's token
+        Auth::guard('api')->user()->token()->revoke();
+        return [
+            'status' => 'TOKEN_REVOKED',
+            'message' => 'Your session has been terminated'
+        ];
     }
 
 }

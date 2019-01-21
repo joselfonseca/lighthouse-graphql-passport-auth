@@ -5,7 +5,7 @@ namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
 use GraphQL\Type\Definition\ResolveInfo;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class Login extends BaseAuthResolver
+class RefreshToken extends BaseAuthResolver
 {
     /**
      * @param $rootValue
@@ -17,8 +17,7 @@ class Login extends BaseAuthResolver
      */
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
-        $credentials = $this->buildCredentials($args);
+        $credentials = $this->buildCredentials($args, 'refresh_token');
         return $this->makeRequest($credentials);
     }
-
 }

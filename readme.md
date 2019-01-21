@@ -1,7 +1,7 @@
 Lighthouse Graphql Passport Auth (Laravel 5.7+)
 ===============================================
 
-Queries and mutations for Laravel Passport using Lighthouse PHP
+GraphQL mutations for Laravel Passport using Lighthouse PHP
 
 ## Installation
 
