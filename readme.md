@@ -5,15 +5,40 @@ GraphQL mutations for Laravel Passport using Lighthouse PHP
 
 ## Installation
 
-To install this update your composer.json file to require
+**Make sure you have [Laravel Passport](https://laravel.com/docs/5.7/passport) installed.**
 
-```json
-    "joselfonseca/lighthouse-graphql-passport-auth" : "0.1.*"
-```
+To install run `composer require joselfonseca/lighthouse-graphql-passport-auth`.
 
 ServiceProvider will be attached automatically
 
+Add the following env vars to your .env
+
+```
+PASSPORT_CLIENT_ID=
+PASSPORT_CLIENT_SECRET=
+```
+
 You are done with the installation!
+
+## Usage
+
+This will add 3 mutations to your GraphQL API
+
+```js
+extend type Mutation {
+    login(data: LoginInput): AuthPayload!
+    refreshToken(data: RefreshTokenInput): AuthPayload!
+    logout: LogoutResponse!
+}
+```
+
+- **login:** Will allow your clients to log in by using the password grant client.
+- **refreshToken:** Will allow your clients to refresh a passport token by using the password grant client.
+- **logout:** Will allow your clients to invalidate a passport token.
+
+### Why the client is used in the backend and not from the client?
+
+When an application that needs to be re compiled and re deploy to stores like an iOS app needs to change the client for whatever reason, it becomes a blocker for QA or even if the client is removed. The app will not work until the new version with the updated keys is deployed. There are alternatives to store this configuration in the client but fot this use case we are relying on the backend to be the OAuth client
 
 ## Change log
 
