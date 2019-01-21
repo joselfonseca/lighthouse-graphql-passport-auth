@@ -7,4 +7,5 @@ use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 class LoginTest extends TestCase
 {
 
+    
 }
