@@ -1,0 +1,73 @@
+input LoginInput {
+    username: String!
+    password: String!
+}
+
+input RefreshTokenInput {
+    refreshToken: String!
+}
+
+input ChallengeResponseInput {
+    username: String!
+    challengeName: ChallengeNames!
+    newPassword: String!
+    session: String!
+}
+
+input ForgotPasswordInput {
+    email: String!
+}
+
+input NewPasswordWithCodeInput {
+    email: String!
+    code: String!
+    newPassword: String!
+}
+
+input SignUpInput {
+    email: String!
+    fullName: String!
+    password: String!
+}
+
+enum ChallengeNames {
+    NEW_PASSWORD_REQUIRED
+}
+
+type AuthPayload {
+    challengeName: ChallengeNames @deprecated(reason: "Use the new fields in the AuthPayload type")
+    tokens: AccessTokens @deprecated(reason: "Use the new fields in the AuthPayload type")
+    session: String @deprecated(reason: "Use the new fields in the AuthPayload type")
+    access_token: String!
+    refresh_token: String!
+    expires_in: Int!
+    token_type: String!
+}
+
+type AccessTokens {
+    idToken: String! @deprecated(reason: "Use the new fields in the AuthPayload type")
+    accessToken: String! @deprecated(reason: "Use the new fields in the AuthPayload type")
+    refreshToken: String! @deprecated(reason: "Use the new fields in the AuthPayload type")
+    expiresIn: Int! @deprecated(reason: "Use the new fields in the AuthPayload type")
+    tokenType: String! @deprecated(reason: "Use the new fields in the AuthPayload type")
+}
+
+type ForgotPasswordResponse {
+    status: String!
+    message: String
+}
+
+type LogoutResponse {
+    status: String!
+    message: String
+}
+
+extend type Mutation {
+    login(data: LoginInput): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Login@resolve")
+    #challengeResponse(data: ChallengeResponseInput): AuthPayload!
+    #refreshToken(data: RefreshTokenInput): AuthPayload!
+    #forgotPassword(data: ForgotPasswordInput!): ForgotPasswordResponse!
+    #updateForgottenPassword(data: NewPasswordWithCodeInput): ForgotPasswordResponse!
+    #signUp(data: SignUpInput!): AuthPayload!
+    #logout: LogoutResponse!
+}

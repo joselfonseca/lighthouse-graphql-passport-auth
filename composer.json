@@ -1,0 +1,41 @@
+{
+    "name": "joselfonseca/lighthouse-graphql-passport-auth",
+    "description": "Add GraphQL types and mutations for login and recover password functionalities",
+    "keywords": ["laravel", "GraphQL", "lighthouse", "passport-auth"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jose Luis Fonseca",
+            "email": "jose@ditecnologia.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0",
+        "nuwave/lighthouse": "^3.0",
+        "laravel/passport": "^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "7.*",
+        "orchestra/testbench": "~3.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Joselfonseca\\LighthouseGraphQLPassport\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Joselfonseca\\LighthouseGraphQLPassport\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Joselfonseca\\LighthouseGraphQLPassport\\Providers\\LighthouseGraphQLPassportServiceProvider"
+            ]
+        }
+    }
+}
