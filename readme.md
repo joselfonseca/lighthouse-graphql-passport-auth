@@ -27,23 +27,27 @@ You are done with the installation!
 
 ## Usage
 
-This will add 3 mutations to your GraphQL API
+This will add 5 mutations to your GraphQL API
 
 ```js
 extend type Mutation {
     login(data: LoginInput): AuthPayload!
     refreshToken(data: RefreshTokenInput): AuthPayload!
     logout: LogoutResponse!
+    forgotPassword(data: ForgotPasswordInput!): ForgotPasswordResponse!
+    updateForgottenPassword(data: NewPasswordWithCodeInput): ForgotPasswordResponse!
 }
 ```
 
 - **login:** Will allow your clients to log in by using the password grant client.
 - **refreshToken:** Will allow your clients to refresh a passport token by using the password grant client.
 - **logout:** Will allow your clients to invalidate a passport token.
+- **forgotPassword:** Will allow your clients to request the forgot password email.
+- **updateForgottenPassword:** Will allow your clients to update the forgotten password from the email received.
 
 ### Why the OAuth client is used in the backend and not from the client application?
 
-When an application that needs to be re compiled and re deploy to stores like an iOS app needs to change the client for whatever reason, it becomes a blocker for QA or even if the client is removed. The app will not work until the new version with the updated keys is deployed. There are alternatives to store this configuration in the client but fot this use case we are relying on the backend to be the OAuth client
+When an application that needs to be re compiled and re deploy to stores like an iOS app needs to change the client for whatever reason, it becomes a blocker for QA or even brakes the production app if the client is removed. The app will not work until the new version with the updated keys is deployed. There are alternatives to store this configuration in the client but for this use case we are relying on the backend to be the OAuth client
 
 ## Change log
 
