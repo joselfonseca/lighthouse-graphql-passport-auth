@@ -2,7 +2,7 @@ Lighthouse Graphql Passport Auth (Laravel 5.7+)
 ===============================================
 
 
-[![Build Status](https://travis-ci.org/joselfonseca/lighthouse-graphql-passport-auth.svg)](https://travis-ci.org/joselfonseca/lighthouse-graphql-passport-auth)
+[![Build Status](https://travis-ci.org/joselfonseca/lighthouse-graphql-passport-auth.svg?branch=master)](https://travis-ci.org/joselfonseca/lighthouse-graphql-passport-auth)
 [![Total Downloads](https://poser.pugx.org/joselfonseca/lighthouse-graphql-passport-auth/downloads.svg)](https://packagist.org/packages/joselfonseca/lighthouse-graphql-passport-auth)
 [![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
 
