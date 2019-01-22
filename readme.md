@@ -1,4 +1,4 @@
-Lighthouse Graphql Passport Auth (Laravel 5.7+)
+Lighthouse GraphQL Passport Auth (Laravel 5.7+)
 ===============================================
 
 
