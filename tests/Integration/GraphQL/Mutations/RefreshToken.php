@@ -1,6 +1,6 @@
 <?php
 
-namespace Joselfonseca\LighthouseGraphQLPassport\Tests\GraphQL\Mutations;
+namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Integration\GraphQL\Mutations;
 
 use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;

@@ -10,7 +10,10 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Laravel Tactician Test Suite">
+        <testsuite name="Integration Test Suite">
+            <directory suffix=".php">./tests/Integration/</directory>
+        </testsuite>
+        <testsuite name="All Test Suite">
             <directory suffix=".php">./tests/</directory>
         </testsuite>
     </testsuites>
