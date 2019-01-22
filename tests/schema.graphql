@@ -1,0 +1,13 @@
+type User @model(class: "Joselfonseca\\LighthouseGraphQLPassport\\Tests\\User"){
+    id: ID!
+    name: String!
+    email: String!
+}
+
+type Query {
+    me: User @auth @middleware(checks: ["auth:api"])
+}
+
+type Mutation {
+    createUser: User @create(model: "Joselfonseca\\LighthouseGraphQLPassport\\Tests\\User")
+}

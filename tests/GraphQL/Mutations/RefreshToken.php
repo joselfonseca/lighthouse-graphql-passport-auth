@@ -5,10 +5,9 @@ namespace Joselfonseca\LighthouseGraphQLPassport\Tests\GraphQL\Mutations;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 
-class LoginTest extends TestCase
+class RefreshToken extends TestCase
 {
-
-    function test_it_gets_access_token()
+    function test_it_refresh_a_token()
     {
         $this->createClient();
         User::create([
@@ -28,9 +27,17 @@ class LoginTest extends TestCase
             }'
         ]);
         $responseBody = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('login', $responseBody['data']);
-        $this->assertArrayHasKey('access_token', $responseBody['data']['login']);
-        $this->assertArrayHasKey('refresh_token', $responseBody['data']['login']);
+        $responseRefreshed = $this->postGraphQL([
+            'query' => 'mutation {
+                refreshToken(data: {
+                    refresh_token: "'.$responseBody['data']['login']['refresh_token'].'"
+                }) {
+                    access_token
+                    refresh_token
+                }
+            }'
+        ]);
+        $responseBodyRefreshed = json_decode($responseRefreshed->getContent(), true);
+        $this->assertNotEquals($responseBody['data']['login']['access_token'], $responseBodyRefreshed['data']['refreshToken']['access_token']);
     }
-
 }

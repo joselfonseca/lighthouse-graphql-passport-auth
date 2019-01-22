@@ -4,8 +4,8 @@ namespace Joselfonseca\LighthouseGraphQLPassport\Tests;
 use Laravel\Passport\Passport;
 use Laravel\Passport\ClientRepository;
 use Laravel\Passport\PassportServiceProvider;
-use Nuwave\Lighthouse\Providers\LighthouseServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Nuwave\Lighthouse\Providers\LighthouseServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -32,12 +32,30 @@ class TestCase extends Orchestra
      */
     protected function getEnvironmentSetUp($app)
     {
+        $app['config']->set('app.key', 'base64:gG84rusPbDk6AGOjbj5foirqMZm6tdD2fKZrbP0BS+A=');
         // Setup default database to use sqlite :memory:
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
             'driver'   => 'sqlite',
             'database' => ':memory:',
             'prefix'   => '',
+        ]);
+        $app['config']->set('lighthouse.schema.register', __DIR__.'/schema.graphql');
+        $app['config']->set('auth.guards', [
+            'web' => [
+                'driver' => 'session',
+                'provider' => 'users',
+            ],
+            'api' => [
+                'driver' => 'passport',
+                'provider' => 'users',
+            ]
+        ]);
+        $app['config']->set('auth.providers', [
+            'users' => [
+                'driver' => 'eloquent',
+                'model' => User::class,
+            ],
         ]);
     }
 
@@ -58,17 +76,7 @@ class TestCase extends Orchestra
         config()->set('lighthouse-graphql-passport.client_secret', $client->secret);
     }
 
-    /**
-     * Execute a mutation as if it was sent as a request to the server.
-     *
-     * @param  string  $mutation
-     * @param  array $headers
-     * @return \Illuminate\Foundation\Testing\TestResponse
-     */
-    protected function mutation(string $mutation, array $headers = [])
-    {
-        return $this->postGraphQL(['mutation' => $mutation], $headers);
-    }
+
     /**
      * Execute a query as if it was sent as a request to the server.
      *
