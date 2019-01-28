@@ -25,6 +25,80 @@ PASSPORT_CLIENT_SECRET=
 
 You are done with the installation!
 
+## Default Schema
+
+By default the schema is defined internally in the package, if you want to override the schema or resolvers, you can publish the package configuration and default schema by running:
+
+```
+php artisan vendor:publish --provider="Joselfonseca\LighthouseGraphQLPassport\Providers\LighthouseGraphQLPassportServiceProvider"
+```
+
+This command will publish a configuration file `lighthouse-graphql-passport.php` and a schema file in `/graphql/auth.graphgl` that looks like this:
+
+```js
+input LoginInput {
+    username: String!
+    password: String!
+}
+
+input RefreshTokenInput {
+    refresh_token: String
+}
+
+type AuthPayload {
+    access_token: String!
+    refresh_token: String!
+    expires_in: Int!
+    token_type: String!
+}
+
+type LogoutResponse {
+    status: String!
+    message: String
+}
+
+type ForgotPasswordResponse {
+    status: String!
+    message: String
+}
+
+input ForgotPasswordInput {
+    email: String!
+}
+
+input NewPasswordWithCodeInput {
+    email: String!
+    token: String!
+    password: String!
+    password_confirmation: String!
+}
+
+extend type Mutation {
+    login(data: LoginInput): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Login@resolve")
+    refreshToken(data: RefreshTokenInput): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\RefreshToken@resolve")
+    logout: LogoutResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Logout@resolve")
+    forgotPassword(data: ForgotPasswordInput!): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ForgotPassword@resolve")
+    updateForgottenPassword(data: NewPasswordWithCodeInput): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ResetPassword@resolve")
+}
+```
+
+In the configuration file you can now set the schema file to be used for the exported one like this:
+
+```php
+    /*
+    |--------------------------------------------------------------------------
+    | GraphQL schema
+    |--------------------------------------------------------------------------
+    |
+    | File path of the GraphQL schema to be used, defaults to null so it uses
+    | the default location
+    |
+    */
+    'schema' => base_path('graphql/auth.graphql')
+```
+
+This will allow you to change the schema and resolvers if needed.
+
 ## Usage
 
 This will add 5 mutations to your GraphQL API
