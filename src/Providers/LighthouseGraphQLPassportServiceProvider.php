@@ -18,13 +18,15 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerConfig();
+
         app('events')->listen(
             BuildingAST::class,
             function (BuildingAST $buildingAST): string {
-                if(config('lighthouse-graphql-passport.schema')) {
+                if (config('lighthouse-graphql-passport.schema')) {
                     return file_get_contents(config('lighthouse-graphql-passport.schema'));
                 }
-                return file_get_contents(__DIR__."/../../graphql/auth.graphql");
+
+                return file_get_contents(__DIR__ . "/../../graphql/auth.graphql");
             }
         );
     }
@@ -36,15 +38,17 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
      */
     protected function registerConfig()
     {
-        $this->publishes(
-            [
-                __DIR__.'/../../config/config.php' => config_path('lighthouse-graphql-passport.php'),
-                __DIR__.'/../../graphql/auth.graphql' => base_path('graphql/auth.graphql'),
-            ]
-        );
         $this->mergeConfigFrom(
-            __DIR__.'/../../config/config.php',
+            __DIR__ . '/../../config/config.php',
             'lighthouse-graphql-passport'
         );
+
+        $this->publishes([
+            __DIR__ . '/../../config/config.php' => config_path('lighthouse-graphql-passport.php'),
+        ], 'config');
+
+        $this->publishes([
+            __DIR__ . '/../../graphql/auth.graphql' => base_path('graphql/auth.graphql'),
+        ], 'schema');
     }
 }
