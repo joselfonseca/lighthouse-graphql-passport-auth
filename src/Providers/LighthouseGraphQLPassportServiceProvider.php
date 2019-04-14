@@ -3,7 +3,7 @@
 namespace Joselfonseca\LighthouseGraphQLPassport\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Nuwave\Lighthouse\Events\BuildingAST;
+use Nuwave\Lighthouse\Events\BuildSchemaString;
 
 /**
  * Class LighthouseGraphQLPassportServiceProvider
@@ -20,8 +20,8 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
         $this->registerConfig();
 
         app('events')->listen(
-            BuildingAST::class,
-            function (BuildingAST $buildingAST): string {
+            BuildSchemaString::class,
+            function (): string {
                 if (config('lighthouse-graphql-passport.schema')) {
                     return file_get_contents(config('lighthouse-graphql-passport.schema'));
                 }
