@@ -3,3 +3,4 @@
 /node_modules
 composer.lock
 /build/
+.idea/*
