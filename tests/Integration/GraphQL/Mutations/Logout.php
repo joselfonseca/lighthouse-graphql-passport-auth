@@ -9,25 +9,15 @@ class Logout extends TestCase
 {
     function test_it_invalidates_token_on_logout()
     {
-        $this->createClient();
-        User::create([
+        $this->artisan('migrate', ['--database' => 'testbench']);
+        $user = User::create([
             'name' => 'Jose Fonseca',
             'email' => 'jose@example.com',
             'password' => bcrypt('123456789qq')
         ]);
-        $response = $this->postGraphQL([
-            'query' => 'mutation {
-                login(data: {
-                    username: "jose@example.com",
-                    password: "123456789qq"
-                }) {
-                    access_token
-                    refresh_token
-                }
-            }'
-        ]);
-        $responseBody = json_decode($response->getContent(), true);
-        $token = $responseBody['data']['login']['access_token'];
+        $this->createClientPersonal($user);
+        $token = $user->createToken('test Token');
+        $token = $token->accessToken;
         $response = $this->postGraphQL([
             'query' => 'mutation {
                 logout {

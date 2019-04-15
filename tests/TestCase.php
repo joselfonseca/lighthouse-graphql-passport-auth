@@ -77,6 +77,17 @@ class TestCase extends Orchestra
         config()->set('lighthouse-graphql-passport.client_secret', $client->secret);
     }
 
+    /**
+     * Create a passport client for testing
+     */
+    public function createClientPersonal($user)
+    {
+        Passport::loadKeysFrom(__DIR__ . '/storage/');
+        $client = app(ClientRepository::class)->createPersonalAccessClient($user->id, 'test', 'http://localhost');
+        config()->set('lighthouse-graphql-passport.client_id', $client->id);
+        config()->set('lighthouse-graphql-passport.client_secret', $client->secret);
+    }
+
 
     /**
      * Execute a query as if it was sent as a request to the server.
