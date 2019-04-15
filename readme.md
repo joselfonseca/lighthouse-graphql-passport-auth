@@ -1,4 +1,4 @@
-Lighthouse GraphQL Passport Auth (Laravel 5.7 / Lighthouse 2.6)
+Lighthouse GraphQL Passport Auth (Laravel 5.8 / Lighthouse ^3.2)
 ===============================================
 
 
@@ -6,11 +6,11 @@ Lighthouse GraphQL Passport Auth (Laravel 5.7 / Lighthouse 2.6)
 [![Total Downloads](https://poser.pugx.org/joselfonseca/lighthouse-graphql-passport-auth/downloads.svg)](https://packagist.org/packages/joselfonseca/lighthouse-graphql-passport-auth)
 [![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
 
-GraphQL mutations for Laravel Passport using Lighthouse PHP 2.6.x.
+GraphQL mutations for Laravel Passport using Lighthouse PHP ^3.2.
 
 ## Installation
 
-**Make sure you have [Laravel Passport](https://laravel.com/docs/5.7/passport) installed.**
+**Make sure you have [Laravel Passport](https://laravel.com/docs/5.8/passport) installed.**
 
 To install run `composer require joselfonseca/lighthouse-graphql-passport-auth`.
 
