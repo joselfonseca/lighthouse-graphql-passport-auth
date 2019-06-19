@@ -38,6 +38,6 @@ class RefreshToken extends TestCase
             }'
         ]);
         $responseBodyRefreshed = json_decode($responseRefreshed->getContent(), true);
-        $this->assertNotEquals($responseBody['data']['login']['access_token'], $responseBodyRefreshed['data']['login']['access_token']);
+        $this->assertNotEquals($responseBody['data']['login']['access_token'], $responseBodyRefreshed['data']['refreshToken']['access_token']);
     }
 }

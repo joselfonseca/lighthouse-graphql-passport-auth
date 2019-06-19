@@ -3,6 +3,7 @@
 namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Support\Facades\Auth;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class Login extends BaseAuthResolver
@@ -18,7 +19,11 @@ class Login extends BaseAuthResolver
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
         $credentials = $this->buildCredentials($args);
-        return $this->makeRequest($credentials);
+        $response = $this->makeRequest($credentials);
+        Auth::once(['email' => $args['data']['username'], 'password' => $args['data']['password']]);
+        $user = Auth::user();
+        $response['user'] = $user;
+        return $response;
     }
 
 }

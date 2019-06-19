@@ -24,6 +24,11 @@ class LoginTest extends TestCase
                 }) {
                     access_token
                     refresh_token
+                    user {
+                        id
+                        name
+                        email
+                    }
                 }
             }'
         ]);
@@ -31,6 +36,10 @@ class LoginTest extends TestCase
         $this->assertArrayHasKey('login', $responseBody['data']);
         $this->assertArrayHasKey('access_token', $responseBody['data']['login']);
         $this->assertArrayHasKey('refresh_token', $responseBody['data']['login']);
+        $this->assertArrayHasKey('user', $responseBody['data']['login']);
+        $this->assertArrayHasKey('id', $responseBody['data']['login']['user']);
+        $this->assertArrayHasKey('name', $responseBody['data']['login']['user']);
+        $this->assertArrayHasKey('email', $responseBody['data']['login']['user']);
     }
 
 }
