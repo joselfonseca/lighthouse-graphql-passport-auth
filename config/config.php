@@ -30,5 +30,15 @@ return [
     | the default location
     |
     */
-    'schema' => null
+    'schema' => null,
+    /*
+    |--------------------------------------------------------------------------
+    | Username Column
+    |--------------------------------------------------------------------------
+    |
+    | What column should be use for the username in the users table to find
+    | the user.
+    |
+    */
+    'username' => 'email'
 ];
