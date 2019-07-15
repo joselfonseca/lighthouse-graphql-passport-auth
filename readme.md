@@ -59,6 +59,13 @@ type AuthPayload {
     user: User!
 }
 
+type RefreshTokenPayload {
+    access_token: String!
+    refresh_token: String!
+    expires_in: Int!
+    token_type: String!
+}
+
 type LogoutResponse {
     status: String!
     message: String
@@ -82,7 +89,7 @@ input NewPasswordWithCodeInput {
 
 extend type Mutation {
     login(data: LoginInput): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Login@resolve")
-    refreshToken(data: RefreshTokenInput): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\RefreshToken@resolve")
+    refreshToken(data: RefreshTokenInput): RefreshTokenPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\RefreshToken@resolve")
     logout: LogoutResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Logout@resolve")
     forgotPassword(data: ForgotPasswordInput!): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ForgotPassword@resolve")
     updateForgottenPassword(data: NewPasswordWithCodeInput): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ResetPassword@resolve")
@@ -113,10 +120,10 @@ This will add 5 mutations to your GraphQL API
 ```js
 extend type Mutation {
     login(data: LoginInput): AuthPayload!
-    refreshToken(data: RefreshTokenInput): AuthPayload!
-    logout: LogoutResponse!
-    forgotPassword(data: ForgotPasswordInput!): ForgotPasswordResponse!
-    updateForgottenPassword(data: NewPasswordWithCodeInput): ForgotPasswordResponse!
+        refreshToken(data: RefreshTokenInput): RefreshTokenPayload!
+        logout: LogoutResponse!
+        forgotPassword(data: ForgotPasswordInput!): ForgotPasswordResponse!
+        updateForgottenPassword(data: NewPasswordWithCodeInput): ForgotPasswordResponse!
 }
 ```
 
