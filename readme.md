@@ -88,11 +88,11 @@ input NewPasswordWithCodeInput {
 }
 
 extend type Mutation {
-    login(data: LoginInput): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Login@resolve")
-    refreshToken(data: RefreshTokenInput): RefreshTokenPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\RefreshToken@resolve")
+    login(input: LoginInput): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Login@resolve")
+    refreshToken(input: RefreshTokenInput): RefreshTokenPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\RefreshToken@resolve")
     logout: LogoutResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Logout@resolve")
-    forgotPassword(data: ForgotPasswordInput!): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ForgotPassword@resolve")
-    updateForgottenPassword(data: NewPasswordWithCodeInput): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ResetPassword@resolve")
+    forgotPassword(input: ForgotPasswordInput!): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ForgotPassword@resolve")
+    updateForgottenPassword(input: NewPasswordWithCodeInput): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ResetPassword@resolve")
 }
 ```
 
@@ -119,11 +119,11 @@ This will add 5 mutations to your GraphQL API
 
 ```js
 extend type Mutation {
-    login(data: LoginInput): AuthPayload!
-        refreshToken(data: RefreshTokenInput): RefreshTokenPayload!
-        logout: LogoutResponse!
-        forgotPassword(data: ForgotPasswordInput!): ForgotPasswordResponse!
-        updateForgottenPassword(data: NewPasswordWithCodeInput): ForgotPasswordResponse!
+    login(input: LoginInput): AuthPayload!
+    refreshToken(input: RefreshTokenInput): RefreshTokenPayload!
+    logout: LogoutResponse!
+    forgotPassword(input: ForgotPasswordInput!): ForgotPasswordResponse!
+    updateForgottenPassword(input: NewPasswordWithCodeInput): ForgotPasswordResponse!
 }
 ```
 
