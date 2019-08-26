@@ -17,7 +17,7 @@ class RefreshToken extends TestCase
         ]);
         $response = $this->postGraphQL([
             'query' => 'mutation {
-                login(data: {
+                login(input: {
                     username: "jose@example.com",
                     password: "123456789qq"
                 }) {
@@ -29,7 +29,7 @@ class RefreshToken extends TestCase
         $responseBody = json_decode($response->getContent(), true);
         $responseRefreshed = $this->postGraphQL([
             'query' => 'mutation {
-                refreshToken(data: {
+                refreshToken(input: {
                     refresh_token: "'.$responseBody['data']['login']['refresh_token'].'"
                 }) {
                     access_token

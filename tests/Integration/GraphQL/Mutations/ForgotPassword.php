@@ -22,7 +22,7 @@ class ForgotPassword extends TestCase
         ]);
         $response = $this->postGraphQL([
             'query' => 'mutation {
-                forgotPassword(data: {
+                forgotPassword(input: {
                     email: "jose@example.com"
                 }) {
                     status

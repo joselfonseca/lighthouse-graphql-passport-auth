@@ -18,7 +18,7 @@ class LoginTest extends TestCase
         ]);
         $response = $this->postGraphQL([
             'query' => 'mutation {
-                login(data: {
+                login(input: {
                     username: "jose@example.com",
                     password: "123456789qq"
                 }) {

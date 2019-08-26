@@ -21,7 +21,7 @@ class ForgotPassword
      */
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
-        $response = $this->broker()->sendResetLink(['email' => $args['data']['email']]);
+        $response = $this->broker()->sendResetLink(['email' => $args['email']]);
         if ($response == Password::RESET_LINK_SENT) {
             return [
                 'status' => 'EMAIL_SENT',

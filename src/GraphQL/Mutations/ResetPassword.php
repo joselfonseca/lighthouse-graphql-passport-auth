@@ -19,12 +19,15 @@ class ResetPassword
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
         try {
-            $this->validate($args['data'], $this->rules());
+            $args = collect($args);
+            // get the data from eather args['data'] for BC or new way args['input']
+            $data = $args->has('data') ? $args->get('data') : $args->has('input');
+            $this->validate($data, $this->rules());
         } catch (ValidationException $e) {
             throw new GraphQLValidationException($e->errors(), "Input validation failed");
         }
 
-        $response = $this->broker()->reset($args['data'], function ($user, $password) {
+        $response = $this->broker()->reset($data, function ($user, $password) {
             $this->resetPassword($user, $password);
         });
 
