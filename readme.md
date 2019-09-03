@@ -8,6 +8,10 @@ Lighthouse GraphQL Passport Auth (Laravel 5.8 / Lighthouse ^3.2)
 
 GraphQL mutations for Laravel Passport using Lighthouse PHP ^3.2.
 
+## Tutorial
+
+You can see [this tutorial](https://ditecnologia.com/2019/06/24/graphql-auth-with-passport-and-lighthouse-php/) for installation and usage.
+
 ## Installation
 
 **Make sure you have [Laravel Passport](https://laravel.com/docs/5.8/passport) installed.**
@@ -77,13 +81,20 @@ type ForgotPasswordResponse {
 }
 
 input ForgotPasswordInput {
-    email: String!
+    email: String! @rules(apply: ["required", "email"])
 }
 
 input NewPasswordWithCodeInput {
-    email: String!
-    token: String!
-    password: String!
+    email: String! @rules(apply: ["required", "email"])
+    token: String! @rules(apply: ["required", "string"])
+    password: String! @rules(apply: ["required", "confirmed", "min:8"])
+    password_confirmation: String!
+}
+
+input RegisterInput {
+    name: String! @rules(apply: ["required", "string"])
+    email: String! @rules(apply: ["required", "email"])
+    password: String! @rules(apply: ["required", "confirmed", "min:8"])
     password_confirmation: String!
 }
 
@@ -93,6 +104,7 @@ extend type Mutation {
     logout: LogoutResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Logout@resolve")
     forgotPassword(input: ForgotPasswordInput!): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ForgotPassword@resolve")
     updateForgottenPassword(input: NewPasswordWithCodeInput): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ResetPassword@resolve")
+    register(input: RegisterInput @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Register@resolve")
 }
 ```
 
