@@ -3,6 +3,7 @@
 namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Auth\Events\Registered;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class Register extends BaseAuthResolver
@@ -29,6 +30,7 @@ class Register extends BaseAuthResolver
         $user = $model->where('email', $args['email'])->first();
         $response = $this->makeRequest($credentials);
         $response['user'] = $user;
+        event(new Registered($user));
         return $response;
     }
 
