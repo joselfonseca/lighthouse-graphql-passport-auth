@@ -21,7 +21,7 @@ class ResetPassword
         try {
             $args = collect($args);
             // get the data from eather args['data'] for BC or new way args['input']
-            $data = $args->has('data') ? $args->get('data') : $args->has('input');
+            $data = $args->has('data') ? $args->get('data') : collect($args)->except('directive')->toArray();
             $this->validate($data, $this->rules());
         } catch (ValidationException $e) {
             throw new GraphQLValidationException($e->errors(), "Input validation failed");
