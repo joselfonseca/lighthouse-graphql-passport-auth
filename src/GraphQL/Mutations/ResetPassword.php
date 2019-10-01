@@ -1,5 +1,7 @@
 <?php
-
+/**
+ *
+ */
 namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
 
 use Illuminate\Support\Facades\Hash;
@@ -7,27 +9,28 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use Illuminate\Validation\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException as GraphQLValidationException;
 
+/**
+ * Class ResetPassword
+ * @package Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations
+ */
 class ResetPassword
 {
     use ResetsPasswords, ValidatesRequests;
 
+    /**
+     * @param $rootValue
+     * @param  array  $args
+     * @param  GraphQLContext|null  $context
+     * @param  ResolveInfo  $resolveInfo
+     * @return array
+     */
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
-        try {
-            $args = collect($args);
-            // get the data from eather args['data'] for BC or new way args['input']
-            $data = $args->has('data') ? $args->get('data') : collect($args)->except('directive')->toArray();
-            $this->validate($data, $this->rules());
-        } catch (ValidationException $e) {
-            throw new GraphQLValidationException($e->errors(), "Input validation failed");
-        }
-
-        $response = $this->broker()->reset($data, function ($user, $password) {
+        $args = collect($args)->except('directive')->toArray();
+        $response = $this->broker()->reset($args, function ($user, $password) {
             $this->resetPassword($user, $password);
         });
 
@@ -45,30 +48,6 @@ class ResetPassword
     }
 
     /**
-     * @return array
-     */
-    protected function rules()
-    {
-        return [
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|confirmed|min:6',
-        ];
-    }
-
-    /**
-     * @param array $data
-     * @param array $rules
-     * @param array $messages
-     * @param array $customAttributes
-     * @return mixed
-     */
-    public function validate(array $data, array $rules, array $messages = [], array $customAttributes = [])
-    {
-        return $this->getValidationFactory()->make($data, $rules, $messages, $customAttributes)->validate();
-    }
-
-    /**
      * Reset the given user's password.
      *
      * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
@@ -82,6 +61,5 @@ class ResetPassword
         $user->save();
 
         event(new PasswordReset($user));
-
     }
 }
