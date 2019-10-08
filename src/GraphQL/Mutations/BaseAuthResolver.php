@@ -14,8 +14,8 @@ class BaseAuthResolver
      */
     public function buildCredentials(array $args = [], $grantType = "password")
     {
-        $args = collect($args);
-        $credentials = $args->except('directive')->toArray();
+        $credentials['username'] = $args['input']['username'];
+        $credentials['password'] = $args['input']['password'];
         $credentials['client_id'] = config('lighthouse-graphql-passport.client_id');
         $credentials['client_secret'] = config('lighthouse-graphql-passport.client_secret');
         $credentials['grant_type'] = $grantType;
