@@ -24,7 +24,7 @@ class BaseAuthResolver
 
     public function makeRequest(array $credentials)
     {
-        $request = Request::create('oauth/token', 'POST', $credentials,[], [], [
+        $request = Request::create(url()->to('oauth/token'), 'POST', $credentials,[], [], [
             'HTTP_Accept' => 'application/json'
         ]);
         $response = app()->handle($request);
