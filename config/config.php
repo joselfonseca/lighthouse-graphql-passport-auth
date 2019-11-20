@@ -40,5 +40,16 @@ return [
     | the user.
     |
     */
-    'username' => 'email'
+    'username' => 'email',
+    /*
+    |--------------------------------------------------------------------------
+    | Migrations
+    |--------------------------------------------------------------------------
+    |
+    | Use the provided migrations for the socialite providers
+    | If you publish the migrations set this to false.
+    |
+    */
+    'migrations' => true
+
 ];

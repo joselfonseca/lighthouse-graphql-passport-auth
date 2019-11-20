@@ -12,6 +12,19 @@ use Nuwave\Lighthouse\Events\BuildSchemaString;
  */
 class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
 {
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        if (config('lighthouse-graphql-passport.migrations')) {
+            $this->loadMigrationsFrom(__DIR__.'/../../migrations');
+        }
+    }
+
     /**
      *
      */
@@ -50,5 +63,9 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../../graphql/auth.graphql' => base_path('graphql/auth.graphql'),
         ], 'schema');
+
+        $this->publishes([
+            __DIR__ . '/../../migrations/2019_11_19_000000_create_social_providers_table.php' => base_path('database/migrations/2019_11_19_000000_create_social_providers_table.php'),
+        ], 'migrations');
     }
 }
