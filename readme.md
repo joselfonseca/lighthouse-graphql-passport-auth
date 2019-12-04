@@ -1,4 +1,4 @@
-Lighthouse GraphQL Passport Auth (Laravel 5.8 / Lighthouse ^3.2)
+Lighthouse GraphQL Passport Auth (Laravel ^5.8 / Lighthouse ^3.2)
 ===============================================
 
 
@@ -127,7 +127,7 @@ This will allow you to change the schema and resolvers if needed.
 
 ## Usage
 
-This will add 5 mutations to your GraphQL API
+This will add 6 mutations to your GraphQL API
 
 ```js
 extend type Mutation {
@@ -136,6 +136,7 @@ extend type Mutation {
     logout: LogoutResponse!
     forgotPassword(input: ForgotPasswordInput!): ForgotPasswordResponse!
     updateForgottenPassword(input: NewPasswordWithCodeInput): ForgotPasswordResponse!
+    register(input: RegisterInput @spread): AuthPayload!
 }
 ```
 
@@ -144,6 +145,7 @@ extend type Mutation {
 - **logout:** Will allow your clients to invalidate a passport token.
 - **forgotPassword:** Will allow your clients to request the forgot password email.
 - **updateForgottenPassword:** Will allow your clients to update the forgotten password from the email received.
+- **register:** Will allow your clients to register a new user using the default Laravel registration fields
 
 ### Why the OAuth client is used in the backend and not from the client application?
 
