@@ -20,9 +20,8 @@ class Login extends BaseAuthResolver
         $credentials = $this->buildCredentials($args);
         $response = $this->makeRequest($credentials);
         $model = app(config('auth.providers.users.model'));
-        $user = $model->where(config('lighthouse-graphql-passport.username'), $args['username'])->firstOrFail();
+        $user = $model->where(config('lighthouse-graphql-passport.username'), $credentials['username'])->firstOrFail();
         $response['user'] = $user;
         return $response;
     }
-
 }
