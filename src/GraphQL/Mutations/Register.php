@@ -5,6 +5,7 @@ namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Auth\Events\Registered;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Illuminate\Support\Facades\Hash;
 
 class Register extends BaseAuthResolver
 {
@@ -20,7 +21,7 @@ class Register extends BaseAuthResolver
     {
         $model = app(config('auth.providers.users.model'));
         $input = collect($args)->except('password_confirmation')->toArray();
-        $input['password'] = bcrypt($input['password']);
+        $input['password'] = Hash::make($input['password']);
         $model->fill($input);
         $model->save();
         $credentials = $this->buildCredentials([
