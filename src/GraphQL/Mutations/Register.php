@@ -27,10 +27,10 @@ class Register extends BaseAuthResolver
         $model->fill($input);
         $model->save();
         $credentials = $this->buildCredentials([
-            'username' => $args['email'],
+            'username' => $args[config('lighthouse-graphql-passport.username')],
             'password' => $args['password'],
         ]);
-        $user = $model->where('email', $args['email'])->first();
+        $user = $model->where(config('lighthouse-graphql-passport.username'), $args[config('lighthouse-graphql-passport.username')])->first();
         $response = $this->makeRequest($credentials);
         $response['user'] = $user;
         event(new Registered($user));
