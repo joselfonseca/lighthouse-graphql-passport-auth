@@ -10,6 +10,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $this->loadMigrationsFrom(realpath(__DIR__.'/../tests/migrations'));
         Passport::routes();
+        Passport::loadKeysFrom(__DIR__ . '/storage/');
     }
 
 }

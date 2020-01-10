@@ -71,7 +71,6 @@ class TestCase extends Orchestra
     public function createClient()
     {
         $this->artisan('migrate', ['--database' => 'testbench']);
-        Passport::loadKeysFrom(__DIR__ . '/storage/');
         $client = app(ClientRepository::class)->createPasswordGrantClient(null, 'test', 'http://localhost');
         config()->set('lighthouse-graphql-passport.client_id', $client->id);
         config()->set('lighthouse-graphql-passport.client_secret', $client->secret);
@@ -82,7 +81,6 @@ class TestCase extends Orchestra
      */
     public function createClientPersonal($user)
     {
-        Passport::loadKeysFrom(__DIR__ . '/storage/');
         $client = app(ClientRepository::class)->createPersonalAccessClient($user->id, 'test', 'http://localhost');
         config()->set('lighthouse-graphql-passport.client_id', $client->id);
         config()->set('lighthouse-graphql-passport.client_secret', $client->secret);
