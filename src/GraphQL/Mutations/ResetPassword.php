@@ -17,6 +17,7 @@ class ResetPassword
 {
     use ResetsPasswords;
     use ValidatesRequests;
+    
     /**
      * @param $rootValue
      * @param array               $args
