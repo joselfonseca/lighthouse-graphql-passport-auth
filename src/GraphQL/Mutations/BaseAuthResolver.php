@@ -5,6 +5,10 @@ namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
 use Illuminate\Http\Request;
 use Nuwave\Lighthouse\Exceptions\AuthenticationException;
 
+/**
+ * Class BaseAuthResolver
+ * @package Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations
+ */
 class BaseAuthResolver
 {
     /**
@@ -16,12 +20,17 @@ class BaseAuthResolver
     {
         $args = collect($args);
         $credentials = $args->except('directive')->toArray();
-        $credentials['client_id'] = config('lighthouse-graphql-passport.client_id');
-        $credentials['client_secret'] = config('lighthouse-graphql-passport.client_secret');
+        $credentials['client_id'] = $args->get('client_id', config('lighthouse-graphql-passport.client_id'));
+        $credentials['client_secret'] = $args->get('client_secret', config('lighthouse-graphql-passport.client_secret'));
         $credentials['grant_type'] = $grantType;
         return $credentials;
     }
 
+    /**
+     * @param array $credentials
+     * @return mixed
+     * @throws AuthenticationException
+     */
     public function makeRequest(array $credentials)
     {
         $request = Request::create('oauth/token', 'POST', $credentials,[], [], [

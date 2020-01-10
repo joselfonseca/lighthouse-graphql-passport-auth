@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Joselfonseca\LighthouseGraphQLPassport\OAuthGrants;
 
 use DateInterval;
@@ -15,7 +14,7 @@ use League\OAuth2\Server\RequestEvent;
 use League\OAuth2\Server\ResponseTypes\ResponseTypeInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class SocialiteOAuthGrant extends AbstractGrant
+class SocialGrant extends AbstractGrant
 {
     public function __construct(UserRepositoryInterface $userRepository, RefreshTokenRepositoryInterface $refreshTokenRepository)
     {
@@ -23,6 +22,7 @@ class SocialiteOAuthGrant extends AbstractGrant
         $this->setRefreshTokenRepository($refreshTokenRepository);
         $this->refreshTokenTTL = new DateInterval('P1M');
     }
+
     /**
      * {@inheritdoc}
      */
@@ -40,15 +40,18 @@ class SocialiteOAuthGrant extends AbstractGrant
         // Inject tokens into response
         $responseType->setAccessToken($accessToken);
         $responseType->setRefreshToken($refreshToken);
+
         return $responseType;
     }
+
     /**
      * {@inheritdoc}
      */
     public function getIdentifier()
     {
-        return 'logged_in_grant';
+        return 'social_grant';
     }
+
     /**
      * @param ServerRequestInterface $request
      *
@@ -62,10 +65,13 @@ class SocialiteOAuthGrant extends AbstractGrant
         $user = $this->getUserEntityByRequest($laravelRequest);
         if (false === $user instanceof UserEntityInterface) {
             $this->getEmitter()->emit(new RequestEvent(RequestEvent::USER_AUTHENTICATION_FAILED, $request));
+
             throw OAuthServerException::invalidCredentials();
         }
+
         return $user;
     }
+
     /**
      * Retrieve user by request.
      *
@@ -83,8 +89,9 @@ class SocialiteOAuthGrant extends AbstractGrant
         if (method_exists($model, 'byOAuthToken')) {
             $user = (new $model())->byOAuthToken($request);
         } else {
-            throw OAuthServerException::serverError('Unable to find byOAuthToken method on user model.');
+            throw OAuthServerException::serverError('Unable to find byLoggedInUser method on user model.');
         }
+
         return ($user) ? new User($user->id) : null;
     }
 }
