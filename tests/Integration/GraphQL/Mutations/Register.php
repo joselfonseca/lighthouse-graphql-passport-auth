@@ -2,13 +2,11 @@
 
 namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Integration\GraphQL\Mutations;
 
-use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 
 class Register extends TestCase
 {
-
-    function test_it_registers_a_user()
+    public function test_it_registers_a_user()
     {
         $this->createClient();
         $response = $this->postGraphQL([
@@ -27,7 +25,7 @@ class Register extends TestCase
                         email
                     }
                 }
-            }'
+            }',
         ]);
         $responseBody = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('register', $responseBody['data']);
@@ -38,5 +36,4 @@ class Register extends TestCase
         $this->assertArrayHasKey('name', $responseBody['data']['register']['user']);
         $this->assertArrayHasKey('email', $responseBody['data']['register']['user']);
     }
-
 }

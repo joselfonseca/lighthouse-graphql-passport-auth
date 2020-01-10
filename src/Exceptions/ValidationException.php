@@ -6,9 +6,7 @@ use Exception;
 use Nuwave\Lighthouse\Exceptions\RendersErrorsExtensions;
 
 /**
- * Class ValidationException
- *
- * @package Joselfonseca\LighthouseGraphQLPassport\Exceptions
+ * Class ValidationException.
  */
 class ValidationException extends Exception implements RendersErrorsExtensions
 {
@@ -23,7 +21,7 @@ class ValidationException extends Exception implements RendersErrorsExtensions
      * @param $validator
      * @param string $message
      */
-    public function __construct($errors, string $message = "")
+    public function __construct($errors, string $message = '')
     {
         parent::__construct($message);
 
@@ -41,6 +39,7 @@ class ValidationException extends Exception implements RendersErrorsExtensions
      * Returns true when exception message is safe to be displayed to a client.
      *
      * @api
+     *
      * @return bool
      */
     public function isClientSafe(): bool
