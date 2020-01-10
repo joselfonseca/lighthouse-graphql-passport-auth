@@ -154,6 +154,51 @@ extend type Mutation {
 - **register:** Will allow your clients to register a new user using the default Laravel registration fields
 - **socialLogin:** Will allow your clients to log in using access token from social providers using socialite
 
+### Using socialite for social login
+
+If you want to use the mutation for social login, please add the `Joselfonseca\LighthouseGraphQLPassport\HasSocialLogin` trait to your user model like this
+
+```php
+use Joselfonseca\LighthouseGraphQLPassport\HasSocialLogin;
+
+class User extends Authenticatable
+{
+    use Notifiable;
+    use HasApiTokens;
+    use HasSocialLogin;
+}
+```
+This will add a method that is used by the mutation to get the user from the social network and create or get it from the DB based on the `provider` and `provider_id`
+
+```php
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public static function byOAuthToken(Request $request)
+    {
+        $userData = Socialite::driver($request->get('provider'))->userFromToken($request->get('token'));
+        try {
+            $user = static::where('provider', Str::lower($request->get('provider')))->where('provider_id', $userData->getId())->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            $user = static::create([
+                'name' => $userData->getName(),
+                'email' => $userData->getEmail(),
+                'provider' => $request->get('provider'),
+                'provider_id' => $userData->getId(),
+                'password' => Hash::make(Str::random(16)),
+                'avatar' => $userData->getAvatar()
+            ]);
+        }
+        Auth::onceUsingId($user->id);
+        return $user;
+    }
+``` 
+
+You can override the method and add more fields if you need to.
+
+*Make sure Socialite is configured properly to use the social network, please see [Laravel Socialite](https://laravel.com/docs/6.x/socialite)* 
+
 ### Why the OAuth client is used in the backend and not from the client application?
 
 When an application that needs to be re compiled and re deploy to stores like an iOS app needs to change the client for whatever reason, it becomes a blocker for QA or even brakes the production app if the client is removed. The app will not work until the new version with the updated keys is deployed. There are alternatives to store this configuration in the client but for this use case we are relying on the backend to be the OAuth client
