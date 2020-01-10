@@ -2,24 +2,23 @@
 
 namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Integration\GraphQL\Mutations;
 
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
-use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
+use Illuminate\Support\Facades\Password;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
+use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 
 /**
- * Class ResetPassword
- * @package Joselfonseca\LighthouseGraphQLPassport\Tests\Integration\GraphQL\Mutations
+ * Class ResetPassword.
  */
 class ResetPassword extends TestCase
 {
-    function test_it_resets_a_password_for_user(): void
+    public function test_it_resets_a_password_for_user(): void
     {
         $this->createClient();
         $user = User::create([
-            'name' => 'Jose Fonseca',
-            'email' => 'jose@example.com',
-            'password' => Hash::make('123456789qq')
+            'name'     => 'Jose Fonseca',
+            'email'    => 'jose@example.com',
+            'password' => Hash::make('123456789qq'),
         ]);
 
         $token = Password::createToken($user);
@@ -42,11 +41,11 @@ class ResetPassword extends TestCase
                 }
             }',
             'variables' => [
-                'email' => $user->email,
-                'token' => $token,
-                'password' => 'test1234',
+                'email'           => $user->email,
+                'token'           => $token,
+                'password'        => 'test1234',
                 'confirmPassword' => 'test1234',
-            ]
+            ],
         ]);
 
         $responseBody = json_decode($response->getContent(), true);
