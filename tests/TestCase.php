@@ -2,17 +2,18 @@
 
 namespace Joselfonseca\LighthouseGraphQLPassport\Tests;
 
-use Laravel\Passport\Passport;
-use Laravel\Passport\ClientRepository;
-use Laravel\Passport\PassportServiceProvider;
-use Orchestra\Testbench\TestCase as Orchestra;
-use Nuwave\Lighthouse\LighthouseServiceProvider;
 use Joselfonseca\LighthouseGraphQLPassport\Providers\LighthouseGraphQLPassportServiceProvider;
+use Laravel\Passport\ClientRepository;
+use Laravel\Passport\Passport;
+use Laravel\Passport\PassportServiceProvider;
+use Nuwave\Lighthouse\LighthouseServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
     /**
      * @param \Illuminate\Foundation\Application $app
+     *
      * @return array
      */
     protected function getPackageProviders($app)
@@ -29,6 +30,7 @@ class TestCase extends Orchestra
      * Define environment setup.
      *
      * @param \Illuminate\Foundation\Application $app
+     *
      * @return void
      */
     protected function getEnvironmentSetUp($app)
@@ -37,25 +39,25 @@ class TestCase extends Orchestra
         // Setup default database to use sqlite :memory:
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
-            'driver' => 'sqlite',
+            'driver'   => 'sqlite',
             'database' => ':memory:',
-            'prefix' => '',
+            'prefix'   => '',
         ]);
-        $app['config']->set('lighthouse.schema.register', __DIR__ . '/schema.graphql');
+        $app['config']->set('lighthouse.schema.register', __DIR__.'/schema.graphql');
         $app['config']->set('auth.guards', [
             'web' => [
-                'driver' => 'session',
+                'driver'   => 'session',
                 'provider' => 'users',
             ],
             'api' => [
-                'driver' => 'passport',
+                'driver'   => 'passport',
                 'provider' => 'users',
-            ]
+            ],
         ]);
         $app['config']->set('auth.providers', [
             'users' => [
                 'driver' => 'eloquent',
-                'model' => User::class,
+                'model'  => User::class,
             ],
         ]);
     }
@@ -66,7 +68,7 @@ class TestCase extends Orchestra
     }
 
     /**
-     * Create a passport client for testing
+     * Create a passport client for testing.
      */
     public function createClient()
     {
@@ -77,7 +79,7 @@ class TestCase extends Orchestra
     }
 
     /**
-     * Create a passport client for testing
+     * Create a passport client for testing.
      */
     public function createClientPersonal($user)
     {
@@ -86,17 +88,16 @@ class TestCase extends Orchestra
         config()->set('lighthouse-graphql-passport.client_secret', $client->secret);
     }
 
-
     /**
      * Execute a query as if it was sent as a request to the server.
      *
      * @param mixed[] $data
      * @param mixed[] $headers
+     *
      * @return \Illuminate\Foundation\Testing\TestResponse
      */
     protected function postGraphQL(array $data, array $headers = [])
     {
         return $this->postJson('graphql', $data, $headers);
     }
-
 }

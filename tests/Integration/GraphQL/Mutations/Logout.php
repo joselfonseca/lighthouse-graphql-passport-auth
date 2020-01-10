@@ -2,18 +2,18 @@
 
 namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Integration\GraphQL\Mutations;
 
-use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
+use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 
 class Logout extends TestCase
 {
-    function test_it_invalidates_token_on_logout()
+    public function test_it_invalidates_token_on_logout()
     {
         $this->artisan('migrate', ['--database' => 'testbench']);
         $user = User::create([
-            'name' => 'Jose Fonseca',
-            'email' => 'jose@example.com',
-            'password' => bcrypt('123456789qq')
+            'name'     => 'Jose Fonseca',
+            'email'    => 'jose@example.com',
+            'password' => bcrypt('123456789qq'),
         ]);
         $this->createClientPersonal($user);
         $token = $user->createToken('test Token');
@@ -24,9 +24,9 @@ class Logout extends TestCase
                     status
                     message
                 }
-            }'
+            }',
         ], [
-            'Authorization' => 'Bearer '.$token
+            'Authorization' => 'Bearer '.$token,
         ]);
         $responseBody = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('logout', $responseBody['data']);

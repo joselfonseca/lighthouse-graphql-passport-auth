@@ -2,23 +2,23 @@
 
 namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Integration\GraphQL\Mutations;
 
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Auth\Notifications\ResetPassword;
-use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
+use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 
 class ForgotPassword extends TestCase
 {
-    function test_it_sends_recover_password_email()
+    public function test_it_sends_recover_password_email()
     {
         Mail::fake();
         Notification::fake();
         $this->createClient();
         $user = User::create([
-            'name' => 'Jose Fonseca',
-            'email' => 'jose@example.com',
-            'password' => bcrypt('123456789qq')
+            'name'     => 'Jose Fonseca',
+            'email'    => 'jose@example.com',
+            'password' => bcrypt('123456789qq'),
         ]);
         $response = $this->postGraphQL([
             'query' => 'mutation {
@@ -28,7 +28,7 @@ class ForgotPassword extends TestCase
                     status
                     message
                 }
-            }'
+            }',
         ]);
         $responseBody = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('forgotPassword', $responseBody['data']);

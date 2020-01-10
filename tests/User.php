@@ -2,19 +2,17 @@
 
 namespace Joselfonseca\LighthouseGraphQLPassport\Tests;
 
-use Laravel\Passport\HasApiTokens;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 /**
- * Class User
- *
- * @package Joselfonseca\LighthouseGraphQLPassport\Tests
+ * Class User.
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
-
+    use HasApiTokens;
+    use Notifiable;
     /**
      * The attributes that are mass assignable.
      *
