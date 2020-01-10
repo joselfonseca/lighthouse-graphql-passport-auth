@@ -4,6 +4,11 @@ namespace Joselfonseca\LighthouseGraphQLPassport\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Nuwave\Lighthouse\Events\BuildSchemaString;
+use League\OAuth2\Server\AuthorizationServer;
+use Joselfonseca\LighthouseGraphQLPassport\OAuthGrants\SocialGrant;
+use Laravel\Passport\Bridge\RefreshTokenRepository;
+use Laravel\Passport\Bridge\UserRepository;
+use Laravel\Passport\Passport;
 
 /**
  * Class LighthouseGraphQLPassportServiceProvider
@@ -12,6 +17,20 @@ use Nuwave\Lighthouse\Events\BuildSchemaString;
  */
 class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
 {
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        if (config('lighthouse-graphql-passport.migrations')) {
+            $this->loadMigrationsFrom(__DIR__.'/../../migrations');
+        }
+        app(AuthorizationServer::class)->enableGrantType($this->makeCustomRequestGrant(), Passport::tokensExpireIn());
+    }
+
     /**
      *
      */
@@ -50,5 +69,20 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../../graphql/auth.graphql' => base_path('graphql/auth.graphql'),
         ], 'schema');
+
+        $this->publishes([
+            __DIR__ . '/../../migrations/2019_11_19_000000_update_social_provider_users_table.php' => base_path('database/migrations/2019_11_19_000000_update_social_provider_users_table.php'),
+        ], 'migrations');
+    }
+
+    protected function makeCustomRequestGrant()
+    {
+        $grant = new SocialGrant(
+            $this->app->make(UserRepository::class),
+            $this->app->make(RefreshTokenRepository::class)
+        );
+        $grant->setRefreshTokenTTL(Passport::refreshTokensExpireIn());
+
+        return $grant;
     }
 }
