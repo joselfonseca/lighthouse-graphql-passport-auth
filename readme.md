@@ -14,11 +14,16 @@ You can see [this tutorial](https://ditecnologia.com/2019/06/24/graphql-auth-wit
 
 ## Installation
 
-**Make sure you have [Laravel Passport](https://laravel.com/docs/5.8/passport) installed.**
+**Make sure you have [Laravel Passport](https://laravel.com/docs/6.x/passport) installed.**
 
 To install run `composer require joselfonseca/lighthouse-graphql-passport-auth`.
 
 ServiceProvider will be attached automatically
+
+Run this command to publish the migration, schema and configuration file
+```
+php artisan vendor:publish --provider="Joselfonseca\LighthouseGraphQLPassport\Providers\LighthouseGraphQLPassportServiceProvider"
+```
 
 Add the following env vars to your .env
 
@@ -31,13 +36,7 @@ You are done with the installation!
 
 ## Default Schema
 
-By default the schema is defined internally in the package, if you want to override the schema or resolvers, you can publish the package configuration and default schema by running:
-
-```
-php artisan vendor:publish --provider="Joselfonseca\LighthouseGraphQLPassport\Providers\LighthouseGraphQLPassportServiceProvider"
-```
-
-This command will publish a configuration file `lighthouse-graphql-passport.php` and a schema file in `/graphql/auth.graphgl` that looks like this:
+By default the schema is defined internally in the package, once published it will be saved in `graphql/auth.graphql` and it looks like this:
 
 ```js
 input LoginInput {
@@ -97,6 +96,11 @@ input RegisterInput {
     password: String! @rules(apply: ["required", "confirmed", "min:8"])
     password_confirmation: String!
 }
+input SocialLoginInput {
+    provider: String! @rules(apply: ["required"])
+    token: String! @rules(apply: ["required"])
+}
+
 
 extend type Mutation {
     login(input: LoginInput @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Login@resolve")
@@ -105,6 +109,7 @@ extend type Mutation {
     forgotPassword(input: ForgotPasswordInput! @spread): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ForgotPassword@resolve")
     updateForgottenPassword(input: NewPasswordWithCodeInput @spread): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ResetPassword@resolve")
     register(input: RegisterInput @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Register@resolve")
+    socialLogin(input: SocialLoginInput! @spread): AuthPayload @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\SocialLogin@resolve")
 }
 ```
 
@@ -127,7 +132,7 @@ This will allow you to change the schema and resolvers if needed.
 
 ## Usage
 
-This will add 6 mutations to your GraphQL API
+This will add 7 mutations to your GraphQL API
 
 ```js
 extend type Mutation {
@@ -137,6 +142,7 @@ extend type Mutation {
     forgotPassword(input: ForgotPasswordInput!): ForgotPasswordResponse!
     updateForgottenPassword(input: NewPasswordWithCodeInput): ForgotPasswordResponse!
     register(input: RegisterInput @spread): AuthPayload!
+    socialLogin(input: SocialLoginInput! @spread): AuthPayload!
 }
 ```
 
@@ -146,6 +152,7 @@ extend type Mutation {
 - **forgotPassword:** Will allow your clients to request the forgot password email.
 - **updateForgottenPassword:** Will allow your clients to update the forgotten password from the email received.
 - **register:** Will allow your clients to register a new user using the default Laravel registration fields
+- **socialLogin:** Will allow your clients to log in using access token from social providers using socialite
 
 ### Why the OAuth client is used in the backend and not from the client application?
 
