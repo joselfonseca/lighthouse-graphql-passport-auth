@@ -7,18 +7,19 @@ use Illuminate\Support\Facades\Auth;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 /**
- * Class SocialLogin
- * @package Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations
+ * Class SocialLogin.
  */
 class SocialLogin extends BaseAuthResolver
 {
     /**
      * @param $rootValue
-     * @param array $args
+     * @param array                                                    $args
      * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext|null $context
-     * @param \GraphQL\Type\Definition\ResolveInfo $resolveInfo
-     * @return array
+     * @param \GraphQL\Type\Definition\ResolveInfo                     $resolveInfo
+     *
      * @throws \Exception
+     *
+     * @return array
      */
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
@@ -27,6 +28,7 @@ class SocialLogin extends BaseAuthResolver
         $model = app(config('auth.providers.users.model'));
         $user = $model->where('id', Auth::user()->id)->firstOrFail();
         $response['user'] = $user;
+
         return $response;
     }
 }

@@ -2,19 +2,18 @@
 
 namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Integration\GraphQL\Mutations;
 
-use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
+use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 
 class LoginTest extends TestCase
 {
-
-    function test_it_gets_access_token()
+    public function test_it_gets_access_token()
     {
         $this->createClient();
         User::create([
-            'name' => 'Jose Fonseca',
-            'email' => 'jose@example.com',
-            'password' => bcrypt('123456789qq')
+            'name'     => 'Jose Fonseca',
+            'email'    => 'jose@example.com',
+            'password' => bcrypt('123456789qq'),
         ]);
         $response = $this->postGraphQL([
             'query' => 'mutation {
@@ -30,7 +29,7 @@ class LoginTest extends TestCase
                         email
                     }
                 }
-            }'
+            }',
         ]);
         $responseBody = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('login', $responseBody['data']);
@@ -41,5 +40,4 @@ class LoginTest extends TestCase
         $this->assertArrayHasKey('name', $responseBody['data']['login']['user']);
         $this->assertArrayHasKey('email', $responseBody['data']['login']['user']);
     }
-
 }
