@@ -35,6 +35,9 @@ class Register extends BaseAuthResolver
         $response['user'] = $user;
         event(new Registered($user));
 
-        return $response;
+        return [
+            'tokens' => $response,
+            'status' => 'SUCCESS'
+        ];
     }
 }
