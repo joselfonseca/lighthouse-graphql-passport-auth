@@ -2,12 +2,16 @@
 
 namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Integration\GraphQL\Mutations;
 
-use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Support\Facades\Notification;
+use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;;
+use Joselfonseca\LighthouseGraphQLPassport\Tests\UserVerifyEmail;
 
 class Register extends TestCase
 {
     public function test_it_registers_a_user()
     {
+        Notification::fake();
         $this->createClient();
         $response = $this->postGraphQL([
             'query' => 'mutation {
@@ -41,5 +45,32 @@ class Register extends TestCase
         $this->assertArrayHasKey('name', $responseBody['data']['register']['tokens']['user']);
         $this->assertArrayHasKey('email', $responseBody['data']['register']['tokens']['user']);
         $this->assertEquals('SUCCESS', $responseBody['data']['register']['status']);
+    }
+
+    public function test_it_sends_email_verification()
+    {
+        config()->set('auth.providers.users.model', UserVerifyEmail::class);
+        Notification::fake();
+        $this->createClient();
+        $response = $this->postGraphQL([
+            'query' => 'mutation {
+                register(input: {
+                    name: "My Name",
+                    email: "jose@example.com",
+                    password: "123456789qq",
+                    password_confirmation: "123456789qq"
+                }) {
+                    status
+                }
+            }',
+        ]);
+        $responseBody = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('register', $responseBody['data']);
+        $this->assertArrayHasKey('status', $responseBody['data']['register']);
+        $this->assertEquals('MUST_VERIFY_EMAIL', $responseBody['data']['register']['status']);
+        $user = UserVerifyEmail::first();
+        Notification::assertSentTo(
+            [$user], VerifyEmail::class
+        );
     }
 }

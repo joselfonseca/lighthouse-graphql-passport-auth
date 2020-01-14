@@ -4,6 +4,7 @@ namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Hash;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
@@ -26,6 +27,13 @@ class Register extends BaseAuthResolver
         $input['password'] = Hash::make($input['password']);
         $model->fill($input);
         $model->save();
+        if ($model instanceof MustVerifyEmail) {
+            $model->sendEmailVerificationNotification();
+            return [
+                'tokens' => [],
+                'status' => 'MUST_VERIFY_EMAIL'
+            ];
+        }
         $credentials = $this->buildCredentials([
             'username' => $args[config('lighthouse-graphql-passport.username')],
             'password' => $args['password'],
