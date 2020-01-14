@@ -42,7 +42,6 @@ class Register extends BaseAuthResolver
         $response = $this->makeRequest($credentials);
         $response['user'] = $user;
         event(new Registered($user));
-
         return [
             'tokens' => $response,
             'status' => 'SUCCESS'

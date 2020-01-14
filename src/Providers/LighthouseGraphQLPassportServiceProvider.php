@@ -3,6 +3,7 @@
 namespace Joselfonseca\LighthouseGraphQLPassport\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Joselfonseca\LighthouseGraphQLPassport\OAuthGrants\LoggedInGrant;
 use Joselfonseca\LighthouseGraphQLPassport\OAuthGrants\SocialGrant;
 use Laravel\Passport\Bridge\RefreshTokenRepository;
 use Laravel\Passport\Bridge\UserRepository;
@@ -26,8 +27,12 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
             $this->loadMigrationsFrom(__DIR__.'/../../migrations');
         }
         app(AuthorizationServer::class)->enableGrantType($this->makeCustomRequestGrant(), Passport::tokensExpireIn());
+        app(AuthorizationServer::class)->enableGrantType($this->makeLoggedInRequestGrant(), Passport::tokensExpireIn());
     }
 
+    /**
+     *
+     */
     public function register()
     {
         $this->registerConfig();
@@ -69,9 +74,28 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
         ], 'migrations');
     }
 
+    /**
+     * @return SocialGrant
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
     protected function makeCustomRequestGrant()
     {
         $grant = new SocialGrant(
+            $this->app->make(UserRepository::class),
+            $this->app->make(RefreshTokenRepository::class)
+        );
+        $grant->setRefreshTokenTTL(Passport::refreshTokensExpireIn());
+
+        return $grant;
+    }
+
+    /**
+     * @return LoggedInGrant
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    protected function makeLoggedInRequestGrant()
+    {
+        $grant = new LoggedInGrant(
             $this->app->make(UserRepository::class),
             $this->app->make(RefreshTokenRepository::class)
         );

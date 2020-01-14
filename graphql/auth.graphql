@@ -14,11 +14,11 @@ type User {
 }
 
 type AuthPayload {
-    access_token: String!
-    refresh_token: String!
-    expires_in: Int!
-    token_type: String!
-    user: User!
+    access_token: String
+    refresh_token: String
+    expires_in: Int
+    token_type: String
+    user: User
 }
 
 type RefreshTokenPayload {
@@ -61,7 +61,7 @@ input NewPasswordWithCodeInput {
 
 input RegisterInput {
     name: String! @rules(apply: ["required", "string"])
-    email: String! @rules(apply: ["required", "email"])
+    email: String! @rules(apply: ["required", "email", "unique:users,email"])
     password: String! @rules(apply: ["required", "confirmed", "min:8"])
     password_confirmation: String!
 }
@@ -69,6 +69,10 @@ input RegisterInput {
 input SocialLoginInput {
     provider: String! @rules(apply: ["required"])
     token: String! @rules(apply: ["required"])
+}
+
+input VerifyEmailInput {
+    token: String!
 }
 
 extend type Mutation {
@@ -79,4 +83,5 @@ extend type Mutation {
     updateForgottenPassword(input: NewPasswordWithCodeInput @spread): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ResetPassword@resolve")
     register(input: RegisterInput @spread): RegisterResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Register@resolve")
     socialLogin(input: SocialLoginInput! @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\SocialLogin@resolve")
+    verifyEmail(input: VerifyEmailInput! @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\VerifyEmail@resolve")
 }

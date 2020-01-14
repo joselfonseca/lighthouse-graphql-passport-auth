@@ -5,12 +5,16 @@ namespace Joselfonseca\LighthouseGraphQLPassport\Tests;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Joselfonseca\LighthouseGraphQLPassport\HasLoggedInTokens;
+use Joselfonseca\LighthouseGraphQLPassport\MustVerifyEmailGraphQL;
 use Laravel\Passport\HasApiTokens;
 
 class UserVerifyEmail extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
     use Notifiable;
+    use MustVerifyEmailGraphQL;
+    use HasLoggedInTokens;
 
     protected $table = 'users';
 

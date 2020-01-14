@@ -2,7 +2,7 @@
 
 namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Integration\GraphQL\Mutations;
 
-use Illuminate\Auth\Notifications\VerifyEmail;
+use Joselfonseca\LighthouseGraphQLPassport\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Notification;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\UserVerifyEmail;
@@ -70,7 +70,8 @@ class Register extends TestCase
         $this->assertEquals('MUST_VERIFY_EMAIL', $responseBody['data']['register']['status']);
         $user = UserVerifyEmail::first();
         Notification::assertSentTo(
-            [$user], VerifyEmail::class
+            [$user],
+            VerifyEmail::class
         );
     }
 }
