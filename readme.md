@@ -56,11 +56,11 @@ type User {
 }
 
 type AuthPayload {
-    access_token: String!
-    refresh_token: String!
-    expires_in: Int!
-    token_type: String!
-    user: User!
+    access_token: String
+    refresh_token: String
+    expires_in: Int
+    token_type: String
+    user: User
 }
 
 type RefreshTokenPayload {
@@ -80,6 +80,16 @@ type ForgotPasswordResponse {
     message: String
 }
 
+type RegisterResponse {
+    tokens: AuthPayload
+    status: RegisterStatuses!
+}
+
+enum RegisterStatuses {
+    MUST_VERIFY_EMAIL
+    SUCCESS
+}
+
 input ForgotPasswordInput {
     email: String! @rules(apply: ["required", "email"])
 }
@@ -97,11 +107,15 @@ input RegisterInput {
     password: String! @rules(apply: ["required", "confirmed", "min:8"])
     password_confirmation: String!
 }
+
 input SocialLoginInput {
     provider: String! @rules(apply: ["required"])
     token: String! @rules(apply: ["required"])
 }
 
+input VerifyEmailInput {
+    token: String!
+}
 
 extend type Mutation {
     login(input: LoginInput @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Login@resolve")
@@ -111,6 +125,7 @@ extend type Mutation {
     updateForgottenPassword(input: NewPasswordWithCodeInput @spread): ForgotPasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\ResetPassword@resolve")
     register(input: RegisterInput @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Register@resolve")
     socialLogin(input: SocialLoginInput! @spread): AuthPayload @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\SocialLogin@resolve")
+    verifyEmail(input: VerifyEmailInput! @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\VerifyEmail@resolve")
 }
 ```
 
@@ -133,7 +148,7 @@ This will allow you to change the schema and resolvers if needed.
 
 ## Usage
 
-This will add 7 mutations to your GraphQL API
+This will add 8 mutations to your GraphQL API
 
 ```js
 extend type Mutation {
@@ -144,6 +159,7 @@ extend type Mutation {
     updateForgottenPassword(input: NewPasswordWithCodeInput): ForgotPasswordResponse!
     register(input: RegisterInput @spread): AuthPayload!
     socialLogin(input: SocialLoginInput! @spread): AuthPayload!
+    verifyEmail(input: VerifyEmailInput! @spread): AuthPayload!
 }
 ```
 
@@ -154,6 +170,46 @@ extend type Mutation {
 - **updateForgottenPassword:** Will allow your clients to update the forgotten password from the email received.
 - **register:** Will allow your clients to register a new user using the default Laravel registration fields
 - **socialLogin:** Will allow your clients to log in using access token from social providers using socialite
+- **verifyEmail:** Will allow your clients to verify the email after they receive a token in the email
+
+### Using the email verification
+
+If you want to use the email verification feature that comes with laravel, please follow the instruction in the laravel documentation to configure the model in [https://laravel.com/docs/6.x/verification](https://laravel.com/docs/6.x/verification), once that is done add the following traits
+
+```php
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Joselfonseca\LighthouseGraphQLPassport\HasLoggedInTokens;
+use Joselfonseca\LighthouseGraphQLPassport\MustVerifyEmailGraphQL;
+
+class User extends Authenticatable implements MustVerifyEmail
+{
+    use Notifiable;
+    use HasApiTokens;
+    use HasSocialLogin;
+    use MustVerifyEmailGraphQL;
+    use HasLoggedInTokens;
+}
+```
+This will add some methods for the email notification to be sent with a token. Use the token in the following mutation.
+
+```js
+{
+  mutation {
+      verifyEmail(input: {
+          "token": "HERE_THE_TOKEN"
+      }) {
+          access_token
+          refresh_token
+          user {
+              id
+              name
+              email
+          }
+      }
+  }
+}
+```   
+If the token is valid the tokens will be issued.
 
 ### Using socialite for social login
 

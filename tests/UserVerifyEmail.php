@@ -2,19 +2,22 @@
 
 namespace Joselfonseca\LighthouseGraphQLPassport\Tests;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Joselfonseca\LighthouseGraphQLPassport\HasLoggedInTokens;
+use Joselfonseca\LighthouseGraphQLPassport\MustVerifyEmailGraphQL;
 use Laravel\Passport\HasApiTokens;
 
-/**
- * Class User.
- */
-class User extends Authenticatable
+class UserVerifyEmail extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
     use Notifiable;
+    use MustVerifyEmailGraphQL;
     use HasLoggedInTokens;
+
+    protected $table = 'users';
+
     /**
      * The attributes that are mass assignable.
      *

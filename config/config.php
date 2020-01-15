@@ -51,5 +51,16 @@ return [
     |
     */
     'migrations' => true,
+    /*
+    |--------------------------------------------------------------------------
+    | Settings for email verification
+    |--------------------------------------------------------------------------
+    |
+    | Update this values for your use case
+    |
+    */
+    'verify_email' => [
+        'base_url' => env('FRONT_URL').'/email-verify',
+    ],
 
 ];
