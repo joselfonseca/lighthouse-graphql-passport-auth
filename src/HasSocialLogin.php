@@ -27,13 +27,13 @@ trait HasSocialLogin
             $user = static::where('provider', Str::lower($request->get('provider')))->where('provider_id', $userData->getId())->firstOrFail();
         } catch (ModelNotFoundException $e) {
             $user = static::create([
-                'name'        => $userData->getName(),
-                'email'       => $userData->getEmail(),
-                'provider'    => $request->get('provider'),
-                'provider_id' => $userData->getId(),
-                'password'    => Hash::make(Str::random(16)),
-                'avatar'      => $userData->getAvatar(),
-                'email_verified_at' => now()
+                'name'              => $userData->getName(),
+                'email'             => $userData->getEmail(),
+                'provider'          => $request->get('provider'),
+                'provider_id'       => $userData->getId(),
+                'password'          => Hash::make(Str::random(16)),
+                'avatar'            => $userData->getAvatar(),
+                'email_verified_at' => now(),
             ]);
         }
         Auth::onceUsingId($user->id);
