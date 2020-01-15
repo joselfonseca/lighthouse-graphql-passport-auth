@@ -1,10 +1,9 @@
 <?php
 
-
 namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Unit;
 
-use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
+use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 
 class HasLoggedInTokens extends TestCase
 {

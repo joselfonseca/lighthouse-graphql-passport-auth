@@ -1,16 +1,14 @@
 <?php
 
-
 namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Auth\Events\Verified;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-
 
 class VerifyEmail
 {
@@ -31,10 +29,11 @@ class VerifyEmail
         $email = decrypt($decodedToken->hash);
         if (Carbon::parse($expiration) < now()) {
             throw new ValidationException([
-                'token' => 'The token is invalid'
+                'token' => 'The token is invalid',
             ], 'Validation Error');
         }
         $model = app(config('auth.providers.users.model'));
+
         try {
             $user = $model->where('email', $email)->firstOrFail();
             $user->markEmailAsVerified();
@@ -42,10 +41,11 @@ class VerifyEmail
             Auth::onceUsingId($user->id);
             $tokens = $user->getTokens();
             $tokens['user'] = $user;
+
             return $tokens;
         } catch (ModelNotFoundException $e) {
             throw new ValidationException([
-                'token' => 'The token is invalid'
+                'token' => 'The token is invalid',
             ], 'Validation Error');
         }
     }

@@ -17,14 +17,14 @@ class VerifyEmail extends TestCase
         Event::fake([\Illuminate\Auth\Events\Verified::class]);
         $this->createClient();
         $user = UserVerifyEmail::create([
-            'name' => 'Jose Fonseca',
-            'email' => 'jose@example.com',
-            'password' => bcrypt('123456789')
+            'name'     => 'Jose Fonseca',
+            'email'    => 'jose@example.com',
+            'password' => bcrypt('123456789'),
         ]);
         $payload = base64_encode(json_encode([
-            'id' => $user->id,
-            'hash' => encrypt($user->getEmailForVerification()),
-            'expiration' => encrypt(Carbon::now()->addMinutes(10)->toIso8601String())
+            'id'         => $user->id,
+            'hash'       => encrypt($user->getEmailForVerification()),
+            'expiration' => encrypt(Carbon::now()->addMinutes(10)->toIso8601String()),
         ]));
         $response = $this->postGraphQL([
             'query' => 'mutation {
@@ -61,14 +61,14 @@ class VerifyEmail extends TestCase
         Event::fake([\Illuminate\Auth\Events\Verified::class]);
         $this->createClient();
         $user = UserVerifyEmail::create([
-            'name' => 'Jose Fonseca',
-            'email' => 'jose@example.com',
-            'password' => bcrypt('123456789')
+            'name'     => 'Jose Fonseca',
+            'email'    => 'jose@example.com',
+            'password' => bcrypt('123456789'),
         ]);
         $payload = base64_encode(json_encode([
-            'id' => $user->id,
-            'hash' => encrypt($user->getEmailForVerification()),
-            'expiration' => encrypt(Carbon::now()->subMinutes(10)->toIso8601String())
+            'id'         => $user->id,
+            'hash'       => encrypt($user->getEmailForVerification()),
+            'expiration' => encrypt(Carbon::now()->subMinutes(10)->toIso8601String()),
         ]));
         $response = $this->postGraphQL([
             'query' => 'mutation {

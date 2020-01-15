@@ -29,9 +29,10 @@ class Register extends BaseAuthResolver
         $model->save();
         if ($model instanceof MustVerifyEmail) {
             $model->sendEmailVerificationNotification();
+
             return [
                 'tokens' => [],
-                'status' => 'MUST_VERIFY_EMAIL'
+                'status' => 'MUST_VERIFY_EMAIL',
             ];
         }
         $credentials = $this->buildCredentials([
@@ -42,9 +43,10 @@ class Register extends BaseAuthResolver
         $response = $this->makeRequest($credentials);
         $response['user'] = $user;
         event(new Registered($user));
+
         return [
             'tokens' => $response,
-            'status' => 'SUCCESS'
+            'status' => 'SUCCESS',
         ];
     }
 }

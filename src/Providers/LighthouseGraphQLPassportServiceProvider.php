@@ -30,9 +30,6 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
         app(AuthorizationServer::class)->enableGrantType($this->makeLoggedInRequestGrant(), Passport::tokensExpireIn());
     }
 
-    /**
-     *
-     */
     public function register()
     {
         $this->registerConfig();
@@ -75,8 +72,9 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
     }
 
     /**
-     * @return SocialGrant
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
+     * @return SocialGrant
      */
     protected function makeCustomRequestGrant()
     {
@@ -90,8 +88,9 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
     }
 
     /**
-     * @return LoggedInGrant
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     *
+     * @return LoggedInGrant
      */
     protected function makeLoggedInRequestGrant()
     {
