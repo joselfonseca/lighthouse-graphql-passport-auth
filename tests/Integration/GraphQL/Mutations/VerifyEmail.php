@@ -3,6 +3,7 @@
 namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Integration\GraphQL\Mutations;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\UserVerifyEmail;
@@ -13,6 +14,7 @@ class VerifyEmail extends TestCase
     {
         config()->set('auth.providers.users.model', UserVerifyEmail::class);
         Notification::fake();
+        Event::fake([\Illuminate\Auth\Events\Verified::class]);
         $this->createClient();
         $user = UserVerifyEmail::create([
             'name' => 'Jose Fonseca',
@@ -49,12 +51,14 @@ class VerifyEmail extends TestCase
         $this->assertArrayHasKey('email', $responseBody['data']['verifyEmail']['user']);
         $userUpdated = UserVerifyEmail::find($user->id);
         $this->assertNotNull($userUpdated->email_verified_at);
+        Event::assertDispatched(\Illuminate\Auth\Events\Verified::class);
     }
 
     public function test_it_validates_token()
     {
         config()->set('auth.providers.users.model', UserVerifyEmail::class);
         Notification::fake();
+        Event::fake([\Illuminate\Auth\Events\Verified::class]);
         $this->createClient();
         $user = UserVerifyEmail::create([
             'name' => 'Jose Fonseca',
@@ -85,5 +89,6 @@ class VerifyEmail extends TestCase
         $this->assertArrayHasKey('errors', $responseBody);
         $userUpdated = UserVerifyEmail::find($user->id);
         $this->assertNull($userUpdated->email_verified_at);
+        Event::assertNotDispatched(\Illuminate\Auth\Events\Verified::class);
     }
 }

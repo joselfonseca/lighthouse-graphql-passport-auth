@@ -7,6 +7,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Verified;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
@@ -37,6 +38,7 @@ class VerifyEmail
         try {
             $user = $model->where('email', $email)->firstOrFail();
             $user->markEmailAsVerified();
+            event(new Verified($user));
             Auth::onceUsingId($user->id);
             $tokens = $user->getTokens();
             $tokens['user'] = $user;
