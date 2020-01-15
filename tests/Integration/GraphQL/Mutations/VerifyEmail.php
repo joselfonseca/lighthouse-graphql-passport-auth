@@ -82,7 +82,6 @@ class VerifyEmail extends TestCase
             }',
         ]);
         $responseBody = json_decode($response->getContent(), true);
-        dd($responseBody);
         $this->assertArrayHasKey('errors', $responseBody);
         $userUpdated = UserVerifyEmail::find($user->id);
         $this->assertNull($userUpdated->email_verified_at);
