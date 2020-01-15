@@ -33,6 +33,7 @@ trait HasSocialLogin
                 'provider_id' => $userData->getId(),
                 'password'    => Hash::make(Str::random(16)),
                 'avatar'      => $userData->getAvatar(),
+                'email_verified_at' => now()
             ]);
         }
         Auth::onceUsingId($user->id);
