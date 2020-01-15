@@ -60,7 +60,7 @@ return [
     |
     */
     'verify_email' => [
-        'base_url' => env('FRONT_URL').'/email-verify'
-    ]
+        'base_url' => env('FRONT_URL').'/email-verify',
+    ],
 
 ];

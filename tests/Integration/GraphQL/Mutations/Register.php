@@ -2,9 +2,9 @@
 
 namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Integration\GraphQL\Mutations;
 
-use Joselfonseca\LighthouseGraphQLPassport\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Notification;
-use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;;
+use Joselfonseca\LighthouseGraphQLPassport\Notifications\VerifyEmail;
+use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\UserVerifyEmail;
 
 class Register extends TestCase
