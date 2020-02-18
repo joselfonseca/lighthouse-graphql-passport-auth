@@ -23,6 +23,16 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        [$publicKey, $privateKey] = [
+            Passport::keyPath('oauth-public.key'),
+            Passport::keyPath('oauth-private.key'),
+        ];
+
+        /** Don't try to boot when you can't load the passport keys. */
+        if (!file_exists($publicKey) || !file_exists($privateKey)) {
+            return;
+        }
+
         if (config('lighthouse-graphql-passport.migrations')) {
             $this->loadMigrationsFrom(__DIR__.'/../../migrations');
         }
