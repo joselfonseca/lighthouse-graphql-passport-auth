@@ -2,6 +2,8 @@
 
 namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Integration\GraphQL\Mutations;
 
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Joselfonseca\LighthouseGraphQLPassport\Notifications\VerifyEmail;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
@@ -51,6 +53,7 @@ class Register extends TestCase
     {
         config()->set('auth.providers.users.model', UserVerifyEmail::class);
         Notification::fake();
+        Event::fake([Registered::class]);
         $this->createClient();
         $response = $this->postGraphQL([
             'query' => 'mutation {
@@ -73,5 +76,6 @@ class Register extends TestCase
             [$user],
             VerifyEmail::class
         );
+        Event::assertDispatched(Registered::class);
     }
 }
