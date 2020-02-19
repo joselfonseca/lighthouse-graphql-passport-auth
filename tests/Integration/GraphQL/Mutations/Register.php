@@ -53,7 +53,7 @@ class Register extends TestCase
     {
         config()->set('auth.providers.users.model', UserVerifyEmail::class);
         Notification::fake();
-        Event::fake([ Registered::class ]);
+        Event::fake([Registered::class]);
         $this->createClient();
         $response = $this->postGraphQL([
             'query' => 'mutation {
