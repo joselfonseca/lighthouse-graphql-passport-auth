@@ -26,12 +26,11 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
         if (config('lighthouse-graphql-passport.migrations')) {
             $this->loadMigrationsFrom(__DIR__.'/../../migrations');
         }
-        app(AuthorizationServer::class)->enableGrantType($this->makeCustomRequestGrant(), Passport::tokensExpireIn());
-        app(AuthorizationServer::class)->enableGrantType($this->makeLoggedInRequestGrant(), Passport::tokensExpireIn());
     }
 
     public function register()
     {
+        $this->extendAuthorizationServer();
         $this->registerConfig();
 
         app('events')->listen(
@@ -101,5 +100,25 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
         $grant->setRefreshTokenTTL(Passport::refreshTokensExpireIn());
 
         return $grant;
+    }
+
+    /**
+     * Register the Grants.
+     *
+     * @return void
+     */
+    protected function extendAuthorizationServer()
+    {
+        $this->app->extend(AuthorizationServer::class, function ($server) {
+            return tap($server, function ($server) {
+                $server->enableGrantType(
+                    $this->makeLoggedInRequestGrant(), Passport::tokensExpireIn()
+                );
+
+                $server->enableGrantType(
+                    $this->makeCustomRequestGrant(), Passport::tokensExpireIn()
+                );
+            });
+        });
     }
 }
