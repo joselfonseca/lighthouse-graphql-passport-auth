@@ -5,12 +5,10 @@ namespace Joselfonseca\LighthouseGraphQLPassport\Providers;
 use Illuminate\Support\ServiceProvider;
 use Joselfonseca\LighthouseGraphQLPassport\OAuthGrants\LoggedInGrant;
 use Joselfonseca\LighthouseGraphQLPassport\OAuthGrants\SocialGrant;
-use Laravel\Passport\Bridge\PersonalAccessGrant;
 use Laravel\Passport\Bridge\RefreshTokenRepository;
 use Laravel\Passport\Bridge\UserRepository;
 use Laravel\Passport\Passport;
 use League\OAuth2\Server\AuthorizationServer;
-use League\OAuth2\Server\Grant\ClientCredentialsGrant;
 use Nuwave\Lighthouse\Events\BuildSchemaString;
 
 /**
