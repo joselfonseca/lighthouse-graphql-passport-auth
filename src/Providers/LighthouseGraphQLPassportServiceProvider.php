@@ -5,10 +5,12 @@ namespace Joselfonseca\LighthouseGraphQLPassport\Providers;
 use Illuminate\Support\ServiceProvider;
 use Joselfonseca\LighthouseGraphQLPassport\OAuthGrants\LoggedInGrant;
 use Joselfonseca\LighthouseGraphQLPassport\OAuthGrants\SocialGrant;
+use Laravel\Passport\Bridge\PersonalAccessGrant;
 use Laravel\Passport\Bridge\RefreshTokenRepository;
 use Laravel\Passport\Bridge\UserRepository;
 use Laravel\Passport\Passport;
 use League\OAuth2\Server\AuthorizationServer;
+use League\OAuth2\Server\Grant\ClientCredentialsGrant;
 use Nuwave\Lighthouse\Events\BuildSchemaString;
 
 /**
@@ -23,25 +25,14 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        [$publicKey, $privateKey] = [
-            Passport::keyPath('oauth-public.key'),
-            Passport::keyPath('oauth-private.key'),
-        ];
-
-        /** Don't try to boot when you can't load the passport keys. */
-        if (!file_exists($publicKey) || !file_exists($privateKey)) {
-            return;
-        }
-
         if (config('lighthouse-graphql-passport.migrations')) {
             $this->loadMigrationsFrom(__DIR__.'/../../migrations');
         }
-        app(AuthorizationServer::class)->enableGrantType($this->makeCustomRequestGrant(), Passport::tokensExpireIn());
-        app(AuthorizationServer::class)->enableGrantType($this->makeLoggedInRequestGrant(), Passport::tokensExpireIn());
     }
 
     public function register()
     {
+        $this->extendAuthorizationServer();
         $this->registerConfig();
 
         app('events')->listen(
@@ -92,7 +83,6 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
             $this->app->make(UserRepository::class),
             $this->app->make(RefreshTokenRepository::class)
         );
-        $grant->setRefreshTokenTTL(Passport::refreshTokensExpireIn());
 
         return $grant;
     }
@@ -108,8 +98,29 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
             $this->app->make(UserRepository::class),
             $this->app->make(RefreshTokenRepository::class)
         );
-        $grant->setRefreshTokenTTL(Passport::refreshTokensExpireIn());
 
         return $grant;
+    }
+
+    /**
+     * Register the authorization server.
+     *
+     * @return void
+     */
+    protected function extendAuthorizationServer()
+    {
+        $this->app->extend(AuthorizationServer::class, function ($server) {
+            return tap($server, function ($server) {
+                $server->setDefaultScope(Passport::$defaultScope);
+
+                $server->enableGrantType(
+                    $this->makeLoggedInRequestGrant(), Passport::refreshTokensExpireIn()
+                );
+
+                $server->enableGrantType(
+                    $this->makeCustomRequestGrant(), Passport::refreshTokensExpireIn()
+                );
+            });
+        });
     }
 }
