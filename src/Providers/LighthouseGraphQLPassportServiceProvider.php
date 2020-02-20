@@ -82,6 +82,8 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
             $this->app->make(RefreshTokenRepository::class)
         );
 
+        $grant->setRefreshTokenTTL(Passport::refreshTokensExpireIn());
+
         return $grant;
     }
 
@@ -96,6 +98,8 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
             $this->app->make(UserRepository::class),
             $this->app->make(RefreshTokenRepository::class)
         );
+
+        $grant->setRefreshTokenTTL(Passport::refreshTokensExpireIn());
 
         return $grant;
     }
@@ -112,11 +116,11 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
                 $server->setDefaultScope(Passport::$defaultScope);
 
                 $server->enableGrantType(
-                    $this->makeLoggedInRequestGrant(), Passport::refreshTokensExpireIn()
+                    $this->makeLoggedInRequestGrant(), Passport::tokensExpireIn()
                 );
 
                 $server->enableGrantType(
-                    $this->makeCustomRequestGrant(), Passport::refreshTokensExpireIn()
+                    $this->makeCustomRequestGrant(), Passport::tokensExpireIn()
                 );
             });
         });
