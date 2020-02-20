@@ -30,6 +30,8 @@ class Register extends BaseAuthResolver
         if ($model instanceof MustVerifyEmail) {
             $model->sendEmailVerificationNotification();
 
+            event(new Registered($model));
+
             return [
                 'tokens' => [],
                 'status' => 'MUST_VERIFY_EMAIL',
