@@ -81,7 +81,6 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
             $this->app->make(UserRepository::class),
             $this->app->make(RefreshTokenRepository::class)
         );
-
         $grant->setRefreshTokenTTL(Passport::refreshTokensExpireIn());
 
         return $grant;
@@ -98,14 +97,13 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
             $this->app->make(UserRepository::class),
             $this->app->make(RefreshTokenRepository::class)
         );
-
         $grant->setRefreshTokenTTL(Passport::refreshTokensExpireIn());
 
         return $grant;
     }
 
     /**
-     * Register the authorization server.
+     * Register the Grants.
      *
      * @return void
      */
