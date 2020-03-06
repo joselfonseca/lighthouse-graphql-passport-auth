@@ -112,11 +112,13 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
         $this->app->extend(AuthorizationServer::class, function ($server) {
             return tap($server, function ($server) {
                 $server->enableGrantType(
-                    $this->makeLoggedInRequestGrant(), Passport::tokensExpireIn()
+                    $this->makeLoggedInRequestGrant(),
+                    Passport::tokensExpireIn()
                 );
 
                 $server->enableGrantType(
-                    $this->makeCustomRequestGrant(), Passport::tokensExpireIn()
+                    $this->makeCustomRequestGrant(),
+                    Passport::tokensExpireIn()
                 );
             });
         });
