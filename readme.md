@@ -160,7 +160,7 @@ This will allow you to change the schema and resolvers if needed.
 
 ## Usage
 
-This will add 8 mutations to your GraphQL API
+This will add 9 mutations to your GraphQL API
 
 ```js
 extend type Mutation {
