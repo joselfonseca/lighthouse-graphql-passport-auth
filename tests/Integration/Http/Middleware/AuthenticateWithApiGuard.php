@@ -42,16 +42,16 @@ class AuthenticateWithApiGuard extends TestCase
                 }
             }',
         ], [
-            'Authorization' => 'Bearer '.$access_token
+            'Authorization' => 'Bearer '.$access_token,
         ]);
         $response->assertJson([
             'data' => [
                 'loggedInUserViaGuardForTest' => [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email
-                ]
-            ]
+                    'id'    => $user->id,
+                    'name'  => $user->name,
+                    'email' => $user->email,
+                ],
+            ],
         ]);
     }
 }
