@@ -6,8 +6,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class PasswordUpdated
- * @package Joselfonseca\LighthouseGraphQLPassport\Events
+ * Class PasswordUpdated.
  */
 class PasswordUpdated
 {
@@ -21,6 +20,7 @@ class PasswordUpdated
 
     /**
      * PasswordUpdated constructor.
+     *
      * @param $user
      */
     public function __construct($user)

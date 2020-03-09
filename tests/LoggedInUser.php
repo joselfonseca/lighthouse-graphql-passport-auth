@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Joselfonseca\LighthouseGraphQLPassport\Tests;
 
 use GraphQL\Type\Definition\ResolveInfo;
