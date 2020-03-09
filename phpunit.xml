@@ -23,6 +23,6 @@
         </whitelist>
     </filter>
     <php>
-
+        <server name="APP_DEBUG" value="true"/>
     </php>
 </phpunit>

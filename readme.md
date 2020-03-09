@@ -85,6 +85,11 @@ type RegisterResponse {
     status: RegisterStatuses!
 }
 
+type UpdatePasswordResponse {
+    status: String!
+    message: String
+}
+
 enum RegisterStatuses {
     MUST_VERIFY_EMAIL
     SUCCESS
@@ -117,6 +122,12 @@ input VerifyEmailInput {
     token: String!
 }
 
+input UpdatePassword {
+    password: String! @rules(apply: ["required", "confirmed", "min:8"])
+    password_confirmation: String!
+}
+
+
 extend type Mutation {
     login(input: LoginInput @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Login@resolve")
     refreshToken(input: RefreshTokenInput @spread): RefreshTokenPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\RefreshToken@resolve")
@@ -126,6 +137,7 @@ extend type Mutation {
     register(input: RegisterInput @spread): RegisterResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Register@resolve")
     socialLogin(input: SocialLoginInput! @spread): AuthPayload @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\SocialLogin@resolve")
     verifyEmail(input: VerifyEmailInput! @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\VerifyEmail@resolve")
+    updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\UpdatePassword@resolve") @guard(with: ["api"])
 }
 ```
 
@@ -160,6 +172,7 @@ extend type Mutation {
     register(input: RegisterInput @spread): AuthPayload!
     socialLogin(input: SocialLoginInput! @spread): AuthPayload!
     verifyEmail(input: VerifyEmailInput! @spread): AuthPayload!
+    updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse!
 }
 ```
 
@@ -171,6 +184,7 @@ extend type Mutation {
 - **register:** Will allow your clients to register a new user using the default Laravel registration fields
 - **socialLogin:** Will allow your clients to log in using access token from social providers using socialite
 - **verifyEmail:** Will allow your clients to verify the email after they receive a token in the email
+- **updatePassword:** Will allow your clients to update the logged in user password - This requires the global **AuthenticateWithApiGuard** registered in the lighthouse config
 
 ### Using the email verification
 
@@ -255,6 +269,58 @@ This will add a method that is used by the mutation to get the user from the soc
 You can override the method and add more fields if you need to.
 
 *Make sure Socialite is configured properly to use the social network, please see [Laravel Socialite](https://laravel.com/docs/6.x/socialite)* 
+
+### Global Authenticate middleware
+
+You can use the [guard](https://lighthouse-php.com/4.10/api-reference/directives.html#guard) to validate that the user is logged in, however this will not set the User property on the context, for this you will have to register the global middleware provided so you can have access to the user in the context object
+
+Set the global middleware `\Joselfonseca\LighthouseGraphQLPassport\Http\Middleware\AuthenticateWithApiGuard::class` in the lighthouse php config
+
+```php
+
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Route Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Controls the HTTP route that your GraphQL server responds to.
+    | You may set `route` => false, to disable the default route
+    | registration and take full control.
+    |
+    */
+
+    'route' => [
+        /*
+         * The URI the endpoint responds to, e.g. mydomain.com/graphql.
+         */
+        'uri' => 'graphql',
+
+        /*
+         * Lighthouse creates a named route for convenient URL generation and redirects.
+         */
+        'name' => 'graphql',
+
+        /*
+         *
+         * Beware that middleware defined here runs before the GraphQL execution phase,
+         * so you have to take extra care to return spec-compliant error responses.
+         * To apply middleware on a field level, use the @middleware directive.
+         */
+        'middleware' => [
+            \Nuwave\Lighthouse\Support\Http\Middleware\AcceptJson::class,
+            \Joselfonseca\LighthouseGraphQLPassport\Http\Middleware\AuthenticateWithApiGuard::class
+        ],
+    ],
+...
+```
+
+This will set the logged in user in the guard for the context object
+
+```php
+return $context->user(); // will return the logged in user.
+```
 
 ### Why the OAuth client is used in the backend and not from the client application?
 
