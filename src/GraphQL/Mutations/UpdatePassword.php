@@ -26,7 +26,7 @@ class UpdatePassword
         $user = $context->user();
         if (!Hash::check($args['old_password'], $user->password)) {
             throw new ValidationException([
-                'password' => _('Current password is incorrect')
+                'password' => _('Current password is incorrect'),
             ], 'Validation Exception');
         }
         $user->password = Hash::make($args['password']);
