@@ -3,6 +3,7 @@
 namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Integration\GraphQL\Mutations;
 
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Hash;
 use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
@@ -17,12 +18,13 @@ class UpdatePasswordTest extends TestCase
         $user = User::create([
             'name'     => 'Jose Fonseca',
             'email'    => 'jose@example.com',
-            'password' => bcrypt('123456789qq'),
+            'password' => Hash::make('123456789qq'),
         ]);
         Passport::actingAs($user);
         $response = $this->postGraphQL([
             'query' => 'mutation {
                 updatePassword(input: {
+                    old_password: "123456789qq",
                     password: "newPassword123",
                     password_confirmation: "newPassword123"
                 }) {
@@ -52,6 +54,7 @@ class UpdatePasswordTest extends TestCase
         $response = $this->postGraphQL([
             'query' => 'mutation {
                 updatePassword(input: {
+                    old_password: "123456789qq",
                     password: "newPassword123"
                 }) {
                     status
@@ -76,6 +79,7 @@ class UpdatePasswordTest extends TestCase
         $response = $this->postGraphQL([
             'query' => 'mutation {
                 updatePassword(input: {
+                    old_password: "123456789qq",
                     password: "newPassword123",
                     password_confirmation: "newPassword123"
                 }) {
@@ -87,5 +91,33 @@ class UpdatePasswordTest extends TestCase
         $responseBody = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('errors', $responseBody);
         $this->assertEquals('Unauthenticated.', $responseBody['errors'][0]['message']);
+    }
+
+    public function test_it_validates_old_password()
+    {
+        Event::fake([PasswordUpdated::class]);
+        $this->createClient();
+        $user = User::create([
+            'name'     => 'Jose Fonseca',
+            'email'    => 'jose@example.com',
+            'password' => Hash::make('123456789qq'),
+        ]);
+        Passport::actingAs($user);
+        $response = $this->postGraphQL([
+            'query' => 'mutation {
+                updatePassword(input: {
+                    old_password: "123456789erreqq",
+                    password: "newPassword123",
+                    password_confirmation: "newPassword123"
+                }) {
+                    status
+                    message
+                }
+            }',
+        ]);
+        $responseBody = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('errors', $responseBody);
+        $this->assertEquals('Validation Exception', $responseBody['errors'][0]['message']);
+        $this->assertEquals('Current password is incorrect', $responseBody['errors'][0]['extensions']['errors']['password']);
     }
 }
