@@ -3,7 +3,7 @@
 namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
 
 use Illuminate\Http\Request;
-use Nuwave\Lighthouse\Exceptions\AuthenticationException;
+use Joselfonseca\LighthouseGraphQLPassport\Exceptions\AuthenticationException;
 
 /**
  * Class BaseAuthResolver.
@@ -41,11 +41,8 @@ class BaseAuthResolver
         ]);
         $response = app()->handle($request);
         $decodedResponse = json_decode($response->getContent(), true);
-        if ($response->getStatusCode() === 400) {
-            throw new AuthenticationException(_("Incorrect username and password"));
-        }
         if ($response->getStatusCode() != 200) {
-            throw new AuthenticationException($decodedResponse['message']);
+            throw new AuthenticationException($decodedResponse['error'], $decodedResponse['message'], _('Incorrect username and password'));
         }
 
         return $decodedResponse;
