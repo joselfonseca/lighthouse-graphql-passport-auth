@@ -11,7 +11,7 @@ class AuthenticationException extends Exception implements RendersErrorsExtensio
      * @var @string
      */
     private $reason;
-    
+
     public function __construct(string $message, string $reason)
     {
         parent::__construct($message);
