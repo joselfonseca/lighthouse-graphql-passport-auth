@@ -30,6 +30,7 @@ class AuthenticationException extends Exception implements RendersErrorsExtensio
      * Returns true when exception message is safe to be displayed to a client.
      *
      * @api
+     *
      * @return bool
      */
     public function isClientSafe(): bool
@@ -43,6 +44,7 @@ class AuthenticationException extends Exception implements RendersErrorsExtensio
      * Value "graphql" is reserved for errors produced by query parsing or validation, do not use it.
      *
      * @api
+     *
      * @return string
      */
     public function getCategory(): string
@@ -60,7 +62,7 @@ class AuthenticationException extends Exception implements RendersErrorsExtensio
     {
         return [
             'user_message' => $this->user_message,
-            'reason' => $this->reason,
+            'reason'       => $this->reason,
         ];
     }
 }
