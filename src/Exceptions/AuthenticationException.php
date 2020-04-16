@@ -11,19 +11,12 @@ class AuthenticationException extends Exception implements RendersErrorsExtensio
      * @var @string
      */
     private $reason;
-
-    /**
-     * @var @string
-     */
-    private $user_message;
-
-    public function __construct(string $message, string $reason, string $user_message)
+    
+    public function __construct(string $message, string $reason)
     {
         parent::__construct($message);
 
         $this->reason = $reason;
-
-        $this->user_message = $user_message;
     }
 
     /**
@@ -61,7 +54,6 @@ class AuthenticationException extends Exception implements RendersErrorsExtensio
     public function extensionsContent(): array
     {
         return [
-            'user_message' => $this->user_message,
             'reason'       => $this->reason,
         ];
     }
