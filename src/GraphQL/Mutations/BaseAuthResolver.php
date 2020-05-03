@@ -42,7 +42,7 @@ class BaseAuthResolver
         $response = app()->handle($request);
         $decodedResponse = json_decode($response->getContent(), true);
         if ($response->getStatusCode() != 200) {
-            throw new AuthenticationException(_('Authentication exception'), _('Incorrect username or password'));
+            throw new AuthenticationException(__('Authentication exception'), __('Incorrect username or password'));
         }
 
         return $decodedResponse;
