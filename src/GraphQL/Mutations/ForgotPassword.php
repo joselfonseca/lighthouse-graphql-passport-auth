@@ -27,13 +27,13 @@ class ForgotPassword
         if ($response == Password::RESET_LINK_SENT) {
             return [
                 'status'  => 'EMAIL_SENT',
-                'message' => trans($response),
+                'message' => __($response),
             ];
         }
 
         return [
             'status'  => 'EMAIL_NOT_SENT',
-            'message' => trans($response),
+            'message' => __($response),
         ];
     }
 }

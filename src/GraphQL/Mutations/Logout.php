@@ -4,7 +4,7 @@ namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Support\Facades\Auth;
-use Nuwave\Lighthouse\Exceptions\AuthenticationException;
+use Joselfonseca\LighthouseGraphQLPassport\Exceptions\AuthenticationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class Logout extends BaseAuthResolver
@@ -22,14 +22,14 @@ class Logout extends BaseAuthResolver
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
         if (!Auth::guard('api')->check()) {
-            throw new AuthenticationException('Not Authenticated');
+            throw new AuthenticationException('Not Authenticated', 'Not Authenticated');
         }
         // revoke user's token
         Auth::guard('api')->user()->token()->revoke();
 
         return [
             'status'  => 'TOKEN_REVOKED',
-            'message' => 'Your session has been terminated',
+            'message' => __('Your session has been terminated'),
         ];
     }
 }
