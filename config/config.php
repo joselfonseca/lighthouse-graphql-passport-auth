@@ -37,7 +37,9 @@ return [
     |--------------------------------------------------------------------------
     |
     | What column should be use for the username in the users table to find
-    | the user.
+    | the user. Optionally you can add a 'findForPassport' method on your
+    | auth model to have a more fine grain control of the user retrieval.
+    | See https://laravel.com/docs/7.x/passport#customizing-the-username-field
     |
     */
     'username' => 'email',
