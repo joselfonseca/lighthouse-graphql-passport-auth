@@ -15,11 +15,7 @@ class UpdatePasswordTest extends TestCase
     {
         Event::fake([PasswordUpdated::class]);
         $this->createClient();
-        $user = User::create([
-            'name'     => 'Jose Fonseca',
-            'email'    => 'jose@example.com',
-            'password' => Hash::make('123456789qq'),
-        ]);
+        $user = factory(User::class)->create();
         Passport::actingAs($user);
         $response = $this->postGraphQL([
             'query' => 'mutation {
@@ -45,11 +41,7 @@ class UpdatePasswordTest extends TestCase
     {
         Event::fake([PasswordUpdated::class]);
         $this->createClient();
-        $user = User::create([
-            'name'     => 'Jose Fonseca',
-            'email'    => 'jose@example.com',
-            'password' => bcrypt('123456789qq'),
-        ]);
+        $user = factory(User::class)->create();
         Passport::actingAs($user);
         $response = $this->postGraphQL([
             'query' => 'mutation {
@@ -71,11 +63,7 @@ class UpdatePasswordTest extends TestCase
     {
         Event::fake([PasswordUpdated::class]);
         $this->createClient();
-        $user = User::create([
-            'name'     => 'Jose Fonseca',
-            'email'    => 'jose@example.com',
-            'password' => bcrypt('123456789qq'),
-        ]);
+        factory(User::class)->create();
         $response = $this->postGraphQL([
             'query' => 'mutation {
                 updatePassword(input: {
@@ -97,11 +85,7 @@ class UpdatePasswordTest extends TestCase
     {
         Event::fake([PasswordUpdated::class]);
         $this->createClient();
-        $user = User::create([
-            'name'     => 'Jose Fonseca',
-            'email'    => 'jose@example.com',
-            'password' => Hash::make('123456789qq'),
-        ]);
+        $user = factory(User::class)->create();
         Passport::actingAs($user);
         $response = $this->postGraphQL([
             'query' => 'mutation {

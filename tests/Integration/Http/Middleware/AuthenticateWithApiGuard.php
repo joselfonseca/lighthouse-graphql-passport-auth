@@ -10,11 +10,7 @@ class AuthenticateWithApiGuard extends TestCase
     public function test_it_sets_user_via_global_middleware()
     {
         $this->createClient();
-        $user = User::create([
-            'name'     => 'Jose Fonseca',
-            'email'    => 'jose@example.com',
-            'password' => bcrypt('123456789qq'),
-        ]);
+        $user = factory(User::class)->create();
         $response = $this->postGraphQL([
             'query' => 'mutation {
                 login(input: {
