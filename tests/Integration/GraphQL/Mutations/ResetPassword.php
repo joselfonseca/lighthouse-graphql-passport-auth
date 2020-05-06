@@ -15,11 +15,7 @@ class ResetPassword extends TestCase
     public function test_it_resets_a_password_for_user(): void
     {
         $this->createClient();
-        $user = User::create([
-            'name'     => 'Jose Fonseca',
-            'email'    => 'jose@example.com',
-            'password' => Hash::make('123456789qq'),
-        ]);
+        $user = factory(User::class)->create();
 
         $token = Password::createToken($user);
 

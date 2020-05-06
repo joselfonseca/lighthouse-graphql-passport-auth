@@ -10,11 +10,7 @@ class Logout extends TestCase
     public function test_it_invalidates_token_on_logout()
     {
         $this->artisan('migrate', ['--database' => 'testbench']);
-        $user = User::create([
-            'name'     => 'Jose Fonseca',
-            'email'    => 'jose@example.com',
-            'password' => bcrypt('123456789qq'),
-        ]);
+        $user = factory(User::class)->create();
         $this->createClientPersonal($user);
         $token = $user->createToken('test Token');
         $token = $token->accessToken;

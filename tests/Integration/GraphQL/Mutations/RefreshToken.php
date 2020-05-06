@@ -10,11 +10,7 @@ class RefreshToken extends TestCase
     public function test_it_refresh_a_token()
     {
         $this->createClient();
-        User::create([
-            'name'     => 'Jose Fonseca',
-            'email'    => 'jose@example.com',
-            'password' => bcrypt('123456789qq'),
-        ]);
+        factory(User::class)->create();
         $response = $this->postGraphQL([
             'query' => 'mutation {
                 login(input: {

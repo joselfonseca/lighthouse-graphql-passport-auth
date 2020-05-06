@@ -11,6 +11,12 @@ use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->withFactories(__DIR__.'/factories');
+    }
+
     /**
      * @param \Illuminate\Foundation\Application $app
      *

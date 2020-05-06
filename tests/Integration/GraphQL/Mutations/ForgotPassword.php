@@ -15,11 +15,7 @@ class ForgotPassword extends TestCase
         Mail::fake();
         Notification::fake();
         $this->createClient();
-        $user = User::create([
-            'name'     => 'Jose Fonseca',
-            'email'    => 'jose@example.com',
-            'password' => bcrypt('123456789qq'),
-        ]);
+        $user = factory(User::class)->create();
         $response = $this->postGraphQL([
             'query' => 'mutation {
                 forgotPassword(input: {
