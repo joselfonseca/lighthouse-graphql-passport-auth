@@ -14,7 +14,7 @@ class TestCase extends Orchestra
     protected function setUp(): void
     {
         parent::setUp();
-        $this->withFactories(__DIR__ . '/factories');
+        $this->withFactories(__DIR__.'/factories');
     }
 
     /**

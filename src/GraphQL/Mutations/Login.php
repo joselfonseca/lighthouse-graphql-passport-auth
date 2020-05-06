@@ -21,15 +21,15 @@ class Login extends BaseAuthResolver
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
         $credentials = $this->buildCredentials($args);
-        $response    = $this->makeRequest($credentials);
-        $user        = $this->findUser($args['username']);
+        $response = $this->makeRequest($credentials);
+        $user = $this->findUser($args['username']);
 
         $this->validateUser($user);
 
         return array_merge(
             $response,
             [
-                'user' => $user
+                'user' => $user,
             ]
         );
     }
@@ -54,7 +54,8 @@ class Login extends BaseAuthResolver
     protected function makeAuthModelInstance()
     {
         $modelClass = $this->getAuthModelClass();
-        return new $modelClass;
+
+        return new $modelClass();
     }
 
     protected function findUser(string $username)

@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Hash;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 
 app(Factory::class)->define(User::class, function (Faker $faker) {
-
     static $password;
 
     if (!$password) {

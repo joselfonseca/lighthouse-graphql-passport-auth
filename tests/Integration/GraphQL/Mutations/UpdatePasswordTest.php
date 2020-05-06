@@ -3,7 +3,6 @@
 namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Integration\GraphQL\Mutations;
 
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Hash;
 use Joselfonseca\LighthouseGraphQLPassport\Events\PasswordUpdated;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\User;

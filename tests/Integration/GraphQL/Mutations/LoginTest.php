@@ -2,7 +2,6 @@
 
 namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Integration\GraphQL\Mutations;
 
-use Illuminate\Support\Facades\Hash;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\Admin;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
@@ -19,18 +18,18 @@ class LoginTest extends TestCase
                 User::class,
                 [
                     'username' => 'jose@example.com',
-                    'password' => '123456789qq'
-                ]
+                    'password' => '123456789qq',
+                ],
             ],
             'findForPassport' => [
                 Admin::class,
                 [
                     'username' => 'Jose Fonseca',
-                    'password' => '123456789qq'
+                    'password' => '123456789qq',
                 ],
-                true
+                true,
 
-            ]
+            ],
         ];
     }
 
@@ -63,7 +62,7 @@ class LoginTest extends TestCase
             }
         ',
             [
-                'input' => $credentials
+                'input' => $credentials,
             ]
         );
 
@@ -76,9 +75,9 @@ class LoginTest extends TestCase
                         'id',
                         'name',
                         'email',
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ]);
     }
 }
