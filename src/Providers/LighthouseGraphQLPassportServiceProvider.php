@@ -30,6 +30,8 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
 
     public function register()
     {
+        $this->app->register(DependencyInjectionProvider::class);
+
         $this->extendAuthorizationServer();
         $this->registerConfig();
 

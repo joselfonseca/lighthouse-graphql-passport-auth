@@ -5,7 +5,9 @@ namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
+use Joselfonseca\LighthouseGraphQLPassport\Contracts\AuthModelFactory;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class Register extends BaseAuthResolver
@@ -22,11 +24,11 @@ class Register extends BaseAuthResolver
      */
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
-        $model = app(config('auth.providers.users.model'));
-        $input = collect($args)->except('password_confirmation')->toArray();
-        $input['password'] = Hash::make($input['password']);
-        $model->fill($input);
-        $model->save();
+
+        $model = $this->createAuthModel($args);
+
+        $this->validateAuthModel($model);
+
         if ($model instanceof MustVerifyEmail) {
             $model->sendEmailVerificationNotification();
 
@@ -51,4 +53,29 @@ class Register extends BaseAuthResolver
             'status' => 'SUCCESS',
         ];
     }
+
+    private function getAuthModelFactory(): AuthModelFactory
+    {
+        return app(AuthModelFactory::class);
+    }
+
+    private function validateAuthModel($model): void
+    {
+        $authModelClass = $this->getAuthModelFactory()->getClass();
+
+        if ($model instanceof $authModelClass) {
+            return;
+        }
+
+        throw new \RuntimeException("Auth model must be an instance of {$authModelClass}");
+    }
+
+    protected function createAuthModel(array $data): Model
+    {
+        $input = collect($data)->except('password_confirmation')->toArray();
+        $input['password'] = Hash::make($input['password']);
+
+        return $this->getAuthModelFactory()->create($input);
+    }
+
 }
