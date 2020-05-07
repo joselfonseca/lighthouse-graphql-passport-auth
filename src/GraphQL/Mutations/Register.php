@@ -24,7 +24,6 @@ class Register extends BaseAuthResolver
      */
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
-
         $model = $this->createAuthModel($args);
 
         $this->validateAuthModel($model);
@@ -77,5 +76,4 @@ class Register extends BaseAuthResolver
 
         return $this->getAuthModelFactory()->create($input);
     }
-
 }

@@ -1,15 +1,12 @@
 <?php
 
-
 namespace Joselfonseca\LighthouseGraphQLPassport\Factories;
-
 
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Database\Eloquent\Model;
 
 class AuthModelFactory implements \Joselfonseca\LighthouseGraphQLPassport\Contracts\AuthModelFactory
 {
-
     /**
      * @var Repository
      */
@@ -17,8 +14,7 @@ class AuthModelFactory implements \Joselfonseca\LighthouseGraphQLPassport\Contra
 
     public function __construct(
         Repository $config
-    )
-    {
+    ) {
         $this->config = $config;
     }
 

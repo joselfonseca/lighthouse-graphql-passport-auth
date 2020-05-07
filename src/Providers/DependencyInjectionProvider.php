@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Joselfonseca\LighthouseGraphQLPassport\Providers;
-
 
 use Illuminate\Support\ServiceProvider;
 use Joselfonseca\LighthouseGraphQLPassport\Contracts\AuthModelFactory as AuthModelFactoryContract;
@@ -18,7 +16,5 @@ class DependencyInjectionProvider extends ServiceProvider
             AuthModelFactoryContract::class,
             AuthModelFactory::class
         );
-
     }
-
 }

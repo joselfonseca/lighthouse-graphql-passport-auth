@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Unit\Factories;
-
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -31,7 +29,7 @@ class AuthModelFactoryTest extends TestCase
      */
     public function canMakeAuthModel(): void
     {
-        $email   = 'jose@example.com';
+        $email = 'jose@example.com';
         $model = $this->factory->make(['email' => $email]);
 
         self::assertInstanceOf(User::class, $model);
