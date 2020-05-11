@@ -41,21 +41,18 @@ class Login extends BaseAuthResolver
             return;
         }
 
-        throw (new ModelNotFoundException())->setModel(
-            get_class($this->makeAuthModelInstance())
-        );
+        throw (new ModelNotFoundException())
+            ->setModel($authModelClass);
     }
 
     protected function getAuthModelClass(): string
     {
-        return config('auth.providers.users.model');
+        return $this->getAuthModelFactory()->getClass();
     }
 
     protected function makeAuthModelInstance()
     {
-        $modelClass = $this->getAuthModelClass();
-
-        return new $modelClass();
+        return $this->getAuthModelFactory()->make();
     }
 
     protected function findUser(string $username)
@@ -66,6 +63,8 @@ class Login extends BaseAuthResolver
             return $model->findForPassport($username);
         }
 
-        return $model->where(config('lighthouse-graphql-passport.username'), $username)->first();
+        return $model::query()
+            ->where(config('lighthouse-graphql-passport.username'), $username)
+            ->first();
     }
 }

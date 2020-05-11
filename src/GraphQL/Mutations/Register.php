@@ -7,7 +7,6 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
-use Joselfonseca\LighthouseGraphQLPassport\Contracts\AuthModelFactory;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class Register extends BaseAuthResolver
@@ -51,11 +50,6 @@ class Register extends BaseAuthResolver
             'tokens' => $response,
             'status' => 'SUCCESS',
         ];
-    }
-
-    private function getAuthModelFactory(): AuthModelFactory
-    {
-        return app(AuthModelFactory::class);
     }
 
     private function validateAuthModel($model): void
