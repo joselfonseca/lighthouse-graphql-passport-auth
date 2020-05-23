@@ -30,13 +30,13 @@ class ResetPassword
 
         if ($response === Password::PASSWORD_RESET) {
             return [
-                'status' => 'PASSWORD_UPDATED',
+                'status'  => 'PASSWORD_UPDATED',
                 'message' => __($response),
             ];
         }
 
         return [
-            'status' => 'PASSWORD_NOT_UPDATED',
+            'status'  => 'PASSWORD_NOT_UPDATED',
             'message' => __($response),
         ];
     }
