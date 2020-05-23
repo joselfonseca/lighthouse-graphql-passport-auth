@@ -11,7 +11,7 @@ use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->withFactories(__DIR__.'/factories');
@@ -45,25 +45,25 @@ class TestCase extends Orchestra
         // Setup default database to use sqlite :memory:
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
-            'driver' => 'sqlite',
+            'driver'   => 'sqlite',
             'database' => ':memory:',
-            'prefix' => '',
+            'prefix'   => '',
         ]);
         $app['config']->set('lighthouse.schema.register', __DIR__.'/schema.graphql');
         $app['config']->set('auth.guards', [
             'web' => [
-                'driver' => 'session',
+                'driver'   => 'session',
                 'provider' => 'users',
             ],
             'api' => [
-                'driver' => 'passport',
+                'driver'   => 'passport',
                 'provider' => 'users',
             ],
         ]);
         $app['config']->set('auth.providers', [
             'users' => [
                 'driver' => 'eloquent',
-                'model' => User::class,
+                'model'  => User::class,
             ],
         ]);
     }
