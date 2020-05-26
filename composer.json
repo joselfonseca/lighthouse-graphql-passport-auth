@@ -13,7 +13,7 @@
     "require": {
         "php": ">=7.2.0",
         "nuwave/lighthouse": "^3.0|^4.0",
-        "laravel/passport": "^7.0|^8.0",
+        "laravel/passport": "^7.0|^8.0|^9.0",
         "laravel/socialite": "^4.3",
         "laravel/ui": "^1.0|^2.0"
     },

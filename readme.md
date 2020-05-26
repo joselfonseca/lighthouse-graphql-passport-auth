@@ -15,7 +15,7 @@ You can see [this tutorial](https://ditecnologia.com/2019/06/24/graphql-auth-wit
 
 ## Documentation
 
-Find the detailed documentation in [the documentation site](https://lighthouse-passport-auth.web.app/)
+Find the detailed documentation in [the documentation site](https://lighthouse-php-auth.com/)
 
 ## Change log
 

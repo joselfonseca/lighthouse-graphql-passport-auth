@@ -4,8 +4,6 @@ namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Foundation\Auth\ResetsPasswords;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -15,9 +13,6 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
  */
 class ResetPassword
 {
-    use ResetsPasswords;
-    use ValidatesRequests;
-
     /**
      * @param $rootValue
      * @param array               $args
@@ -61,5 +56,15 @@ class ResetPassword
         $user->save();
 
         event(new PasswordReset($user));
+    }
+
+    /**
+     * Get the broker to be used during password reset.
+     *
+     * @return \Illuminate\Contracts\Auth\PasswordBroker
+     */
+    public function broker()
+    {
+        return Password::broker();
     }
 }
