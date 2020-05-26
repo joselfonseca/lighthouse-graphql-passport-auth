@@ -3,6 +3,7 @@
 namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
 
 use Illuminate\Http\Request;
+use Joselfonseca\LighthouseGraphQLPassport\Contracts\AuthModelFactory;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\AuthenticationException;
 
 /**
@@ -46,5 +47,10 @@ class BaseAuthResolver
         }
 
         return $decodedResponse;
+    }
+
+    protected function getAuthModelFactory(): AuthModelFactory
+    {
+        return app(AuthModelFactory::class);
     }
 }

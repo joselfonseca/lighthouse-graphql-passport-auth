@@ -3,6 +3,8 @@
 namespace Joselfonseca\LighthouseGraphQLPassport\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Joselfonseca\LighthouseGraphQLPassport\Contracts\AuthModelFactory as AuthModelFactoryContract;
+use Joselfonseca\LighthouseGraphQLPassport\Factories\AuthModelFactory;
 use Joselfonseca\LighthouseGraphQLPassport\OAuthGrants\LoggedInGrant;
 use Joselfonseca\LighthouseGraphQLPassport\OAuthGrants\SocialGrant;
 use Laravel\Passport\Bridge\RefreshTokenRepository;
@@ -30,6 +32,8 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
 
     public function register()
     {
+        $this->app->singleton(AuthModelFactoryContract::class, AuthModelFactory::class);
+
         $this->extendAuthorizationServer();
         $this->registerConfig();
 
