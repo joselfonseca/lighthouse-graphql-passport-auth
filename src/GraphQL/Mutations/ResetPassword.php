@@ -6,6 +6,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 /**
@@ -35,10 +36,9 @@ class ResetPassword
             ];
         }
 
-        return [
-            'status'  => 'PASSWORD_NOT_UPDATED',
-            'message' => __($response),
-        ];
+        throw new ValidationException([
+            'token' => __($response),
+        ], __('An error has occurred while resetting the password'));
     }
 
     /**
