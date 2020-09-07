@@ -4,6 +4,7 @@ namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Joselfonseca\LighthouseGraphQLPassport\Events\UserLoggedIn;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class Login extends BaseAuthResolver
@@ -25,6 +26,8 @@ class Login extends BaseAuthResolver
         $user = $this->findUser($args['username']);
 
         $this->validateUser($user);
+
+        event(new UserLoggedIn($user));
 
         return array_merge(
             $response,
