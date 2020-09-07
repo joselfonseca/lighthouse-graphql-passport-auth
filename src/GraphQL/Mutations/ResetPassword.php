@@ -37,7 +37,7 @@ class ResetPassword
         }
 
         throw new ValidationException([
-            'token' => __($response)
+            'token' => __($response),
         ], __('An error has occurred while resetting the password'));
     }
 
