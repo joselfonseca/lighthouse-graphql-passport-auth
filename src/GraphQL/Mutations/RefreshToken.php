@@ -3,7 +3,6 @@
 namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
-use Illuminate\Support\Facades\Auth;
 use Joselfonseca\LighthouseGraphQLPassport\Events\UserRefreshedToken;
 use Laravel\Passport\Passport;
 use Lcobucci\JWT\Parser;
@@ -11,8 +10,7 @@ use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 /**
- * Class RefreshToken
- * @package Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations
+ * Class RefreshToken.
  */
 class RefreshToken extends BaseAuthResolver
 {
@@ -54,6 +52,7 @@ class RefreshToken extends BaseAuthResolver
 
     /**
      * @param $accessToken
+     *
      * @return false|mixed
      */
     public function parseToken($accessToken)

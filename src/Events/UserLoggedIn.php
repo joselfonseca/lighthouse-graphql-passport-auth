@@ -5,8 +5,7 @@ namespace Joselfonseca\LighthouseGraphQLPassport\Events;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 /**
- * Class UserLoggedIn
- * @package Joselfonseca\LighthouseGraphQLPassport\Events
+ * Class UserLoggedIn.
  */
 class UserLoggedIn
 {
@@ -17,7 +16,8 @@ class UserLoggedIn
 
     /**
      * UserLoggedIn constructor.
-     * @param  Authenticatable  $user
+     *
+     * @param Authenticatable $user
      */
     public function __construct(Authenticatable $user)
     {

@@ -32,7 +32,7 @@ class Logout extends TestCase
         $this->assertArrayHasKey('logout', $responseBody['data']);
         $this->assertArrayHasKey('status', $responseBody['data']['logout']);
         $this->assertArrayHasKey('message', $responseBody['data']['logout']);
-        Event::assertDispatched(UserLoggedOut::class, function(UserLoggedOut $event) use ($user) {
+        Event::assertDispatched(UserLoggedOut::class, function (UserLoggedOut $event) use ($user) {
             return $user->id === $event->user->id;
         });
     }

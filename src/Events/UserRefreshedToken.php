@@ -5,8 +5,7 @@ namespace Joselfonseca\LighthouseGraphQLPassport\Events;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 /**
- * Class UserRefreshedToken
- * @package Joselfonseca\LighthouseGraphQLPassport\Events
+ * Class UserRefreshedToken.
  */
 class UserRefreshedToken
 {
@@ -17,7 +16,8 @@ class UserRefreshedToken
 
     /**
      * UserRefreshedToken constructor.
-     * @param  Authenticatable  $user
+     *
+     * @param Authenticatable $user
      */
     public function __construct(Authenticatable $user)
     {
