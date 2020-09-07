@@ -26,7 +26,6 @@ class ForgotPassword
     {
         $response = $this->broker()->sendResetLink(['email' => $args['email']]);
         if ($response == Password::RESET_LINK_SENT) {
-
             event(new ForgotPasswordRequested($args['email']));
 
             return [

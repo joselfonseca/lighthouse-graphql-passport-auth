@@ -3,8 +3,7 @@
 namespace Joselfonseca\LighthouseGraphQLPassport\Events;
 
 /**
- * Class ForgotPasswordRequested
- * @package Joselfonseca\LighthouseGraphQLPassport\Events
+ * Class ForgotPasswordRequested.
  */
 class ForgotPasswordRequested
 {
@@ -15,7 +14,8 @@ class ForgotPasswordRequested
 
     /**
      * ForgotPasswordRequested constructor.
-     * @param  string  $email
+     *
+     * @param string $email
      */
     public function __construct(string $email)
     {
