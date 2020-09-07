@@ -2,6 +2,8 @@
 
 namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Integration\GraphQL\Mutations;
 
+use Illuminate\Support\Facades\Event;
+use Joselfonseca\LighthouseGraphQLPassport\Events\UserLoggedIn;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\Admin;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
@@ -38,11 +40,13 @@ class LoginTest extends TestCase
      */
     public function test_it_gets_access_token(string $modelClass, array $credentials, bool $hasFindForPassportMethod = false)
     {
+        Event::fake([UserLoggedIn::class]);
+
         $this->app['config']->set('auth.providers.users.model', $modelClass);
 
         $this->createClient();
 
-        factory($modelClass)->create();
+        $user = factory($modelClass)->create();
 
         if ($hasFindForPassportMethod) {
             self::assertTrue(method_exists($modelClass, 'findForPassport'));
@@ -79,5 +83,9 @@ class LoginTest extends TestCase
                 ],
             ],
         ]);
+
+        Event::assertDispatched(UserLoggedIn::class, function (UserLoggedIn $event) use ($user) {
+            return $event->user->id === $user->id;
+        });
     }
 }

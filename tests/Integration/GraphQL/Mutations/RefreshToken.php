@@ -2,6 +2,8 @@
 
 namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Integration\GraphQL\Mutations;
 
+use Illuminate\Support\Facades\Event;
+use Joselfonseca\LighthouseGraphQLPassport\Events\UserRefreshedToken;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 
@@ -9,8 +11,9 @@ class RefreshToken extends TestCase
 {
     public function test_it_refresh_a_token()
     {
+        Event::fake([UserRefreshedToken::class]);
         $this->createClient();
-        factory(User::class)->create();
+        $user = factory(User::class)->create();
         $response = $this->postGraphQL([
             'query' => 'mutation {
                 login(input: {
@@ -35,5 +38,8 @@ class RefreshToken extends TestCase
         ]);
         $responseBodyRefreshed = json_decode($responseRefreshed->getContent(), true);
         $this->assertNotEquals($responseBody['data']['login']['access_token'], $responseBodyRefreshed['data']['refreshToken']['access_token']);
+        Event::assertDispatched(UserRefreshedToken::class, function(UserRefreshedToken $event) use ($user) {
+            return $user->id === $event->user->id;
+        });
     }
 }
