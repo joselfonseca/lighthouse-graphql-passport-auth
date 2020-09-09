@@ -122,7 +122,7 @@ class LoginTest extends TestCase
             [
                 'input' => [
                     'username' => 'something',
-                    'password' => 'somethingelse'
+                    'password' => 'somethingelse',
                 ],
             ]
         );
@@ -133,9 +133,9 @@ class LoginTest extends TestCase
                     'message',
                     'extensions' => [
                         'category',
-                        'reason'
-                    ]
-                ]
+                        'reason',
+                    ],
+                ],
             ],
         ]);
 
@@ -144,7 +144,6 @@ class LoginTest extends TestCase
         $this->assertEquals('Incorrect username or password', $decodedResponse['errors'][0]['extensions']['reason']);
 
         Event::assertNotDispatched(UserLoggedIn::class);
-
     }
 
     /**
@@ -152,7 +151,6 @@ class LoginTest extends TestCase
      */
     public function test_it_returns_correct_error_for_client(string $modelClass, array $credentials, bool $hasFindForPassportMethod = false)
     {
-
         $this->artisan('migrate', ['--database' => 'testbench']);
 
         Event::fake([UserLoggedIn::class]);
@@ -187,9 +185,9 @@ class LoginTest extends TestCase
                     'message',
                     'extensions' => [
                         'category',
-                        'reason'
-                    ]
-                ]
+                        'reason',
+                    ],
+                ],
             ],
         ]);
 
