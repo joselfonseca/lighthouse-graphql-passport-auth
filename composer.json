@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "php": ">=7.2.0",
+        "php": ">=7.3.0",
         "nuwave/lighthouse": "^4.0",
         "laravel/passport": "^10.0",
         "laravel/socialite": "^5.0",
