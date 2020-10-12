@@ -52,7 +52,7 @@ class Register extends BaseAuthResolver
         ];
     }
 
-    private function validateAuthModel($model): void
+    protected function validateAuthModel($model): void
     {
         $authModelClass = $this->getAuthModelFactory()->getClass();
 
