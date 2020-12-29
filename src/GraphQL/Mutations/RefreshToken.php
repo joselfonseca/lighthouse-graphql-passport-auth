@@ -6,8 +6,8 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Joselfonseca\LighthouseGraphQLPassport\Events\UserRefreshedToken;
 use Laravel\Passport\Passport;
 use Lcobucci\JWT\Configuration;
-use Lcobucci\JWT\Signer\Key\LocalFileReference;
 use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\Signer\Key\LocalFileReference;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
