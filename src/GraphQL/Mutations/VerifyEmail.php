@@ -11,7 +11,7 @@ use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 /**
- * Class VerifyEmail
+ * Class VerifyEmail.
  */
 class VerifyEmail extends BaseAuthResolver
 {
