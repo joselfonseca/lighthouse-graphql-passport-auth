@@ -5,7 +5,9 @@ namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
 use GraphQL\Type\Definition\ResolveInfo;
 use Joselfonseca\LighthouseGraphQLPassport\Events\UserRefreshedToken;
 use Laravel\Passport\Passport;
-use Lcobucci\JWT\Parser;
+use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Signer\Key\LocalFileReference;
+use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
@@ -57,19 +59,15 @@ class RefreshToken extends BaseAuthResolver
      */
     public function parseToken($accessToken)
     {
-        $key_path = Passport::keyPath('oauth-public.key');
-        $parseTokenKey = file_get_contents($key_path);
+        $public_key_path = Passport::keyPath('oauth-public.key');
+        $private_key_path = Passport::keyPath('oauth-public.key');
 
-        $token = (new Parser())->parse((string) $accessToken);
+        $config = Configuration::forAsymmetricSigner(new Sha256(), LocalFileReference::file($private_key_path), InMemory::file($public_key_path));
 
-        $signer = new Sha256();
+        $token = $config->parser()->parse((string) $accessToken);
 
-        if ($token->verify($signer, $parseTokenKey)) {
-            $userId = $token->getClaim('sub');
+        $claims = $token->claims();
 
-            return $userId;
-        } else {
-            return false;
-        }
+        return $claims->get('sub');
     }
 }
