@@ -57,4 +57,17 @@ class BaseAuthResolver
     {
         return app(AuthModelFactory::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    protected function makeAuthModelInstance()
+    {
+        return $this->getAuthModelFactory()->make();
+    }
+
+    protected function getAuthModelClass(): string
+    {
+        return $this->getAuthModelFactory()->getClass();
+    }
 }

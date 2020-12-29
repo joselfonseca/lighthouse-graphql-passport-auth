@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class VerifyEmail
+class VerifyEmail  extends BaseAuthResolver
 {
     /**
      * @param $rootValue
@@ -32,7 +32,7 @@ class VerifyEmail
                 'token' => __('The token is invalid'),
             ], 'Validation Error');
         }
-        $model = app(config('auth.providers.users.model'));
+        $model = $this->makeAuthModelInstance();
 
         try {
             $user = $model->where('email', $email)->firstOrFail();

@@ -45,14 +45,6 @@ class RefreshToken extends BaseAuthResolver
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    protected function makeAuthModelInstance()
-    {
-        return $this->getAuthModelFactory()->make();
-    }
-
-    /**
      * @param $accessToken
      *
      * @return false|mixed

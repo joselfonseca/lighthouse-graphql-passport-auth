@@ -48,16 +48,6 @@ class Login extends BaseAuthResolver
             ->setModel($authModelClass);
     }
 
-    protected function getAuthModelClass(): string
-    {
-        return $this->getAuthModelFactory()->getClass();
-    }
-
-    protected function makeAuthModelInstance()
-    {
-        return $this->getAuthModelFactory()->make();
-    }
-
     protected function findUser(string $username)
     {
         $model = $this->makeAuthModelInstance();

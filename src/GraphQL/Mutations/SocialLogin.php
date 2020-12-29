@@ -25,7 +25,7 @@ class SocialLogin extends BaseAuthResolver
     {
         $credentials = $this->buildCredentials($args, 'social_grant');
         $response = $this->makeRequest($credentials);
-        $model = app(config('auth.providers.users.model'));
+        $model = $this->makeAuthModelInstance();
         $user = $model->where('id', Auth::user()->id)->firstOrFail();
         $response['user'] = $user;
 
