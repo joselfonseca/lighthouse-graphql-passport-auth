@@ -18,5 +18,9 @@ class HasLoggedInTokens extends TestCase
         $this->assertArrayHasKey('refresh_token', $tokens);
         $this->assertArrayHasKey('expires_in', $tokens);
         $this->assertArrayHasKey('token_type', $tokens);
+        $this->assertNotNull($tokens['access_token']);
+        $this->assertNotNull($tokens['refresh_token']);
+        $this->assertNotNull($tokens['expires_in']);
+        $this->assertNotNull($tokens['token_type']);
     }
 }
