@@ -12,9 +12,8 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 /**
  * Class VerifyEmail
- * @package Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations
  */
-class VerifyEmail  extends BaseAuthResolver
+class VerifyEmail extends BaseAuthResolver
 {
     /**
      * @param $rootValue
