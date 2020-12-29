@@ -41,7 +41,7 @@ class VerifyEmail extends BaseAuthResolver
             $user = $model->where('email', $email)->firstOrFail();
             $user->markEmailAsVerified();
             event(new Verified($user));
-            Auth::onceUsingId($user->id);
+            Auth::setUser($user);
             $tokens = $user->getTokens();
             $tokens['user'] = $user;
 

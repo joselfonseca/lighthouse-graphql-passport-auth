@@ -45,6 +45,8 @@ class VerifyEmail extends TestCase
         $this->assertArrayHasKey('verifyEmail', $responseBody['data']);
         $this->assertArrayHasKey('access_token', $responseBody['data']['verifyEmail']);
         $this->assertArrayHasKey('refresh_token', $responseBody['data']['verifyEmail']);
+        $this->assertNotNull('access_token', $responseBody['data']['verifyEmail']['access_token']);
+        $this->assertNotNull('refresh_token', $responseBody['data']['verifyEmail']['refresh_token']);
         $this->assertArrayHasKey('user', $responseBody['data']['verifyEmail']);
         $this->assertArrayHasKey('id', $responseBody['data']['verifyEmail']['user']);
         $this->assertArrayHasKey('name', $responseBody['data']['verifyEmail']['user']);
