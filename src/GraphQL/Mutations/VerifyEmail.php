@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Auth;
 use Joselfonseca\LighthouseGraphQLPassport\Exceptions\ValidationException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
+/**
+ * Class VerifyEmail
+ * @package Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations
+ */
 class VerifyEmail  extends BaseAuthResolver
 {
     /**
