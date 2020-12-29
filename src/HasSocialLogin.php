@@ -36,7 +36,7 @@ trait HasSocialLogin
                 'email_verified_at' => now(),
             ]);
         }
-        Auth::onceUsingId($user->id);
+        Auth::setUser($user);
 
         return $user;
     }
