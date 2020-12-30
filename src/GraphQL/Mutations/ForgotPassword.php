@@ -5,6 +5,7 @@ namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
 use GraphQL\Type\Definition\ResolveInfo;
 use Illuminate\Support\Facades\Password;
 use Joselfonseca\LighthouseGraphQLPassport\Events\ForgotPasswordRequested;
+use Joselfonseca\LighthouseGraphQLPassport\Exceptions\EmailNotSentException;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class ForgotPassword
@@ -22,6 +23,7 @@ class ForgotPassword
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
         $response = $this->broker()->sendResetLink(['email' => $args['email']]);
+
         if ($response == Password::RESET_LINK_SENT) {
             event(new ForgotPasswordRequested($args['email']));
 
@@ -31,10 +33,7 @@ class ForgotPassword
             ];
         }
 
-        return [
-            'status'  => 'EMAIL_NOT_SENT',
-            'message' => __($response),
-        ];
+        throw new EmailNotSentException('Email not sent', __($response));
     }
 
     /**

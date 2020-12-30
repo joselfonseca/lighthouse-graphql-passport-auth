@@ -39,4 +39,30 @@ class ForgotPassword extends TestCase
             return $user->email === $event->email;
         });
     }
+
+    public function test_it_throws_exception_if_email_not_sent()
+    {
+        Mail::fake();
+        Notification::fake();
+        Event::fake([ForgotPasswordRequested::class]);
+        $this->createClient();
+        $response = $this->postGraphQL([
+            'query' => 'mutation {
+                forgotPassword(input: {
+                    email: "nonemail@example.com"
+                }) {
+                    status
+                    message
+                }
+            }',
+        ]);
+        $responseBody = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('errors', $responseBody);
+        $this->assertArrayHasKey('message', $responseBody['errors'][0]);
+        $this->assertArrayHasKey('extensions', $responseBody['errors'][0]);
+        $this->assertEquals('Email not sent', $responseBody['errors'][0]['message']);
+        $this->assertEquals('We can\'t find a user with that email address.', $responseBody['errors'][0]['extensions']['reason']);
+        Notification::assertNothingSent();
+        Event::assertNotDispatched(ForgotPasswordRequested::class);
+    }
 }
