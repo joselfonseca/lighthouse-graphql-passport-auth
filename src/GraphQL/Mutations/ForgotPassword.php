@@ -3,14 +3,12 @@
 namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Password;
 use Joselfonseca\LighthouseGraphQLPassport\Events\ForgotPasswordRequested;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class ForgotPassword
 {
-    use SendsPasswordResetEmails;
 
     /**
      * @param $rootValue
@@ -38,5 +36,15 @@ class ForgotPassword
             'status'  => 'EMAIL_NOT_SENT',
             'message' => __($response),
         ];
+    }
+
+    /**
+     * Get the broker to be used during password reset.
+     *
+     * @return \Illuminate\Contracts\Auth\PasswordBroker
+     */
+    public function broker()
+    {
+        return Password::broker();
     }
 }
