@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Joselfonseca\LighthouseGraphQLPassport\Exceptions;
 
 use Exception;
