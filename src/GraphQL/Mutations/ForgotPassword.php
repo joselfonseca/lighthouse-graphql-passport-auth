@@ -9,7 +9,6 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class ForgotPassword
 {
-
     /**
      * @param $rootValue
      * @param array                                                    $args
