@@ -7,7 +7,6 @@ use Joselfonseca\LighthouseGraphQLPassport\Contracts\AuthModelFactory;
 
 class SocialProvider extends Model
 {
-
     protected $fillable = [
         'user_id',
         'provider',

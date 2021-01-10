@@ -52,7 +52,7 @@ class Login extends TestCase
             self::assertTrue(method_exists($modelClass, 'findForPassport'));
         }
 
-        $response = $this->graphQL(/** @lang GraphQL */ '
+        $response = $this->graphQL(/* @lang GraphQL */ '
             mutation Login($input: LoginInput) {
                 login(input: $input) {
                     access_token
@@ -106,7 +106,7 @@ class Login extends TestCase
             self::assertTrue(method_exists($modelClass, 'findForPassport'));
         }
 
-        $response = $this->graphQL(/** @lang GraphQL */ '
+        $response = $this->graphQL(/* @lang GraphQL */ '
             mutation Login($input: LoginInput) {
                 login(input: $input) {
                     access_token
@@ -161,7 +161,7 @@ class Login extends TestCase
             self::assertTrue(method_exists($modelClass, 'findForPassport'));
         }
 
-        $response = $this->graphQL(/** @lang GraphQL */ '
+        $response = $this->graphQL(/* @lang GraphQL */ '
             mutation Login($input: LoginInput) {
                 login(input: $input) {
                     access_token

@@ -8,6 +8,6 @@ app(Factory::class)->define(\Joselfonseca\LighthouseGraphQLPassport\Models\Socia
     return [
         'user_id' => factory(User::class)->create()->id,
         'provider' => 'github',
-        'provider_id' => 'fakeId'
+        'provider_id' => 'fakeId',
     ];
 });

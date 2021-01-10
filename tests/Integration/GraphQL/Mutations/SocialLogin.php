@@ -11,7 +11,6 @@ use Nuwave\Lighthouse\Testing\MakesGraphQLRequests;
 
 class SocialLogin extends TestCase
 {
-
     use MakesGraphQLRequests;
 
     public function mockSocialite(SocialProvider $provider)
@@ -58,7 +57,7 @@ class SocialLogin extends TestCase
         $this->createClient();
         $provider = factory(SocialProvider::class)->create();
         $this->mockSocialite($provider);
-        $response = $this->graphQL(/** @lang GraphQL */ '
+        $response = $this->graphQL(/* @lang GraphQL */ '
             mutation socialLogin($input: SocialLoginInput!) {
                 socialLogin(input: $input) {
                     access_token
@@ -74,7 +73,7 @@ class SocialLogin extends TestCase
             [
                 'input' => [
                     'provider' => 'github',
-                    'token' => 'some-valid-token-from-github'
+                    'token' => 'some-valid-token-from-github',
                 ],
             ]
         );
@@ -87,7 +86,7 @@ class SocialLogin extends TestCase
     {
         $this->createClient();
         $this->mockSocialiteWithoutUser();
-        $response = $this->graphQL(/** @lang GraphQL */ '
+        $response = $this->graphQL(/* @lang GraphQL */ '
             mutation socialLogin($input: SocialLoginInput!) {
                 socialLogin(input: $input) {
                     access_token
@@ -103,7 +102,7 @@ class SocialLogin extends TestCase
             [
                 'input' => [
                     'provider' => 'github',
-                    'token' => 'some-valid-token-from-github'
+                    'token' => 'some-valid-token-from-github',
                 ],
             ]
         );
@@ -130,7 +129,7 @@ class SocialLogin extends TestCase
         $this->assertDatabaseMissing('social_providers', [
             'user_id' => $user->id,
         ]);
-        $response = $this->graphQL(/** @lang GraphQL */ '
+        $response = $this->graphQL(/* @lang GraphQL */ '
             mutation socialLogin($input: SocialLoginInput!) {
                 socialLogin(input: $input) {
                     access_token
@@ -146,7 +145,7 @@ class SocialLogin extends TestCase
             [
                 'input' => [
                     'provider' => 'github',
-                    'token' => 'some-valid-token-from-github'
+                    'token' => 'some-valid-token-from-github',
                 ],
             ]
         );
@@ -159,5 +158,4 @@ class SocialLogin extends TestCase
             'provider_id' => 'fakeId',
         ]);
     }
-
 }

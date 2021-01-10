@@ -8,7 +8,7 @@ use Joselfonseca\LighthouseGraphQLPassport\Tests\Admin;
 app(Factory::class)->define(Admin::class, function (Faker $faker) {
     static $password;
 
-    if (!$password) {
+    if (! $password) {
         $password = Hash::make('123456789qq');
     }
 

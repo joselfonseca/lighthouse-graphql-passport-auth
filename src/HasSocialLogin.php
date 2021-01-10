@@ -15,7 +15,6 @@ use Laravel\Socialite\Facades\Socialite;
  */
 trait HasSocialLogin
 {
-
     public function socialProviders()
     {
         return $this->hasMany(SocialProvider::class);

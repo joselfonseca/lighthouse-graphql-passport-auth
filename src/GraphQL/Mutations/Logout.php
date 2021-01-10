@@ -22,7 +22,7 @@ class Logout extends BaseAuthResolver
      */
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
-        if (!Auth::guard('api')->check()) {
+        if (! Auth::guard('api')->check()) {
             throw new AuthenticationException('Not Authenticated', 'Not Authenticated');
         }
         $user = Auth::guard('api')->user();
