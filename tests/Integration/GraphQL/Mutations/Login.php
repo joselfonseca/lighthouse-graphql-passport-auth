@@ -9,7 +9,7 @@ use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 use Nuwave\Lighthouse\Testing\MakesGraphQLRequests;
 
-class LoginTest extends TestCase
+class Login extends TestCase
 {
     use MakesGraphQLRequests;
 
