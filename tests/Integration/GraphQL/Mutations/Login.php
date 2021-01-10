@@ -9,7 +9,7 @@ use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 use Nuwave\Lighthouse\Testing\MakesGraphQLRequests;
 
-class LoginTest extends TestCase
+class Login extends TestCase
 {
     use MakesGraphQLRequests;
 
@@ -52,7 +52,7 @@ class LoginTest extends TestCase
             self::assertTrue(method_exists($modelClass, 'findForPassport'));
         }
 
-        $response = $this->graphQL(/** @lang GraphQL */ '
+        $response = $this->graphQL(/* @lang GraphQL */ '
             mutation Login($input: LoginInput) {
                 login(input: $input) {
                     access_token
@@ -106,7 +106,7 @@ class LoginTest extends TestCase
             self::assertTrue(method_exists($modelClass, 'findForPassport'));
         }
 
-        $response = $this->graphQL(/** @lang GraphQL */ '
+        $response = $this->graphQL(/* @lang GraphQL */ '
             mutation Login($input: LoginInput) {
                 login(input: $input) {
                     access_token
@@ -161,7 +161,7 @@ class LoginTest extends TestCase
             self::assertTrue(method_exists($modelClass, 'findForPassport'));
         }
 
-        $response = $this->graphQL(/** @lang GraphQL */ '
+        $response = $this->graphQL(/* @lang GraphQL */ '
             mutation Login($input: LoginInput) {
                 login(input: $input) {
                     access_token

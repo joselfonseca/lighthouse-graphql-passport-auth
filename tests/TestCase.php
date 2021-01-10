@@ -4,8 +4,8 @@ namespace Joselfonseca\LighthouseGraphQLPassport\Tests;
 
 use Joselfonseca\LighthouseGraphQLPassport\Providers\LighthouseGraphQLPassportServiceProvider;
 use Laravel\Passport\ClientRepository;
-use Laravel\Passport\Passport;
 use Laravel\Passport\PassportServiceProvider;
+use Laravel\Socialite\SocialiteServiceProvider;
 use Nuwave\Lighthouse\LighthouseServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -27,6 +27,7 @@ class TestCase extends Orchestra
         return [
             ServiceProvider::class,
             PassportServiceProvider::class,
+            SocialiteServiceProvider::class,
             LighthouseServiceProvider::class,
             LighthouseGraphQLPassportServiceProvider::class,
         ];

@@ -24,7 +24,7 @@ class UpdatePassword
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
         $user = $context->user();
-        if (!Hash::check($args['old_password'], $user->password)) {
+        if (! Hash::check($args['old_password'], $user->password)) {
             throw new ValidationException([
                 'password' => __('Current password is incorrect'),
             ], 'Validation Exception');
