@@ -20,7 +20,7 @@ class UpdateSocialProviderUsersTable extends Migration
         });
         Schema::create('social_providers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigIncrements('user_id');
+            $table->bigInteger('user_id');
             $table->string('provider')->index();
             $table->string('provider_id')->index();
             $table->timestamps();
