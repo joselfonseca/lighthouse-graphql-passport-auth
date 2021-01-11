@@ -29,6 +29,11 @@ class TestCase extends Orchestra
             PassportServiceProvider::class,
             SocialiteServiceProvider::class,
             LighthouseServiceProvider::class,
+            \Nuwave\Lighthouse\GlobalId\GlobalIdServiceProvider::class,
+            \Nuwave\Lighthouse\OrderBy\OrderByServiceProvider::class,
+            \Nuwave\Lighthouse\Pagination\PaginationServiceProvider::class,
+            \Nuwave\Lighthouse\SoftDeletes\SoftDeletesServiceProvider::class,
+            \Nuwave\Lighthouse\Validation\ValidationServiceProvider::class,
             LighthouseGraphQLPassportServiceProvider::class,
         ];
     }
