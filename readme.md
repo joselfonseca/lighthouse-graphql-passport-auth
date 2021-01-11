@@ -5,7 +5,9 @@ Lighthouse GraphQL Passport Auth (Laravel ^7.0 / Lighthouse ^4.0)
 [![StyleCI](https://styleci.io/repos/166881918/shield?branch=master)](https://styleci.io/repos/166881918)
 [![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
 
-GraphQL mutations for Laravel Passport using Lighthouse PHP ^3.2.
+![https://www.flaticon.com/authors/pixelmeetup](https://lighthouse-php-auth.com/assets/img/safe.svg)
+
+GraphQL mutations for Laravel Passport using Lighthouse PHP.
 
 ## Tutorial
 
