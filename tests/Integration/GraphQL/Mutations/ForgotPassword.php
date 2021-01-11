@@ -62,7 +62,7 @@ class ForgotPassword extends TestCase
         $this->assertArrayHasKey('extensions', $responseBody['errors'][0]);
         $this->assertEquals('Email not sent', $responseBody['errors'][0]['message']);
         $this->assertEquals('We can\'t find a user with that ', $responseBody['errors'][0]['extensions']['reason']);
-        $this->assertStringContainsString('We can\'t find a user with that ', $responseBody['errors'][0]['extensions']['reason']);
+        $this->assertStringStartsWith('We can\'t find a user with that ', $responseBody['errors'][0]['extensions']['reason']);
         Notification::assertNothingSent();
         Event::assertNotDispatched(ForgotPasswordRequested::class);
     }
