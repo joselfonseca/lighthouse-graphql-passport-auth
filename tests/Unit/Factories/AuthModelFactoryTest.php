@@ -48,7 +48,8 @@ class AuthModelFactoryTest extends TestCase
         ]);
 
         self::assertInstanceOf(User::class, $model);
-        self::assertDatabaseCount($model->getTable(), 1);
+        self::assertEquals($model->count(), 1);
+        //self::assertDatabaseCount($model->getTable(), 1);
     }
 
     /**
