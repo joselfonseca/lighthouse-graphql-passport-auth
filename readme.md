@@ -9,7 +9,7 @@ GraphQL mutations for Laravel Passport using Lighthouse PHP.
 
 ## Tutorial
 
-You can see [this tutorial](https://ditecnologia.com/2019/06/24/graphql-auth-with-passport-and-lighthouse-php/) for installation and usage.
+You can see [this tutorial](https://lighthouse-php-auth.com/tutorials/getting-started/) for installation and usage.
 
 ## Documentation
 
