@@ -22,13 +22,8 @@ class UpdateSocialProviderUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('provider')->index();
             $table->string('provider_id')->index();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');;
             $table->timestamps();
-        });
-
-        // Fix for migration error:
-        /*  SQLSTATE[42000]: Syntax error or access violation: 1072 Key column 'user_id' doesn't exist in table (SQL: alter table `social_providers` add constraint `social_providers_user_id_foreign` foreign key (`user_id`) references `users` (`id`) on delete cascade) */
-        Schema::table('social_providers', function (Blueprint $table) {
-            $table->foreignId('user_id')->after('provider_id')->constrained()->onDelete('cascade');;
         });
     }
 
