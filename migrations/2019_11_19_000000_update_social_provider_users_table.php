@@ -22,7 +22,7 @@ class UpdateSocialProviderUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('provider')->index();
             $table->string('provider_id')->index();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');;
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
