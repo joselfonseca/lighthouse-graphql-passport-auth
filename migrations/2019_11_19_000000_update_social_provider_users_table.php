@@ -13,16 +13,31 @@ class UpdateSocialProviderUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            if (! Schema::hasColumn('users', 'avatar')) {
+         if (!Schema::hasTable('users')) {
+            Schema::create('users', function (Blueprint $table) {
+                $table->id();
                 $table->string('avatar')->nullable();
-            }
-        });
+                $table->string('name');
+                $table->string('email')->unique();
+                $table->timestamp('email_verified_at')->nullable();
+                $table->string('password');
+                $table->rememberToken();
+                $table->timestamps();
+            });
+        } else {
+            Schema::table('users', function (Blueprint $table) {
+                if (! Schema::hasColumn('users', 'avatar')) {
+                    $table->string('avatar')->nullable();
+                }
+            });
+        }
+
         Schema::create('social_providers', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
             $table->string('provider')->index();
             $table->string('provider_id')->index();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
