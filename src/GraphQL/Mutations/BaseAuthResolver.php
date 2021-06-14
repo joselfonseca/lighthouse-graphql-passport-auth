@@ -47,7 +47,7 @@ class BaseAuthResolver
                 throw new AuthenticationException(__('Authentication exception'), __('Incorrect username or password'));
             }
 
-            throw new AuthenticationException(__($decodedResponse['error']), __($decodedResponse['message']));
+            throw new AuthenticationException(__($decodedResponse['error'] ?? ''), __($decodedResponse['message']));
         }
 
         return $decodedResponse;
