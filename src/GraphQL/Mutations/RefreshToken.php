@@ -51,10 +51,9 @@ class RefreshToken extends BaseAuthResolver
      */
     public function parseToken($accessToken)
     {
-        $public_key_path = Passport::keyPath('oauth-public.key');
-        $private_key_path = Passport::keyPath('oauth-public.key');
-
-        $config = Configuration::forAsymmetricSigner(new Sha256(), LocalFileReference::file($private_key_path), InMemory::file($public_key_path));
+        // since we are generating the token in an internal request, there
+        // is no need to verify signature to extract the sub claim
+        $config = Configuration::forUnsecuredSigner();
 
         $token = $config->parser()->parse((string) $accessToken);
 
