@@ -13,9 +13,8 @@ use Laravel\Passport\Client;
 class BaseAuthResolver
 {
     /**
-     * @param   array   $args
-     * @param   string  $grantType
-     *
+     * @param  array  $args
+     * @param  string  $grantType
      * @return mixed
      */
     public function buildCredentials(array $args = [], $grantType = 'password')
@@ -26,7 +25,7 @@ class BaseAuthResolver
         $credentials['client_secret'] = $args->get('client_secret', config('lighthouse-graphql-passport.client_secret'));
         $credentials['grant_type'] = $grantType;
         $oauthClient = Client::where('id', $credentials['client_id'])->first();
-        if(!empty($oauthClient->provider)) {
+        if (! empty($oauthClient->provider)) {
             config()->set(['lighthouse-graphql-passport.auth_provider' => $oauthClient->provider]);
         }
 
@@ -34,8 +33,8 @@ class BaseAuthResolver
     }
 
     /**
-     * @param   array   $credentials
-     * @return  mixed
+     * @param  array  $credentials
+     * @return mixed
      *
      * @throws AuthenticationException
      */
