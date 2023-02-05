@@ -37,6 +37,17 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
         $this->extendAuthorizationServer();
         $this->registerConfig();
 
+        $lightHouseDirectives = config('lighthouse.namespaces.directives', []);
+        $authDirective = "Nuwave\\Lighthouse\\Auth";
+
+        if(!in_array($authDirective, $lightHouseDirectives)) {
+            $lightHouseDirectives[] = $authDirective;
+            config()->set([
+                'lighthouse.namespaces.directives' => $lightHouseDirectives
+            ]);
+        }
+        
+
         app('events')->listen(
             BuildSchemaString::class,
             function (): string {

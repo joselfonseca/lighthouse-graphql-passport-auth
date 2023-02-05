@@ -13,8 +13,8 @@ use Laravel\Passport\Client;
 class BaseAuthResolver
 {
     /**
-     * @param array  $args
-     * @param string $grantType
+     * @param   array   $args
+     * @param   string  $grantType
      *
      * @return mixed
      */
@@ -34,11 +34,10 @@ class BaseAuthResolver
     }
 
     /**
-     * @param array $credentials
+     * @param   array   $credentials
+     * @return  mixed
      *
      * @throws AuthenticationException
-     *
-     * @return mixed
      */
     public function makeRequest(array $credentials)
     {
@@ -48,7 +47,10 @@ class BaseAuthResolver
         $response = app()->handle($request);
         $decodedResponse = json_decode($response->getContent(), true);
         if ($response->getStatusCode() != 200) {
-            if ($decodedResponse['message'] === 'The provided authorization grant (e.g., authorization code, resource owner credentials) or refresh token is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.') {
+            if (
+                $decodedResponse['message'] === 'The provided authorization grant (e.g., authorization code, resource owner credentials) or refresh token is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
+                || $decodedResponse['message'] === 'The user credentials were incorrect.'
+            ) {
                 throw new AuthenticationException(__('Authentication exception'), __('Incorrect username or password'));
             }
 
