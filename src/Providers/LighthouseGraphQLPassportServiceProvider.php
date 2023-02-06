@@ -86,7 +86,7 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
 
     /**
      * @return SocialGrant
-     * 
+     *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     protected function makeCustomRequestGrant()
@@ -102,7 +102,7 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
 
     /**
      * @return LoggedInGrant
-     * 
+     *
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     protected function makeLoggedInRequestGrant()
