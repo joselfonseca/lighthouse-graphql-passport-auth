@@ -35,6 +35,8 @@ class AuthModelFactory implements \Joselfonseca\LighthouseGraphQLPassport\Contra
 
     public function getClass(): string
     {
-        return $this->config->get('auth.providers.users.model');
+        $provider = $this->config->get('lighthouse-graphql-passport.auth_provider', 'users');
+
+        return $this->config->get("auth.providers.{$provider}.model");
     }
 }
