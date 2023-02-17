@@ -9,7 +9,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function boot()
     {
         $this->loadMigrationsFrom(realpath(__DIR__.'/../tests/migrations'));
-        Passport::routes();
+        if (method_exists(Passport::class, 'routes')) {
+            Passport::routes();
+        }
         Passport::loadKeysFrom(__DIR__.'/storage/');
         config()->set('lighthouse.route.middleware', [
             \Nuwave\Lighthouse\Support\Http\Middleware\AcceptJson::class,
