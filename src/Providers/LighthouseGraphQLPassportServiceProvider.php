@@ -2,6 +2,7 @@
 
 namespace Joselfonseca\LighthouseGraphQLPassport\Providers;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 use Joselfonseca\LighthouseGraphQLPassport\Contracts\AuthModelFactory as AuthModelFactoryContract;
 use Joselfonseca\LighthouseGraphQLPassport\Factories\AuthModelFactory;
@@ -37,7 +38,7 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
         $this->extendAuthorizationServer();
         $this->registerConfig();
 
-        $lightHouseDirectives = config('lighthouse.namespaces.directives', []);
+        $lightHouseDirectives = Arr::wrap(config('lighthouse.namespaces.directives', []));
         $authDirective = 'Nuwave\\Lighthouse\\Auth';
 
         if (! in_array($authDirective, $lightHouseDirectives)) {
