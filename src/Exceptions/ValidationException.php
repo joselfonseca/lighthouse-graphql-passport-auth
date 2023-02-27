@@ -3,12 +3,12 @@
 namespace Joselfonseca\LighthouseGraphQLPassport\Exceptions;
 
 use Exception;
-use Nuwave\Lighthouse\Exceptions\RendersErrorsExtensions;
+use GraphQL\Error\ProvidesExtensions;
 
 /**
  * Class ValidationException.
  */
-class ValidationException extends Exception implements RendersErrorsExtensions
+class ValidationException extends Exception implements ProvidesExtensions
 {
     /**
      * @var
@@ -58,7 +58,7 @@ class ValidationException extends Exception implements RendersErrorsExtensions
     /**
      * @return array
      */
-    public function extensionsContent(): array
+    public function getExtensions(): array
     {
         return ['errors' => $this->errors];
     }

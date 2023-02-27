@@ -3,9 +3,9 @@
 namespace Joselfonseca\LighthouseGraphQLPassport\Exceptions;
 
 use Exception;
-use Nuwave\Lighthouse\Exceptions\RendersErrorsExtensions;
+use GraphQL\Error\ProvidesExtensions;
 
-class EmailNotSentException extends Exception implements RendersErrorsExtensions
+class EmailNotSentException extends Exception implements ProvidesExtensions
 {
     /**
      * @var @string
@@ -51,7 +51,7 @@ class EmailNotSentException extends Exception implements RendersErrorsExtensions
      *
      * @return array
      */
-    public function extensionsContent(): array
+    public function getExtensions(): array
     {
         return [
             'reason' => $this->reason,

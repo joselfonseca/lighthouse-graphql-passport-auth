@@ -3,9 +3,9 @@
 namespace Joselfonseca\LighthouseGraphQLPassport\Exceptions;
 
 use Exception;
-use Nuwave\Lighthouse\Exceptions\RendersErrorsExtensions;
+use GraphQL\Error\ProvidesExtensions;
 
-class AuthenticationException extends Exception implements RendersErrorsExtensions
+class AuthenticationException extends Exception implements ProvidesExtensions
 {
     /**
      * @var @string
@@ -51,7 +51,7 @@ class AuthenticationException extends Exception implements RendersErrorsExtensio
      *
      * @return array
      */
-    public function extensionsContent(): array
+    public function getExtensions(): array
     {
         return [
             'reason'       => $this->reason,
