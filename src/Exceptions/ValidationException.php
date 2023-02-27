@@ -3,12 +3,13 @@
 namespace Joselfonseca\LighthouseGraphQLPassport\Exceptions;
 
 use Exception;
+use GraphQL\Error\ClientAware;
 use GraphQL\Error\ProvidesExtensions;
 
 /**
  * Class ValidationException.
  */
-class ValidationException extends Exception implements ProvidesExtensions
+class ValidationException extends Exception implements ClientAware, ProvidesExtensions
 {
     /**
      * @var
@@ -45,14 +46,6 @@ class ValidationException extends Exception implements ProvidesExtensions
     public function isClientSafe(): bool
     {
         return true;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCategory(): string
-    {
-        return 'validation';
     }
 
     /**
