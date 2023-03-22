@@ -18,7 +18,7 @@ class TestCase extends Orchestra
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      *
      * @return array
      */
@@ -41,7 +41,7 @@ class TestCase extends Orchestra
     /**
      * Define environment setup.
      *
-     * @param \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      *
      * @return void
      */
@@ -104,8 +104,8 @@ class TestCase extends Orchestra
     /**
      * Execute a query as if it was sent as a request to the server.
      *
-     * @param mixed[] $data
-     * @param mixed[] $headers
+     * @param  mixed[]  $data
+     * @param  mixed[]  $headers
      *
      * @return \Illuminate\Foundation\Testing\TestResponse
      */
