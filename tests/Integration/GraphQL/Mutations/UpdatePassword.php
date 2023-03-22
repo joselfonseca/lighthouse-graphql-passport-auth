@@ -101,5 +101,6 @@ class UpdatePassword extends TestCase
         $responseBody = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('errors', $responseBody);
         $this->assertEquals('Validation Exception', $responseBody['errors'][0]['message']);
+        $this->assertEquals('Current password is incorrect', $responseBody['errors'][0]['extensions']['errors']['password']);
     }
 }

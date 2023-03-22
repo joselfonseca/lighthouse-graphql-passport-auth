@@ -13,9 +13,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             Passport::routes();
         }
         Passport::loadKeysFrom(__DIR__.'/storage/');
-        $acceptJsonClass = class_exists('\Nuwave\Lighthouse\Support\Http\Middleware\AcceptJson') ? \Nuwave\Lighthouse\Support\Http\Middleware\AcceptJson::class : \Nuwave\Lighthouse\Http\Middleware\AcceptJson::class;
         config()->set('lighthouse.route.middleware', [
-            $acceptJsonClass,
+            \Nuwave\Lighthouse\Http\Middleware\AcceptJson::class,
             \Joselfonseca\LighthouseGraphQLPassport\Http\Middleware\AuthenticateWithApiGuard::class,
         ]);
     }

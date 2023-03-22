@@ -130,6 +130,7 @@ class Login extends TestCase
         $responseBody = json_decode($response->getContent(), 'true');
         $this->assertArrayHasKey('errors', $responseBody);
         $this->assertArrayHasKey('message', $responseBody['errors'][0]);
+        $this->assertEquals('Incorrect username or password', $responseBody['errors'][0]['extensions']['reason']);
 
         Event::assertNotDispatched(UserLoggedIn::class);
     }
