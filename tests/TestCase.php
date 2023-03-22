@@ -56,6 +56,7 @@ class TestCase extends Orchestra
             'prefix'   => '',
         ]);
         $app['config']->set('lighthouse.schema.register', __DIR__.'/schema.graphql');
+        $app['config']->set('lighthouse.schema_path', __DIR__.'/schema.graphql');
         $app['config']->set('auth.guards', [
             'web' => [
                 'driver'   => 'session',
