@@ -3,9 +3,9 @@
 namespace Joselfonseca\LighthouseGraphQLPassport\Exceptions;
 
 use Exception;
-use Nuwave\Lighthouse\Exceptions\RendersErrorsExtensions;
+use GraphQL\Error\ClientAware;
 
-class AuthenticationException extends Exception implements RendersErrorsExtensions
+class AuthenticationException extends Exception implements ClientAware
 {
     /**
      * @var @string

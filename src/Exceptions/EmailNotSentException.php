@@ -3,9 +3,9 @@
 namespace Joselfonseca\LighthouseGraphQLPassport\Exceptions;
 
 use Exception;
-use Nuwave\Lighthouse\Exceptions\RendersErrorsExtensions;
+use GraphQL\Error\ClientAware;
 
-class EmailNotSentException extends Exception implements RendersErrorsExtensions
+class EmailNotSentException extends Exception implements ClientAware
 {
     /**
      * @var @string

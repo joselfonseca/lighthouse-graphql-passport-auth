@@ -3,12 +3,12 @@
 namespace Joselfonseca\LighthouseGraphQLPassport\Exceptions;
 
 use Exception;
-use Nuwave\Lighthouse\Exceptions\RendersErrorsExtensions;
+use GraphQL\Error\ClientAware;
 
 /**
  * Class ValidationException.
  */
-class ValidationException extends Exception implements RendersErrorsExtensions
+class ValidationException extends Exception implements ClientAware
 {
     /**
      * @var
