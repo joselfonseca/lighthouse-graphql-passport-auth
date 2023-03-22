@@ -19,7 +19,6 @@ class TestCase extends Orchestra
 
     /**
      * @param  \Illuminate\Foundation\Application  $app
-     *
      * @return array
      */
     protected function getPackageProviders($app)
@@ -42,7 +41,6 @@ class TestCase extends Orchestra
      * Define environment setup.
      *
      * @param  \Illuminate\Foundation\Application  $app
-     *
      * @return void
      */
     protected function getEnvironmentSetUp($app)
@@ -106,7 +104,6 @@ class TestCase extends Orchestra
      *
      * @param  mixed[]  $data
      * @param  mixed[]  $headers
-     *
      * @return \Illuminate\Foundation\Testing\TestResponse
      */
     protected function postGraphQL(array $data, array $headers = [])
