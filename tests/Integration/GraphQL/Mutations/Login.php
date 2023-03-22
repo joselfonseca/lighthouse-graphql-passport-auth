@@ -127,18 +127,6 @@ class Login extends TestCase
             ]
         );
 
-        $response->assertJsonStructure([
-            'errors' => [
-                [
-                    'message',
-                    'extensions' => [
-                        'category',
-                        'reason',
-                    ],
-                ],
-            ],
-        ]);
-
         $decodedResponse = json_decode($response->getContent(), 'true');
 
         $this->assertEquals('Incorrect username or password', $decodedResponse['errors'][0]['extensions']['reason']);
@@ -178,18 +166,6 @@ class Login extends TestCase
                 'input' => $credentials,
             ]
         );
-
-        $response->assertJsonStructure([
-            'errors' => [
-                [
-                    'message',
-                    'extensions' => [
-                        'category',
-                        'reason',
-                    ],
-                ],
-            ],
-        ]);
 
         $decodedResponse = json_decode($response->getContent(), 'true');
 

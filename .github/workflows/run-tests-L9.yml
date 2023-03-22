@@ -1,4 +1,4 @@
-name: "Run Tests - Current"
+name: "Run Tests - Laravel 9"
 
 on: [push, pull_request]
 

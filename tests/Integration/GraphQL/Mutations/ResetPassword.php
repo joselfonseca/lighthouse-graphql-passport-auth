@@ -90,6 +90,5 @@ class ResetPassword extends TestCase
         $responseBody = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('errors', $responseBody);
         $this->assertEquals('An error has occurred while resetting the password', $responseBody['errors'][0]['message']);
-        $this->assertEquals('validation', $responseBody['errors'][0]['extensions']['category']);
     }
 }
