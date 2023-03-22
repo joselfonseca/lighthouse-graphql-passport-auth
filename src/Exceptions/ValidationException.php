@@ -4,11 +4,12 @@ namespace Joselfonseca\LighthouseGraphQLPassport\Exceptions;
 
 use Exception;
 use GraphQL\Error\ClientAware;
+use GraphQL\Error\ProvidesExtensions;
 
 /**
  * Class ValidationException.
  */
-class ValidationException extends Exception implements ClientAware
+class ValidationException extends Exception implements ClientAware, ProvidesExtensions
 {
     /**
      * @var
@@ -58,7 +59,7 @@ class ValidationException extends Exception implements ClientAware
     /**
      * @return array
      */
-    public function extensionsContent(): array
+    public function getExtensions(): array
     {
         return ['errors' => $this->errors];
     }

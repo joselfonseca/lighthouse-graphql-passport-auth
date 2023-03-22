@@ -4,8 +4,9 @@ namespace Joselfonseca\LighthouseGraphQLPassport\Exceptions;
 
 use Exception;
 use GraphQL\Error\ClientAware;
+use GraphQL\Error\ProvidesExtensions;
 
-class EmailNotSentException extends Exception implements ClientAware
+class EmailNotSentException extends Exception implements ClientAware, ProvidesExtensions
 {
     /**
      * @var @string
@@ -51,7 +52,7 @@ class EmailNotSentException extends Exception implements ClientAware
      *
      * @return array
      */
-    public function extensionsContent(): array
+    public function getExtensions(): array
     {
         return [
             'reason' => $this->reason,

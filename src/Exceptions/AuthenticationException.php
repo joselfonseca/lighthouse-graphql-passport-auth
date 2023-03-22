@@ -4,8 +4,9 @@ namespace Joselfonseca\LighthouseGraphQLPassport\Exceptions;
 
 use Exception;
 use GraphQL\Error\ClientAware;
+use GraphQL\Error\ProvidesExtensions;
 
-class AuthenticationException extends Exception implements ClientAware
+class AuthenticationException extends Exception implements ClientAware, ProvidesExtensions
 {
     /**
      * @var @string
@@ -51,7 +52,7 @@ class AuthenticationException extends Exception implements ClientAware
      *
      * @return array
      */
-    public function extensionsContent(): array
+    public function getExtensions(): array
     {
         return [
             'reason'       => $this->reason,
