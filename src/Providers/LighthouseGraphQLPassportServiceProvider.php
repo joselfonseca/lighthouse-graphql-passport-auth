@@ -40,7 +40,9 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
         $lightHouseDirectives = config('lighthouse.namespaces.directives', []);
         $authDirective = 'Nuwave\\Lighthouse\\Auth';
 
-        if (! in_array($authDirective, $lightHouseDirectives)) {
+        // $lightHouseDirectives can be a string or an array
+        // Cast to array to always have an array
+        if (! in_array($authDirective, (array)$lightHouseDirectives)) {
             $lightHouseDirectives[] = $authDirective;
             config()->set([
                 'lighthouse.namespaces.directives' => $lightHouseDirectives,
