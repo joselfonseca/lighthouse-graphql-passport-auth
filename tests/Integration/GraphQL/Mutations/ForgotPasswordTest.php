@@ -10,7 +10,7 @@ use Joselfonseca\LighthouseGraphQLPassport\Events\ForgotPasswordRequested;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 
-class ForgotPassword extends TestCase
+class ForgotPasswordTest extends TestCase
 {
     public function test_it_sends_recover_password_email()
     {

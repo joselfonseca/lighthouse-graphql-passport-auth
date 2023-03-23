@@ -9,7 +9,7 @@ use Laravel\Socialite\Facades\Socialite;
 use Mockery;
 use Nuwave\Lighthouse\Testing\MakesGraphQLRequests;
 
-class SocialLogin extends TestCase
+class SocialLoginTest extends TestCase
 {
     use MakesGraphQLRequests;
 

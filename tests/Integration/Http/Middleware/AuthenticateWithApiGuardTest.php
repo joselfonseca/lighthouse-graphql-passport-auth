@@ -1,11 +1,11 @@
 <?php
 
-namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Http\Middleware;
+namespace Joselfonseca\LighthouseGraphQLPassport\Tests\Integration\Http\Middleware;
 
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 
-class AuthenticateWithApiGuard extends TestCase
+class AuthenticateWithApiGuardTest extends TestCase
 {
     public function test_it_sets_user_via_global_middleware()
     {

@@ -7,13 +7,12 @@ use Joselfonseca\LighthouseGraphQLPassport\Events\UserLoggedOut;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 
-class Logout extends TestCase
+class LogoutTest extends TestCase
 {
     public function test_it_invalidates_token_on_logout()
     {
         Event::fake([UserLoggedOut::class]);
 
-        $this->artisan('migrate', ['--database' => 'testbench']);
         $user = factory(User::class)->create();
         $this->createClientPersonal($user);
         $token = $user->createToken('test Token');

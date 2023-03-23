@@ -6,7 +6,7 @@ use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 use Laravel\Passport\Passport;
 
-class HasLoggedInTokens extends TestCase
+class HasLoggedInTokensTest extends TestCase
 {
     public function test_it_gets_passport_tokens()
     {

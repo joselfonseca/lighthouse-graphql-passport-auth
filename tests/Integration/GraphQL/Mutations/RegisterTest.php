@@ -9,7 +9,7 @@ use Joselfonseca\LighthouseGraphQLPassport\Notifications\VerifyEmail;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\UserVerifyEmail;
 
-class Register extends TestCase
+class RegisterTest extends TestCase
 {
     public function test_it_registers_a_user()
     {

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Notification;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\UserVerifyEmail;
 
-class VerifyEmail extends TestCase
+class VerifyEmailTest extends TestCase
 {
     public function test_it_verifies_email_with_token()
     {
