@@ -8,7 +8,7 @@ use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 use Laravel\Passport\Passport;
 
-class UpdatePassword extends TestCase
+class UpdatePasswordTest extends TestCase
 {
     public function test_it_updates_logged_in_user_password()
     {

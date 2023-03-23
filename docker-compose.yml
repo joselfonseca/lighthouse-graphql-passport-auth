@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  php80:
+    build:
+      context: .
+      args:
+        PHP_VERSION: 8.0
+    volumes:
+      - .:/var/www/html
+
+  php81:
+    build:
+      context: .
+      args:
+        PHP_VERSION: 8.1
+    volumes:
+      - .:/var/www/html
+
+  php82:
+    build:
+      context: .
+      args:
+        PHP_VERSION: 8.2
+    volumes:
+      - .:/var/www/html

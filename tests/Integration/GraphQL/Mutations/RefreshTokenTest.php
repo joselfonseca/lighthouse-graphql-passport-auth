@@ -7,7 +7,7 @@ use Joselfonseca\LighthouseGraphQLPassport\Events\UserRefreshedToken;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 
-class RefreshToken extends TestCase
+class RefreshTokenTest extends TestCase
 {
     public function test_it_refresh_a_token()
     {

@@ -10,7 +10,7 @@ use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 /**
  * Class ResetPassword.
  */
-class ResetPassword extends TestCase
+class ResetPasswordTest extends TestCase
 {
     public function test_it_resets_a_password_for_user(): void
     {
@@ -49,7 +49,12 @@ class ResetPassword extends TestCase
         $this->assertArrayHasKey('status', $responseBody['data']['updateForgottenPassword']);
         $this->assertArrayHasKey('message', $responseBody['data']['updateForgottenPassword']);
         $this->assertEquals('PASSWORD_UPDATED', $responseBody['data']['updateForgottenPassword']['status']);
-        $this->assertEquals('Your password has been reset!', $responseBody['data']['updateForgottenPassword']['message']);
+        $this->assertEquals(
+            version_compare($this->app->version(), '10.0.0', '>=')
+                ? 'Your password has been reset.'
+                : 'Your password has been reset!',
+            $responseBody['data']['updateForgottenPassword']['message'],
+        );
 
         $user = User::find($user->id);
         $this->assertTrue(Hash::check('test1234', $user->password));
@@ -90,6 +95,5 @@ class ResetPassword extends TestCase
         $responseBody = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('errors', $responseBody);
         $this->assertEquals('An error has occurred while resetting the password', $responseBody['errors'][0]['message']);
-        $this->assertEquals('validation', $responseBody['errors'][0]['extensions']['category']);
     }
 }
