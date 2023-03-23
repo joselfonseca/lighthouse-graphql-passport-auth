@@ -17,7 +17,7 @@ class UserLoggedOut
     /**
      * UserLoggedOut constructor.
      *
-     * @param Authenticatable $user
+     * @param  Authenticatable  $user
      */
     public function __construct(Authenticatable $user)
     {

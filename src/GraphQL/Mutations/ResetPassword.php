@@ -16,10 +16,9 @@ class ResetPassword
 {
     /**
      * @param $rootValue
-     * @param array               $args
-     * @param GraphQLContext|null $context
-     * @param ResolveInfo         $resolveInfo
-     *
+     * @param  array  $args
+     * @param  GraphQLContext|null  $context
+     * @param  ResolveInfo  $resolveInfo
      * @return array
      */
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
@@ -44,9 +43,8 @@ class ResetPassword
     /**
      * Reset the given user's password.
      *
-     * @param \Illuminate\Contracts\Auth\CanResetPassword $user
-     * @param string                                      $password
-     *
+     * @param  \Illuminate\Contracts\Auth\CanResetPassword  $user
+     * @param  string  $password
      * @return void
      */
     protected function resetPassword($user, $password)

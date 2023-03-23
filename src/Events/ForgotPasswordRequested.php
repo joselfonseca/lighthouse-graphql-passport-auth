@@ -15,7 +15,7 @@ class ForgotPasswordRequested
     /**
      * ForgotPasswordRequested constructor.
      *
-     * @param string $email
+     * @param  string  $email
      */
     public function __construct(string $email)
     {
