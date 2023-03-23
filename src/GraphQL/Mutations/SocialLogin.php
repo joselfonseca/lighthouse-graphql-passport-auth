@@ -13,13 +13,12 @@ class SocialLogin extends BaseAuthResolver
 {
     /**
      * @param $rootValue
-     * @param array                                                    $args
-     * @param \Nuwave\Lighthouse\Support\Contracts\GraphQLContext|null $context
-     * @param \GraphQL\Type\Definition\ResolveInfo                     $resolveInfo
+     * @param  array  $args
+     * @param  \Nuwave\Lighthouse\Support\Contracts\GraphQLContext|null  $context
+     * @param  \GraphQL\Type\Definition\ResolveInfo  $resolveInfo
+     * @return array
      *
      * @throws \Exception
-     *
-     * @return array
      */
     public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {

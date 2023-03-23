@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Auth;
 trait HasLoggedInTokens
 {
     /**
-     * @throws \Exception
-     *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function getTokens()
     {
@@ -28,7 +28,6 @@ trait HasLoggedInTokens
 
     /**
      * @param $request
-     *
      * @return mixed
      */
     public function byLoggedInUser($request)

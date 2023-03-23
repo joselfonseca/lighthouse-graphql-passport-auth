@@ -9,8 +9,7 @@ class VerifyEmail extends \Illuminate\Auth\Notifications\VerifyEmail
     /**
      * Get the verification URL for the given notifiable.
      *
-     * @param mixed $notifiable
-     *
+     * @param  mixed  $notifiable
      * @return string
      */
     protected function verificationUrl($notifiable)
@@ -23,8 +22,7 @@ class VerifyEmail extends \Illuminate\Auth\Notifications\VerifyEmail
     /**
      * Get a token for the given notifiable.
      *
-     * @param mixed $notifiable
-     *
+     * @param  mixed  $notifiable
      * @return string
      */
     protected function getToken($notifiable)
