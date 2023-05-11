@@ -27,7 +27,9 @@ class Register extends BaseAuthResolver
         $this->validateAuthModel($model);
 
         if ($model instanceof MustVerifyEmail) {
-            $model->sendEmailVerificationNotification();
+            if (config('lighthouse-graphql-passport.verify_email.use_custom_implementation') === false) {
+                $model->sendEmailVerificationNotification();
+            }
 
             event(new Registered($model));
 

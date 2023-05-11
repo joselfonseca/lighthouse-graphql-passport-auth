@@ -62,6 +62,7 @@ return [
     |
     */
     'verify_email' => [
+        'use_custom_implementation' => env('LIGHTHOUSE_GRAPHQL_PASSPORT_USE_CUSTOM_EMAIL_VERIFICATION', false),
         'base_url' => env('FRONT_URL').'/email-verify',
     ],
     /*

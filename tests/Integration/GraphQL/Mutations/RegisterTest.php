@@ -78,4 +78,35 @@ class RegisterTest extends TestCase
         );
         Event::assertDispatched(Registered::class);
     }
+
+    public function test_it_does_not_send_an_email_verification_when_using_a_custom_implementation()
+    {
+        config()->set('auth.providers.users.model', UserVerifyEmail::class);
+        config()->set('lighthouse-graphql-passport.verify_email.use_custom_implementation', true);
+        Notification::fake();
+        Event::fake([Registered::class]);
+        $this->createClient();
+        $response = $this->postGraphQL([
+            'query' => 'mutation {
+                register(input: {
+                    name: "My Name",
+                    email: "jose@example.com",
+                    password: "123456789qq",
+                    password_confirmation: "123456789qq"
+                }) {
+                    status
+                }
+            }',
+        ]);
+        $responseBody = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('register', $responseBody['data']);
+        $this->assertArrayHasKey('status', $responseBody['data']['register']);
+        $this->assertEquals('MUST_VERIFY_EMAIL', $responseBody['data']['register']['status']);
+        $user = UserVerifyEmail::first();
+        Notification::assertNotSentTo(
+            [$user],
+            VerifyEmail::class
+        );
+        Event::assertDispatched(Registered::class);
+    }
 }
