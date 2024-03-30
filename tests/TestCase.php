@@ -76,8 +76,9 @@ class TestCase extends Orchestra
     /**
      * Create a passport client for testing.
      */
-    public function createClient()
+    public function createClient(): void
     {
+        $this->artisan('vendor:publish --tag=passport-migrations');
         $this->artisan('migrate');
         $client = app(ClientRepository::class)->createPasswordGrantClient(null, 'test', 'http://localhost');
         config()->set('lighthouse-graphql-passport.client_id', $client->id);
