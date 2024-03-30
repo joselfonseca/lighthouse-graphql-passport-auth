@@ -13,6 +13,7 @@ use Laravel\Passport\Bridge\UserRepository;
 use Laravel\Passport\Passport;
 use League\OAuth2\Server\AuthorizationServer;
 use Nuwave\Lighthouse\Events\BuildSchemaString;
+use Composer\InstalledVersions;
 
 /**
  * Class LighthouseGraphQLPassportServiceProvider.
@@ -26,7 +27,10 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Passport::enablePasswordGrant();
+        $version = InstalledVersions::getVersion('laravel/passport');
+        if ($version >= 12) {
+            Passport::enablePasswordGrant();
+        }
         if (config('lighthouse-graphql-passport.migrations')) {
             $this->loadMigrationsFrom(__DIR__.'/../../migrations');
         }
