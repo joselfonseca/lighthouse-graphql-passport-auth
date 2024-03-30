@@ -9,6 +9,7 @@ use Laravel\Passport\PassportServiceProvider;
 use Laravel\Socialite\SocialiteServiceProvider;
 use Nuwave\Lighthouse\LighthouseServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Composer\InstalledVersions;
 
 class TestCase extends Orchestra
 {
@@ -78,7 +79,12 @@ class TestCase extends Orchestra
      */
     public function createClient(): void
     {
-        $this->artisan('vendor:publish --tag=passport-migrations');
+        $version = InstalledVersions::getVersion('laravel/passport');
+        if ($version >= 12) {
+            $this->artisan('vendor:publish --tag=passport-migrations');
+        } else {
+            $this->artisan('vendor:publish');
+        }
         $this->artisan('migrate');
         $client = app(ClientRepository::class)->createPasswordGrantClient(null, 'test', 'http://localhost');
         config()->set('lighthouse-graphql-passport.client_id', $client->id);
