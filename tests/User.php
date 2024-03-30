@@ -17,6 +17,7 @@ class User extends Authenticatable
     use Notifiable;
     use HasLoggedInTokens;
     use HasSocialLogin;
+
     /**
      * The attributes that are mass assignable.
      *
