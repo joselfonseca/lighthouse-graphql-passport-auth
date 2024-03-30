@@ -10,7 +10,7 @@ class AuthenticateWithApiGuard
     /**
      * The authentication factory instance.
      *
-     * @var Auth
+     * @var \Illuminate\Contracts\Auth\Factory
      */
     protected $auth;
 

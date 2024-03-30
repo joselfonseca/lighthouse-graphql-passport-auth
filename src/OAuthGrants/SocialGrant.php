@@ -24,7 +24,7 @@ class SocialGrant extends AbstractGrant
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function respondToAccessTokenRequest(ServerRequestInterface $request, ResponseTypeInterface $responseType, DateInterval $accessTokenTTL)
     {
@@ -45,7 +45,7 @@ class SocialGrant extends AbstractGrant
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getIdentifier()
     {
@@ -74,10 +74,10 @@ class SocialGrant extends AbstractGrant
     /**
      * Retrieve user by request.
      *
-     * @param  Request  $request
-     * @return null|User
+     * @param  \Illuminate\Http\Request  $request
+     * @return null|\Laravel\Passport\Bridge\User
      *
-     * @throws OAuthServerException
+     * @throws \League\OAuth2\Server\Exception\OAuthServerException
      */
     protected function getUserEntityByRequest(Request $request)
     {

@@ -10,8 +10,8 @@ class LoggedInUser
     /**
      * @param $rootValue
      * @param  array  $args
-     * @param  GraphQLContext|null  $context
-     * @param  ResolveInfo  $resolveInfo
+     * @param  \Nuwave\Lighthouse\Support\Contracts\GraphQLContext|null  $context
+     * @param  \GraphQL\Type\Definition\ResolveInfo  $resolveInfo
      * @return array
      *
      * @throws \Exception
