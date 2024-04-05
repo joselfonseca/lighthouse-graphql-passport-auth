@@ -26,6 +26,7 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Passport::enablePasswordGrant();
         if (config('lighthouse-graphql-passport.migrations')) {
             $this->loadMigrationsFrom(__DIR__.'/../../migrations');
         }
