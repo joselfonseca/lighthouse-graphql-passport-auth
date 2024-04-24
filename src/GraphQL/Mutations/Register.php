@@ -20,7 +20,7 @@ class Register extends BaseAuthResolver
      *
      * @throws \Exception
      */
-    public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
+    public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo): array
     {
         $model = $this->createAuthModel($args);
 
@@ -29,13 +29,12 @@ class Register extends BaseAuthResolver
         if ($model instanceof MustVerifyEmail) {
             $model->sendEmailVerificationNotification();
 
-            event(new Registered($model));
-
             return [
                 'tokens' => [],
                 'status' => 'MUST_VERIFY_EMAIL',
             ];
         }
+
         $credentials = $this->buildCredentials([
             'username' => $args[config('lighthouse-graphql-passport.username')],
             'password' => $args['password'],
@@ -50,6 +49,7 @@ class Register extends BaseAuthResolver
             'status' => 'SUCCESS',
         ];
     }
+
 
     protected function validateAuthModel($model): void
     {
