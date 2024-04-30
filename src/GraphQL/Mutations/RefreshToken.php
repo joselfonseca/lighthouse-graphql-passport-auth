@@ -5,6 +5,8 @@ namespace Joselfonseca\LighthouseGraphQLPassport\GraphQL\Mutations;
 use GraphQL\Type\Definition\ResolveInfo;
 use Joselfonseca\LighthouseGraphQLPassport\Events\UserRefreshedToken;
 use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Signer\Blake2b;
+use Lcobucci\JWT\Signer\Key\InMemory;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 /**
@@ -47,7 +49,10 @@ class RefreshToken extends BaseAuthResolver
     {
         // since we are generating the token in an internal request, there
         // is no need to verify signature to extract the sub claim
-        $config = Configuration::forUnsecuredSigner();
+        $config = Configuration::forSymmetricSigner(
+            new Blake2b(),
+            InMemory::plainText('refresh-token')
+        );
 
         $token = $config->parser()->parse((string) $accessToken);
 
