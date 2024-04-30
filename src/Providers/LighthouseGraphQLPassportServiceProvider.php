@@ -29,7 +29,7 @@ class LighthouseGraphQLPassportServiceProvider extends ServiceProvider
         if (method_exists(Passport::class, 'enablePasswordGrant')) {
             Passport::enablePasswordGrant();
         }
-        
+
         if (config('lighthouse-graphql-passport.migrations')) {
             $this->loadMigrationsFrom(__DIR__.'/../../migrations');
         }

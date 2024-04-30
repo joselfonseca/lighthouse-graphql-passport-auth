@@ -52,18 +52,18 @@ class TestCase extends Orchestra
         $app['config']->set('lighthouse.schema_path', __DIR__.'/schema.graphql');
         $app['config']->set('auth.guards', [
             'web' => [
-                'driver'   => 'session',
+                'driver' => 'session',
                 'provider' => 'users',
             ],
             'api' => [
-                'driver'   => 'passport',
+                'driver' => 'passport',
                 'provider' => 'users',
             ],
         ]);
         $app['config']->set('auth.providers', [
             'users' => [
                 'driver' => 'eloquent',
-                'model'  => User::class,
+                'model' => User::class,
             ],
         ]);
     }
