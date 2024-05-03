@@ -17,7 +17,13 @@ class TestCase extends Orchestra
     protected function setUp(): void
     {
         parent::setUp();
-        $this->artisan('vendor:publish --tag=passport-migrations');
+        
+        $passportMigrationsExist = file_exists(database_path('migrations/2016_06_01_000001_create_oauth_auth_codes_table.php'));
+
+        if (!$passportMigrationsExist) {
+            $this->artisan('vendor:publish --tag=passport-migrations');
+        }
+
         $this->withFactories(__DIR__.'/factories');
     }
 
