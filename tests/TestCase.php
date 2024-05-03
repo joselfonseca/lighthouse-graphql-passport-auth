@@ -17,14 +17,6 @@ class TestCase extends Orchestra
     protected function setUp(): void
     {
         parent::setUp();
-
-        dump(database_path('migrations/2016_06_01_000001_create_oauth_auth_codes_table.php'), file_exists(database_path('migrations/2016_06_01_000001_create_oauth_auth_codes_table.php')));
-        $passportMigrationsExist = file_exists(database_path('migrations/2016_06_01_000001_create_oauth_auth_codes_table.php'));
-
-        if (!$passportMigrationsExist) {
-            $this->artisan('vendor:publish --tag=passport-migrations');
-        }
-
         $this->withFactories(__DIR__.'/factories');
     }
 
@@ -86,6 +78,12 @@ class TestCase extends Orchestra
      */
     public function createClient()
     {
+        dump(database_path('migrations/2016_06_01_000001_create_oauth_auth_codes_table.php'), file_exists(database_path('migrations/2016_06_01_000001_create_oauth_auth_codes_table.php')));
+        $passportMigrationsExist = file_exists(database_path('migrations/2016_06_01_000001_create_oauth_auth_codes_table.php'));
+
+        if (!$passportMigrationsExist) {
+            $this->artisan('vendor:publish --tag=passport-migrations');
+        }
         $this->artisan('migrate');
         $client = app(ClientRepository::class)->createPasswordGrantClient(null, 'test', 'http://localhost');
         config()->set('lighthouse-graphql-passport.client_id', $client->id);
