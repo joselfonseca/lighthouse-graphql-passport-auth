@@ -17,6 +17,7 @@ class TestCase extends Orchestra
     protected function setUp(): void
     {
         parent::setUp();
+        $this->artisan('vendor:publish --tag=passport-migrations');
         $this->withFactories(__DIR__.'/factories');
     }
 
@@ -78,7 +79,6 @@ class TestCase extends Orchestra
      */
     public function createClient()
     {
-        $this->artisan('vendor:publish --tag=passport-migrations');
         $this->artisan('migrate');
         $client = app(ClientRepository::class)->createPasswordGrantClient(null, 'test', 'http://localhost');
         config()->set('lighthouse-graphql-passport.client_id', $client->id);
