@@ -18,7 +18,7 @@ class TestCase extends Orchestra
     {
         parent::setUp();
 
-        dd(database_path(), database_path('migrations/2016_06_01_000001_create_oauth_auth_codes_table.php'));
+        dd(file_exists(database_path('migrations/2016_06_01_000001_create_oauth_auth_codes_table.php')));
         $passportMigrationsExist = file_exists(database_path('migrations/2016_06_01_000001_create_oauth_auth_codes_table.php'));
 
         if (!$passportMigrationsExist) {
