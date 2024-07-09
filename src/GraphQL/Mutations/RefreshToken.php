@@ -15,7 +15,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 class RefreshToken extends BaseAuthResolver
 {
     /**
-     * @param $rootValue
+     * @param  $rootValue
      * @param  array  $args
      * @param  \Nuwave\Lighthouse\Support\Contracts\GraphQLContext|null  $context
      * @param  \GraphQL\Type\Definition\ResolveInfo  $resolveInfo
@@ -42,7 +42,7 @@ class RefreshToken extends BaseAuthResolver
     }
 
     /**
-     * @param $accessToken
+     * @param  $accessToken
      * @return false|mixed
      */
     public function parseToken($accessToken)
