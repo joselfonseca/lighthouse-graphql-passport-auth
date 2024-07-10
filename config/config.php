@@ -52,7 +52,7 @@ return [
     | If you publish the migrations set this to false.
     |
     */
-    'migrations' => true,
+    'migrations' => false,
     /*
     |--------------------------------------------------------------------------
     | Settings for email verification
