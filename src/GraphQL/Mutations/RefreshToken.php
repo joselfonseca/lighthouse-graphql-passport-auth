@@ -51,7 +51,7 @@ class RefreshToken extends BaseAuthResolver
         // is no need to verify signature to extract the sub claim
         $appKey = explode(':', config('app.key'));
 
-        if(!isset($appKey[1])){
+        if (! isset($appKey[1])) {
             return false;
         }
 
