@@ -19,7 +19,7 @@ class ValidationException extends Exception implements ClientAware, ProvidesExte
     /**
      * ValidationException constructor.
      *
-     * @param $validator
+     * @param  $validator
      * @param  string  $message
      */
     public function __construct($errors, string $message = '')

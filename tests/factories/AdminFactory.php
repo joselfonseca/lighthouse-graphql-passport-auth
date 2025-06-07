@@ -13,8 +13,8 @@ app(Factory::class)->define(Admin::class, function (Faker $faker) {
     }
 
     return [
-        'name'     => 'Jose Fonseca',
-        'email'    => 'jose@example.com',
+        'name' => 'Jose Fonseca',
+        'email' => 'jose@example.com',
         'password' => $password,
     ];
 });

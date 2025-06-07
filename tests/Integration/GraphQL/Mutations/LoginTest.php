@@ -16,7 +16,7 @@ class LoginTest extends TestCase
     public static function dataProvider(): array
     {
         return [
-            'default'                    => [
+            'default' => [
                 User::class,
                 [
                     'username' => 'jose@example.com',

@@ -15,8 +15,8 @@ trait HasLoggedInTokens
     public function getTokens()
     {
         $request = Request::create('oauth/token', 'POST', [
-            'grant_type'    => 'logged_in_grant',
-            'client_id'     => config('lighthouse-graphql-passport.client_id'),
+            'grant_type' => 'logged_in_grant',
+            'client_id' => config('lighthouse-graphql-passport.client_id'),
             'client_secret' => config('lighthouse-graphql-passport.client_secret'),
         ], [], [], [
             'HTTP_Accept' => 'application/json',
@@ -27,7 +27,7 @@ trait HasLoggedInTokens
     }
 
     /**
-     * @param $request
+     * @param  $request
      * @return mixed
      */
     public function byLoggedInUser($request)

@@ -42,8 +42,8 @@ class AuthModelFactoryTest extends TestCase
     public function canCreateAuthModel(): void
     {
         $model = $this->factory->create([
-            'name'     => 'Jose Fonseca',
-            'email'    => 'jose@example.com',
+            'name' => 'Jose Fonseca',
+            'email' => 'jose@example.com',
             'password' => Hash::make('123456789qq'),
         ]);
 

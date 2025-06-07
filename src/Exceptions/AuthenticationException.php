@@ -41,7 +41,7 @@ class AuthenticationException extends Exception implements ClientAware, Provides
     public function getExtensions(): array
     {
         return [
-            'reason'       => $this->reason,
+            'reason' => $this->reason,
         ];
     }
 }

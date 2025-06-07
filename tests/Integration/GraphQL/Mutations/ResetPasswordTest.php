@@ -37,9 +37,9 @@ class ResetPasswordTest extends TestCase
                 }
             }',
             'variables' => [
-                'email'           => $user->email,
-                'token'           => $token,
-                'password'        => 'test1234',
+                'email' => $user->email,
+                'token' => $token,
+                'password' => 'test1234',
                 'confirmPassword' => 'test1234',
             ],
         ]);
@@ -85,9 +85,9 @@ class ResetPasswordTest extends TestCase
                 }
             }',
             'variables' => [
-                'email'           => $user->email,
-                'token'           => 'wrongToken',
-                'password'        => 'test1234',
+                'email' => $user->email,
+                'token' => 'wrongToken',
+                'password' => 'test1234',
                 'confirmPassword' => 'test1234',
             ],
         ]);

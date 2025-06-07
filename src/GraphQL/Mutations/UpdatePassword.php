@@ -14,13 +14,13 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 class UpdatePassword
 {
     /**
-     * @param $rootValue
+     * @param  $rootValue
      * @param  array  $args
      * @param  GraphQLContext|null  $context
      * @param  ResolveInfo  $resolveInfo
      * @return array
      */
-    public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
+    public function resolve($rootValue, array $args, ?GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
         $user = $context->user();
         if (! Hash::check($args['old_password'], $user->password)) {
@@ -33,7 +33,7 @@ class UpdatePassword
         event(new PasswordUpdated($user));
 
         return [
-            'status'  => 'PASSWORD_UPDATED',
+            'status' => 'PASSWORD_UPDATED',
             'message' => __('Your password has been updated'),
         ];
     }
