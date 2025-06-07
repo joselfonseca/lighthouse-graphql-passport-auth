@@ -23,7 +23,7 @@ class RefreshToken extends BaseAuthResolver
      *
      * @throws \Exception
      */
-    public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
+    public function resolve($rootValue, array $args, ?GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
         $credentials = $this->buildCredentials($args, 'refresh_token');
 

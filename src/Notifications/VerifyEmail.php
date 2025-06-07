@@ -28,8 +28,8 @@ class VerifyEmail extends \Illuminate\Auth\Notifications\VerifyEmail
     protected function getToken($notifiable)
     {
         return base64_encode(json_encode([
-            'id'         => $notifiable->getKey(),
-            'hash'       => encrypt($notifiable->getEmailForVerification()),
+            'id' => $notifiable->getKey(),
+            'hash' => encrypt($notifiable->getEmailForVerification()),
             'expiration' => encrypt(Carbon::now()->addMinutes(10)->toIso8601String()),
         ]));
     }

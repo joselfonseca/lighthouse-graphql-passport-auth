@@ -12,7 +12,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 class SocialLogin extends BaseAuthResolver
 {
     /**
-     * @param $rootValue
+     * @param  $rootValue
      * @param  array  $args
      * @param  \Nuwave\Lighthouse\Support\Contracts\GraphQLContext|null  $context
      * @param  \GraphQL\Type\Definition\ResolveInfo  $resolveInfo
@@ -20,7 +20,7 @@ class SocialLogin extends BaseAuthResolver
      *
      * @throws \Exception
      */
-    public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
+    public function resolve($rootValue, array $args, ?GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
         $credentials = $this->buildCredentials($args, 'social_grant');
         $response = $this->makeRequest($credentials);

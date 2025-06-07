@@ -15,13 +15,13 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 class ResetPassword
 {
     /**
-     * @param $rootValue
+     * @param  $rootValue
      * @param  array  $args
      * @param  GraphQLContext|null  $context
      * @param  ResolveInfo  $resolveInfo
      * @return array
      */
-    public function resolve($rootValue, array $args, GraphQLContext $context = null, ResolveInfo $resolveInfo)
+    public function resolve($rootValue, array $args, ?GraphQLContext $context = null, ResolveInfo $resolveInfo)
     {
         $args = collect($args)->except('directive')->toArray();
         $response = $this->broker()->reset($args, function ($user, $password) {
@@ -30,7 +30,7 @@ class ResetPassword
 
         if ($response === Password::PASSWORD_RESET) {
             return [
-                'status'  => 'PASSWORD_UPDATED',
+                'status' => 'PASSWORD_UPDATED',
                 'message' => __($response),
             ];
         }
