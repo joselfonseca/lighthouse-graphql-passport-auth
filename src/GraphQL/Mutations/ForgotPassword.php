@@ -14,12 +14,12 @@ class ForgotPassword
      * @param  $rootValue
      * @param  array  $args
      * @param  \Nuwave\Lighthouse\Support\Contracts\GraphQLContext|null  $context
-     * @param  \GraphQL\Type\Definition\ResolveInfo  $resolveInfo
+     * @param  \GraphQL\Type\Definition\ResolveInfo|null  $resolveInfo
      * @return array
      *
      * @throws \Exception
      */
-    public function resolve($rootValue, array $args, ?GraphQLContext $context = null, ResolveInfo $resolveInfo)
+    public function resolve($rootValue, array $args, ?GraphQLContext $context = null, ?ResolveInfo $resolveInfo = null)
     {
         $response = $this->broker()->sendResetLink(['email' => $args['email']]);
 

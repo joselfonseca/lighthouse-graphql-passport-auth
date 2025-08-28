@@ -17,10 +17,10 @@ class UpdatePassword
      * @param  $rootValue
      * @param  array  $args
      * @param  GraphQLContext|null  $context
-     * @param  ResolveInfo  $resolveInfo
+     * @param  ResolveInfo|null  $resolveInfo
      * @return array
      */
-    public function resolve($rootValue, array $args, ?GraphQLContext $context = null, ResolveInfo $resolveInfo)
+    public function resolve($rootValue, array $args, ?GraphQLContext $context = null, ?ResolveInfo $resolveInfo = null)
     {
         $user = $context->user();
         if (! Hash::check($args['old_password'], $user->password)) {
