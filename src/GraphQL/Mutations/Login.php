@@ -18,7 +18,7 @@ class Login extends BaseAuthResolver
      *
      * @throws \Exception
      */
-    public function resolve($rootValue, array $args, ?GraphQLContext $context = null, ?ResolveInfo $resolveInfo)
+    public function resolve($rootValue, array $args, ?GraphQLContext $context = null, ?ResolveInfo $resolveInfo = null)
     {
         $credentials = $this->buildCredentials($args);
         $response = $this->makeRequest($credentials);
