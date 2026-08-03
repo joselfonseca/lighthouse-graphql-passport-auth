@@ -9,20 +9,32 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [8.2, 8.3]
+        php: [8.2, 8.3, 8.4, 8.5]
+        laravel: [11.*, 12.*, 13.*]
         dependency-version: [prefer-stable]
+        include:
+          - laravel: 11.*
+            testbench: 9.*
+          - laravel: 12.*
+            testbench: 10.*
+          - laravel: 13.*
+            testbench: 11.*
+        exclude:
+          # Laravel 13 requires PHP 8.3 or higher.
+          - laravel: 13.*
+            php: 8.2
 
-    name: P${{ matrix.php }} - ${{ matrix.dependency-version }}
+    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Cache dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.composer/cache/files
-          key: dependencies-php-${{ matrix.php }}-${{ matrix.dependency-version }}-composer-${{ hashFiles('composer.json') }}
+          key: dependencies-php-${{ matrix.php }}-laravel-${{ matrix.laravel }}-${{ matrix.dependency-version }}-composer-${{ hashFiles('composer.json') }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -32,7 +44,16 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction -W
+        run: |
+          composer require --no-update \
+            "laravel/framework:${{ matrix.laravel }}" \
+            "orchestra/testbench:${{ matrix.testbench }}" --dev
+          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction -W
+
+      - name: Restrict test key permissions
+        # Passport 13 validates key file permissions, which git does not carry
+        # through a checkout.
+        run: chmod 600 tests/storage/oauth-private.key tests/storage/oauth-public.key
 
       - name: Execute tests
         run: vendor/bin/phpunit

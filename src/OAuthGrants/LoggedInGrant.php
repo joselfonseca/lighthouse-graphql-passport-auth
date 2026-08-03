@@ -5,6 +5,7 @@ namespace Joselfonseca\LighthouseGraphQLPassport\OAuthGrants;
 use DateInterval;
 use Illuminate\Http\Request;
 use Laravel\Passport\Bridge\User;
+use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Entities\UserEntityInterface;
 use League\OAuth2\Server\Exception\OAuthServerException;
 use League\OAuth2\Server\Grant\AbstractGrant;
@@ -24,13 +25,13 @@ class LoggedInGrant extends AbstractGrant
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function respondToAccessTokenRequest(ServerRequestInterface $request, ResponseTypeInterface $responseType, DateInterval $accessTokenTTL)
+    public function respondToAccessTokenRequest(ServerRequestInterface $request, ResponseTypeInterface $responseType, DateInterval $accessTokenTTL): ResponseTypeInterface
     {
         // Validate request
         $client = $this->validateClient($request);
-        $scopes = $this->validateScopes($this->getRequestParameter('scope', $request));
+        $scopes = $this->validateScopes($this->getRequestParameter('scope', $request, $this->defaultScope));
         $user = $this->validateUser($request);
         // Finalize the requested scopes
         $scopes = $this->scopeRepository->finalizeScopes($scopes, $this->getIdentifier(), $client, $user->getIdentifier());
@@ -39,17 +40,34 @@ class LoggedInGrant extends AbstractGrant
         $refreshToken = $this->issueRefreshToken($accessToken);
         // Inject tokens into response
         $responseType->setAccessToken($accessToken);
-        $responseType->setRefreshToken($refreshToken);
+        if ($refreshToken !== null) {
+            $responseType->setRefreshToken($refreshToken);
+        }
 
         return $responseType;
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function getIdentifier()
+    public function getIdentifier(): string
     {
         return 'logged_in_grant';
+    }
+
+    /**
+     * Passport clients list the grant types they accept in their `grant_types`
+     * column, and league/oauth2-server 9 refuses any grant that is not listed.
+     * This grant is an extension of the password grant, so it accepts any
+     * client permitted to use that grant rather than requiring applications to
+     * add `logged_in_grant` to every existing client.
+     *
+     * {@inheritdoc}
+     */
+    protected function supportsGrantType(ClientEntityInterface $client, string $grantType): bool
+    {
+        return parent::supportsGrantType($client, $grantType)
+            || parent::supportsGrantType($client, 'password');
     }
 
     /**
@@ -58,7 +76,7 @@ class LoggedInGrant extends AbstractGrant
      *
      * @throws OAuthServerException
      */
-    protected function validateUser(ServerRequestInterface $request)
+    protected function validateUser(ServerRequestInterface $request): UserEntityInterface
     {
         $laravelRequest = new Request($request->getParsedBody());
         $user = $this->getUserEntityByRequest($laravelRequest);
@@ -74,12 +92,12 @@ class LoggedInGrant extends AbstractGrant
     /**
      * Retrieve user by request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return null|\Laravel\Passport\Bridge\User
+     * @param  Request  $request
+     * @return null|User
      *
-     * @throws \League\OAuth2\Server\Exception\OAuthServerException
+     * @throws OAuthServerException
      */
-    protected function getUserEntityByRequest(Request $request)
+    protected function getUserEntityByRequest(Request $request): ?User
     {
         if (is_null($model = config('auth.providers.users.model'))) {
             throw OAuthServerException::serverError('Unable to determine user model from configuration.');
@@ -90,6 +108,6 @@ class LoggedInGrant extends AbstractGrant
             throw OAuthServerException::serverError('Unable to find byLoggedInUser method on user model.');
         }
 
-        return ($user) ? new User($user->id) : null;
+        return ($user) ? new User((string) $user->getKey()) : null;
     }
 }

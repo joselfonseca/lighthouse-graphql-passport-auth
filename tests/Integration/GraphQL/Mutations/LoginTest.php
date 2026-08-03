@@ -8,6 +8,7 @@ use Joselfonseca\LighthouseGraphQLPassport\Tests\Admin;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
 use Nuwave\Lighthouse\Testing\MakesGraphQLRequests;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class LoginTest extends TestCase
 {
@@ -35,9 +36,7 @@ class LoginTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider dataProvider
-     */
+    #[DataProvider('dataProvider')]
     public function test_it_gets_access_token(string $modelClass, array $credentials, bool $hasFindForPassportMethod = false)
     {
         Event::fake([UserLoggedIn::class]);
@@ -89,9 +88,7 @@ class LoginTest extends TestCase
         });
     }
 
-    /**
-     * @dataProvider dataProvider
-     */
+    #[DataProvider('dataProvider')]
     public function test_it_returns_error_for_invalid_credentials(string $modelClass, array $credentials, bool $hasFindForPassportMethod = false)
     {
         Event::fake([UserLoggedIn::class]);
@@ -129,14 +126,58 @@ class LoginTest extends TestCase
         Event::assertNotDispatched(UserLoggedIn::class);
     }
 
-    /**
-     * @dataProvider dataProvider
-     */
+    #[DataProvider('dataProvider')]
     public function test_it_returns_correct_error_for_client(string $modelClass, array $credentials, bool $hasFindForPassportMethod = false)
     {
         Event::fake([UserLoggedIn::class]);
 
         $this->app['config']->set('auth.providers.users.model', $modelClass);
+
+        if ($hasFindForPassportMethod) {
+            self::assertTrue(method_exists($modelClass, 'findForPassport'));
+        }
+
+        $response = $this->graphQL(/* @lang GraphQL */ '
+            mutation Login($input: LoginInput) {
+                login(input: $input) {
+                    access_token
+                    refresh_token
+                    user {
+                        id
+                        name
+                        email
+                    }
+                }
+            }
+        ',
+            [
+                'input' => $credentials,
+            ]
+        );
+
+        // No client is configured at all. league/oauth2-server 9 refuses the
+        // missing client_id parameter before it ever looks a client up, so this
+        // is an invalid_request rather than the invalid_client of earlier versions.
+        self::assertSame('invalid_request', $response->json('errors.0.message'));
+        self::assertSame(
+            'The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed.',
+            $response->json('errors.0.extensions.reason')
+        );
+
+        Event::assertNotDispatched(UserLoggedIn::class);
+    }
+
+    #[DataProvider('dataProvider')]
+    public function test_it_returns_correct_error_for_invalid_client_secret(string $modelClass, array $credentials, bool $hasFindForPassportMethod = false)
+    {
+        Event::fake([UserLoggedIn::class]);
+
+        $this->app['config']->set('auth.providers.users.model', $modelClass);
+
+        $this->createClient();
+        config()->set('lighthouse-graphql-passport.client_secret', 'not-the-right-secret');
+
+        factory($modelClass)->create();
 
         if ($hasFindForPassportMethod) {
             self::assertTrue(method_exists($modelClass, 'findForPassport'));

@@ -6,17 +6,19 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Joselfonseca\LighthouseGraphQLPassport\HasLoggedInTokens;
 use Joselfonseca\LighthouseGraphQLPassport\HasSocialLogin;
+use Laravel\Passport\Contracts\OAuthenticatable;
 use Laravel\Passport\HasApiTokens;
 
 /**
  * Class User.
  */
-class User extends Authenticatable
+class User extends Authenticatable implements OAuthenticatable
 {
     use HasApiTokens;
     use Notifiable;
     use HasLoggedInTokens;
     use HasSocialLogin;
+
     /**
      * The attributes that are mass assignable.
      *

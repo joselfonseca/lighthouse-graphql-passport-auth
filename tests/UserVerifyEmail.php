@@ -7,9 +7,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Joselfonseca\LighthouseGraphQLPassport\HasLoggedInTokens;
 use Joselfonseca\LighthouseGraphQLPassport\MustVerifyEmailGraphQL;
+use Laravel\Passport\Contracts\OAuthenticatable;
 use Laravel\Passport\HasApiTokens;
 
-class UserVerifyEmail extends Authenticatable implements MustVerifyEmail
+class UserVerifyEmail extends Authenticatable implements MustVerifyEmail, OAuthenticatable
 {
     use HasApiTokens;
     use Notifiable;

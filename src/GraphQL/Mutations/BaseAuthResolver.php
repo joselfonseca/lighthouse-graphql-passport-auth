@@ -46,14 +46,23 @@ class BaseAuthResolver
         $response = app()->handle($request);
         $decodedResponse = json_decode($response->getContent(), true);
         if ($response->getStatusCode() != 200) {
+            // league/oauth2-server 9 replaced the `message` key in OAuth error
+            // responses with `error_description`, so read that first and fall
+            // back to `message` for errors raised outside the OAuth server.
+            $description = $decodedResponse['error_description'] ?? $decodedResponse['message'] ?? '';
+
+            // league/oauth2-server 9 reports a bad, expired or revoked refresh
+            // token through its own invalidRefreshToken() message rather than
+            // the generic invalid_grant one, so both are recognised here.
             if (
-                $decodedResponse['message'] === 'The provided authorization grant (e.g., authorization code, resource owner credentials) or refresh token is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
-                || $decodedResponse['message'] === 'The user credentials were incorrect.'
+                $description === 'The provided authorization grant (e.g., authorization code, resource owner credentials) or refresh token is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
+                || $description === 'The refresh token is invalid.'
+                || $description === 'The user credentials were incorrect.'
             ) {
                 throw new AuthenticationException(__('Authentication exception'), __('Incorrect username or password'));
             }
 
-            throw new AuthenticationException(__($decodedResponse['error'] ?? ''), __($decodedResponse['message']));
+            throw new AuthenticationException(__($decodedResponse['error'] ?? ''), __($description));
         }
 
         return $decodedResponse;

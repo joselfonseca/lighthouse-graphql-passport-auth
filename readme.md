@@ -1,4 +1,4 @@
-Lighthouse GraphQL Passport Auth (Laravel ^7.0 / Lighthouse ^4.0)
+Lighthouse GraphQL Passport Auth (Laravel ^11.35|^12.0|^13.0 / Passport ^13.0 / Lighthouse ^6.0)
 ===============================================
 
 [![Total Downloads](https://poser.pugx.org/joselfonseca/lighthouse-graphql-passport-auth/downloads.svg)](https://packagist.org/packages/joselfonseca/lighthouse-graphql-passport-auth)
@@ -14,6 +14,11 @@ You can see [this tutorial](https://lighthouse-php-auth.com/tutorials/getting-st
 ## Documentation
 
 Find the detailed documentation in [the documentation site](https://lighthouse-php-auth.com/)
+
+## Upgrading
+
+Version 11 requires Laravel Passport 13. See [UPGRADE](UPGRADE.md) for what
+changes in an application upgrading from version 10.
 
 ## Change log
 
