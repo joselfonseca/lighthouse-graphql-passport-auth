@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Joselfonseca\LighthouseGraphQLPassport\Contracts\AuthModelFactory;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\TestCase;
 use Joselfonseca\LighthouseGraphQLPassport\Tests\User;
+use PHPUnit\Framework\Attributes\Test;
 
 class AuthModelFactoryTest extends TestCase
 {
@@ -24,9 +25,7 @@ class AuthModelFactoryTest extends TestCase
         $this->factory = $this->app->make(AuthModelFactory::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canMakeAuthModel(): void
     {
         $email = 'jose@example.com';
@@ -36,9 +35,7 @@ class AuthModelFactoryTest extends TestCase
         self::assertEquals($email, $model->email);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canCreateAuthModel(): void
     {
         $model = $this->factory->create([
@@ -51,9 +48,7 @@ class AuthModelFactoryTest extends TestCase
         self::assertEquals($model->count(), 1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function canGetAuthModelClass(): void
     {
         self::assertEquals($this->factory->getClass(), User::class);

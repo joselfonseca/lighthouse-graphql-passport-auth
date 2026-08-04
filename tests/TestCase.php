@@ -4,6 +4,7 @@ namespace Joselfonseca\LighthouseGraphQLPassport\Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Joselfonseca\LighthouseGraphQLPassport\Providers\LighthouseGraphQLPassportServiceProvider;
+use Laravel\Passport\Client;
 use Laravel\Passport\ClientRepository;
 use Laravel\Passport\PassportServiceProvider;
 use Laravel\Socialite\SocialiteServiceProvider;
@@ -75,13 +76,17 @@ class TestCase extends Orchestra
 
     /**
      * Create a passport client for testing.
+     *
+     * The client has to be confidential: the package always sends a
+     * client_secret and Passport 13 refuses a secret against a public client.
      */
-    public function createClient()
+    public function createClient($provider = null)
     {
         $this->artisan('migrate');
-        $client = app(ClientRepository::class)->createPasswordGrantClient(null, 'test', 'http://localhost');
-        config()->set('lighthouse-graphql-passport.client_id', $client->id);
-        config()->set('lighthouse-graphql-passport.client_secret', $client->secret);
+        $client = app(ClientRepository::class)->createPasswordGrantClient('test', $provider, true);
+        $this->useClient($client);
+
+        return $client;
     }
 
     /**
@@ -89,9 +94,22 @@ class TestCase extends Orchestra
      */
     public function createClientPersonal($user)
     {
-        $client = app(ClientRepository::class)->createPersonalAccessClient($user->id, 'test', 'http://localhost');
-        config()->set('lighthouse-graphql-passport.client_id', $client->id);
-        config()->set('lighthouse-graphql-passport.client_secret', $client->secret);
+        $client = app(ClientRepository::class)->createPersonalAccessGrantClient('test');
+        $this->useClient($client);
+
+        return $client;
+    }
+
+    /**
+     * Point the package configuration at the given client.
+     *
+     * Passport 13 always hashes client secrets, so the plain text secret is
+     * available only on the model instance that issued it.
+     */
+    protected function useClient(Client $client)
+    {
+        config()->set('lighthouse-graphql-passport.client_id', $client->getKey());
+        config()->set('lighthouse-graphql-passport.client_secret', $client->plainSecret);
     }
 
     /**

@@ -7,17 +7,20 @@ return [
     |--------------------------------------------------------------------------
     |
     | The passport client id to use for requesting tokens, this should
-    | support the password grant
+    | support the password grant. Passport 13 identifies clients by a UUID by
+    | default, so there is no sensible fallback value here. Setting
+    | Passport::$clientUuids = false restores auto incrementing ids.
     |
     */
-    'client_id' => env('PASSPORT_CLIENT_ID', '1'),
+    'client_id' => env('PASSPORT_CLIENT_ID'),
     /*
     |--------------------------------------------------------------------------
     | Client secret
     |--------------------------------------------------------------------------
     |
     | The passport client secret to use for requesting tokens, this should
-    | support the password grant
+    | support the password grant. Passport 13 always hashes client secrets, so
+    | this must be the plain text secret issued when the client was created.
     |
     */
     'client_secret' => env('PASSPORT_CLIENT_SECRET', null),

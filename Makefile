@@ -1,37 +1,31 @@
 test-all:
-	@make test-php80-lowest
-	@make test-php80-stable
-	@make test-php81-lowest
-	@make test-php81-stable
-	@make test-php82-lowest
 	@make test-php82-stable
+	@make test-php83-stable
+	@make test-php84-stable
+	@make test-php85-stable
 
-test-php80-lowest:
-	@docker-compose run --rm php80 sh -c '\
-	composer update --prefer-lowest --prefer-dist -W && \
-	php ./vendor/bin/phpunit'
-
-test-php80-stable:
-	@docker-compose run --rm php80 sh -c '\
-	composer update --prefer-stable --prefer-dist -W && \
-	php ./vendor/bin/phpunit'
-
-test-php81-lowest:
-	@docker-compose run --rm php81 sh -c '\
-	composer update --prefer-lowest --prefer-dist -W && \
-	php ./vendor/bin/phpunit'
-
-test-php81-stable:
-	@docker-compose run --rm php81 sh -c '\
-	composer update --prefer-stable --prefer-dist -W && \
-	php ./vendor/bin/phpunit'
-
-test-php82-lowest:
-	@docker-compose run --rm php82 sh -c '\
-	composer update --prefer-lowest --prefer-dist -W && \
-	php ./vendor/bin/phpunit'
-
+# Passport 13 validates key file permissions, which git does not carry through
+# a checkout, so the test keys are restricted before the suite runs.
 test-php82-stable:
-	@docker-compose run --rm php82 sh -c '\
+	@docker compose run --rm php82 sh -c '\
 	composer update --prefer-stable --prefer-dist -W && \
+	chmod 600 tests/storage/oauth-private.key tests/storage/oauth-public.key && \
+	php ./vendor/bin/phpunit'
+
+test-php83-stable:
+	@docker compose run --rm php83 sh -c '\
+	composer update --prefer-stable --prefer-dist -W && \
+	chmod 600 tests/storage/oauth-private.key tests/storage/oauth-public.key && \
+	php ./vendor/bin/phpunit'
+
+test-php84-stable:
+	@docker compose run --rm php84 sh -c '\
+	composer update --prefer-stable --prefer-dist -W && \
+	chmod 600 tests/storage/oauth-private.key tests/storage/oauth-public.key && \
+	php ./vendor/bin/phpunit'
+
+test-php85-stable:
+	@docker compose run --rm php85 sh -c '\
+	composer update --prefer-stable --prefer-dist -W && \
+	chmod 600 tests/storage/oauth-private.key tests/storage/oauth-public.key && \
 	php ./vendor/bin/phpunit'
